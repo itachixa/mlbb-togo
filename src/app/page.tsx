@@ -8,6 +8,7 @@ import MtlSection from '@/components/landing/MtlSection';
 import ContactSection from '@/components/landing/ContactSection';
 import Sponsors from '@/components/landing/Sponsors';
 import LandingFooter from '@/components/landing/LandingFooter';
+import BackToTop from '@/components/landing/BackToTop';
 import { useT } from '@/lib/i18n';
 
 export default function Landing() {
@@ -15,23 +16,23 @@ export default function Landing() {
   return (
     <div className="relative min-h-screen">
       {/* Section hero plein écran : banner e-sport en fond + titre superposé + header transparent */}
-      <div className="relative">
+      <div id="top" className="relative">
         <LandingHeader />
         <HeroSection />
       </div>
 
       {/* Fonctionnalités */}
-      <section className="relative z-10 px-4 pt-20 pb-20 max-w-7xl mx-auto">
+      <section id="features" className="relative z-10 px-4 pt-20 pb-20 max-w-7xl mx-auto scroll-mt-20">
         <Features />
       </section>
 
       {/* MTL — Mobile Legends Togo League */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      <section id="mtl" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16 scroll-mt-20">
         <MtlSection />
       </section>
 
       {/* Vitrine des héros (dynamique, données officielles MLBB) */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      <section id="heroes" className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pb-16 scroll-mt-20">
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gray-500 mb-6 text-center">
           {t('latestHeroes')}
         </p>
@@ -39,16 +40,17 @@ export default function Landing() {
       </section>
 
       {/* Sponsors */}
-      <section className="relative z-10 px-4 pb-16 max-w-5xl mx-auto">
+      <section id="partners" className="relative z-10 px-4 pb-16 max-w-5xl mx-auto scroll-mt-20">
         <Sponsors />
       </section>
 
       {/* Contact (dernière section) */}
-      <section className="relative z-10 px-4 pb-20 pt-4 max-w-7xl mx-auto">
+      <section id="contact" className="relative z-10 px-4 pb-20 pt-4 max-w-7xl mx-auto scroll-mt-20">
         <ContactSection />
       </section>
 
       <LandingFooter />
+      <BackToTop />
     </div>
   );
 }

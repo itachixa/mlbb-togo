@@ -6,9 +6,15 @@ export const translations: Record<string, Dict> = {
   fr: {
     // Header
     'header.login': 'Connexion',
-    'header.menu.home': 'Accueil',
     'header.menu.login': 'Connexion',
     'header.menu.register': 'Créer un compte',
+    // Navigation par sections
+    'nav.home': 'Accueil',
+    'nav.features': 'Fonctionnalités',
+    'nav.mtl': 'MTL',
+    'nav.heroes': 'Héros',
+    'nav.partners': 'Partenaires',
+    'nav.contact': 'Contact',
 
     // Hero
     'hero.titlePre': 'La communauté',
@@ -90,9 +96,15 @@ export const translations: Record<string, Dict> = {
   en: {
     // Header
     'header.login': 'Login',
-    'header.menu.home': 'Home',
     'header.menu.login': 'Login',
     'header.menu.register': 'Sign up',
+    // Section navigation
+    'nav.home': 'Home',
+    'nav.features': 'Features',
+    'nav.mtl': 'MTL',
+    'nav.heroes': 'Heroes',
+    'nav.partners': 'Partners',
+    'nav.contact': 'Contact',
 
     // Hero
     'hero.titlePre': 'The',
