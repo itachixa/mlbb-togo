@@ -110,13 +110,7 @@ const findMock = (list: any[], id: string) => list.find((x) => x.id === id);
 export const api = {
   // === Authentification ===
   auth: {
-    register: (data: any) =>
-      request('/auth/register', { method: 'POST', body: data, auth: false }),
-    login: (data: { email: string; password: string }) =>
-      request('/auth/login', { method: 'POST', body: data, auth: false }),
     me: () => request('/auth/me'),
-    changePassword: (data: { email: string; currentPassword: string; newPassword: string }) =>
-      request('/auth/change-password', { method: 'POST', body: data, auth: false }),
     // Connexion MLBB par code de vérification (envoyé dans le courrier en jeu).
     mlbbSendVc: (data: { roleId: number; zoneId: number }) =>
       request('/auth/mlbb/send-vc', { method: 'POST', body: data, auth: false }),

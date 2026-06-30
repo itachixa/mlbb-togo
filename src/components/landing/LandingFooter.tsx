@@ -23,13 +23,6 @@ const columns = [
       { key: 'footer.link.matches', href: '/matches' },
     ],
   },
-  {
-    titleKey: 'footer.col.account',
-    links: [
-      { key: 'footer.link.login', href: '/login' },
-      { key: 'footer.link.register', href: '/register' },
-    ],
-  },
 ];
 
 const socials = [

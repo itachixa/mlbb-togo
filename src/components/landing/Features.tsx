@@ -13,7 +13,7 @@ const features = [
   { key: 'matches', icon: Swords, href: '/matches', color: 'text-neon-blue', ring: 'bg-neon-blue/10' },
   { key: 'events', icon: Calendar, href: '/events', color: 'text-neon-green', ring: 'bg-neon-green/10' },
   { key: 'heroes', icon: Sparkles, href: '/heroes', color: 'text-neon-purple', ring: 'bg-neon-purple/10' },
-  { key: 'esport', icon: Trophy, href: '/register', color: 'text-neon-gold', ring: 'bg-neon-gold/10' },
+  { key: 'esport', icon: Trophy, href: '#partners', color: 'text-neon-gold', ring: 'bg-neon-gold/10' },
 ];
 
 export default function Features() {
