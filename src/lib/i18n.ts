@@ -4,7 +4,7 @@ type Dict = Record<string, string>;
 
 export const translations: Record<string, Dict> = {
   fr: {
-    // Header
+
     'header.login': 'Connexion',
     'header.dashboard': 'Tableau de bord',
     'header.heroes': 'Héros',
@@ -12,7 +12,7 @@ export const translations: Record<string, Dict> = {
     'header.menu.login': 'Connexion',
     'header.menu.register': 'Créer un compte',
     'header.menu.profile': 'Mon profil',
-    // Connexion (modal)
+
     'signin.title': 'CONNEXION',
     'signin.withCode': 'Connexion par code de vérification',
     'signin.gameId': 'ID de jeu',
@@ -29,7 +29,7 @@ export const translations: Record<string, Dict> = {
     'signin.fillIds': "Saisissez votre ID de jeu et votre serveur d'abord.",
     'signin.fillAll': 'Renseignez tous les champs.',
     'signin.googleSoon': 'Connexion Google bientôt disponible.',
-    // Navigation par sections
+
     'nav.home': 'Accueil',
     'nav.features': 'Fonctionnalités',
     'nav.mtl': 'MTL',
@@ -37,13 +37,11 @@ export const translations: Record<string, Dict> = {
     'nav.partners': 'Partenaires',
     'nav.contact': 'Contact',
 
-    // Hero
     'hero.titlePre': 'La communauté',
     'hero.titlePost': 'du Togo',
     'hero.subtitle':
       'Classements, équipes, tournois, forum et toute la méta des héros. Rejoignez les meilleurs joueurs togolais.',
 
-    // Features
     'features.eyebrow': 'La plateforme',
     'features.titlePre': "Tout l'écosystème",
     'features.subtitle':
@@ -74,13 +72,10 @@ export const translations: Record<string, Dict> = {
     'feat.esport.desc':
       "Découvrez l'organisation ETERNUM, ses sous-équipes et la ligue MTL qui anime l'e-sport au Togo.",
 
-    // Latest heroes
     'latestHeroes': 'Derniers héros',
 
-    // Sponsors
     'sponsors.title': 'Nos partenaires',
 
-    // Contact
     'contact.eyebrow': 'Contact',
     'contact.title': 'Contactez-nous',
     'contact.subtitle':
@@ -94,7 +89,6 @@ export const translations: Record<string, Dict> = {
     'contact.sendError': "Échec de l'envoi",
     'contact.success': 'Message envoyé. Merci, nous reviendrons vers vous.',
 
-    // Footer
     'footer.desc':
       "La plateforme communautaire des joueurs Mobile Legends: Bang Bang du Togo. Classements, équipes, tournois, méta des héros et l'e-sport ETERNUM.",
     'footer.col.discover': 'Découvrir',
@@ -122,6 +116,32 @@ export const translations: Record<string, Dict> = {
     'role.mage': 'Mage',
     'role.marksman': 'Tireur',
     'role.support': 'Support',
+    'heroes.title': 'Héros',
+    'heroes.loading': 'Chargement…',
+    'heroes.count': 'héros · données officielles Mobile Legends',
+    'heroes.search': 'Rechercher un héros…',
+    'heroes.none': 'Aucun héros trouvé.',
+    'heroes.role.all': 'Tous',
+    'heroes.close': 'Fermer',
+    'heroes.specialities': 'Spécialités',
+    'heroes.skills': 'Compétences',
+    'heroes.skins': 'Skins',
+    'heroes.lore': 'Histoire',
+    'heroes.stat.durability': 'Résistance',
+    'heroes.stat.offense': 'Offense',
+    'heroes.stat.effects': 'Effets',
+    'heroes.stat.difficulty': 'Difficulté',
+    'heroes.tab.skills': 'Compétences',
+    'heroes.tab.counters': 'Counters',
+    'heroes.winRate': 'Taux de victoire',
+    'heroes.pickRate': 'Taux de sélection',
+    'heroes.banRate': 'Taux de ban',
+    'heroes.combos': 'Enchaînements',
+    'heroes.strongAgainst': 'Fort contre',
+    'heroes.weakAgainst': 'Faible contre',
+    'heroes.bestTeammates': 'Meilleurs coéquipiers',
+    'heroes.worstTeammates': 'Pires coéquipiers',
+    'heroes.metaUnavailable': 'Données méta indisponibles pour le moment.',
     'linkGame.title': 'Lier un compte de jeu',
     'linkGame.subtitle': 'Connecte ton compte Mobile Legends pour récupérer tes vraies statistiques.',
     'linkGame.gameId': 'ID de jeu (role_id)',
@@ -137,7 +157,6 @@ export const translations: Record<string, Dict> = {
     'linkGame.success': 'Compte de jeu lié.',
     'linkGame.invalidCode': 'Code invalide ou expiré.',
 
-    // Dashboard
     'dashboard.title': 'Tableau de bord',
     'dashboard.noGame.title': 'Connecte ton compte de jeu',
     'dashboard.noGame.desc': 'Lie ton compte Mobile Legends pour afficher tes vraies statistiques, ton rang et tes héros favoris.',
@@ -224,6 +243,11 @@ export const translations: Record<string, Dict> = {
     'profile.gameAccount': 'Compte Mobile Legends',
     'profile.gameLinked': 'Lié',
     'profile.gameLink': 'Lier',
+    'profile.gameUnlink': 'Dissocier',
+    'profile.gameUnlinkConfirm': 'Dissocier ton compte de jeu ? Tes statistiques de jeu seront retirées de ce profil.',
+    'profile.gameUnlinkSuccess': 'Compte de jeu dissocié.',
+    'profile.gameUnlinkError': 'Échec de la dissociation.',
+    'profile.gameUnlinkNeedsGoogle': "Lie d'abord un compte Google : c'est ta seule méthode de connexion.",
     'profile.gameDescUnlinked': 'Récupère tes vraies statistiques de jeu.',
     'profile.gameData': 'Données de jeu',
     'profile.allModes': 'Tous modes',
@@ -246,7 +270,7 @@ export const translations: Record<string, Dict> = {
   },
 
   en: {
-    // Header
+
     'header.login': 'Login',
     'header.dashboard': 'Dashboard',
     'header.heroes': 'Heroes',
@@ -254,7 +278,7 @@ export const translations: Record<string, Dict> = {
     'header.menu.login': 'Login',
     'header.menu.register': 'Sign up',
     'header.menu.profile': 'My profile',
-    // Sign-in (modal)
+
     'signin.title': 'SIGN IN',
     'signin.withCode': 'Login with verification code',
     'signin.gameId': 'Game ID',
@@ -271,7 +295,7 @@ export const translations: Record<string, Dict> = {
     'signin.fillIds': 'Enter your Game ID and Server first.',
     'signin.fillAll': 'Please fill in all fields.',
     'signin.googleSoon': 'Google sign-in coming soon.',
-    // Section navigation
+
     'nav.home': 'Home',
     'nav.features': 'Features',
     'nav.mtl': 'MTL',
@@ -279,13 +303,11 @@ export const translations: Record<string, Dict> = {
     'nav.partners': 'Partners',
     'nav.contact': 'Contact',
 
-    // Hero
     'hero.titlePre': 'The',
     'hero.titlePost': 'community of Togo',
     'hero.subtitle':
       "Rankings, teams, tournaments, forum and the full hero meta. Join Togo's best players.",
 
-    // Features
     'features.eyebrow': 'The platform',
     'features.titlePre': 'The whole',
     'features.subtitle':
@@ -316,13 +338,10 @@ export const translations: Record<string, Dict> = {
     'feat.esport.desc':
       'Discover the ETERNUM organization, its sub-teams and the MTL league driving e-sport in Togo.',
 
-    // Latest heroes
     'latestHeroes': 'Latest heroes',
 
-    // Sponsors
     'sponsors.title': 'Our partners',
 
-    // Contact
     'contact.eyebrow': 'Contact',
     'contact.title': 'Contact us',
     'contact.subtitle': 'A question, a partnership, or want to join the community? Write to us.',
@@ -335,7 +354,6 @@ export const translations: Record<string, Dict> = {
     'contact.sendError': 'Sending failed',
     'contact.success': "Message sent. Thanks, we'll get back to you.",
 
-    // Footer
     'footer.desc':
       'The community platform for Mobile Legends: Bang Bang players in Togo. Rankings, teams, tournaments, hero meta and ETERNUM e-sport.',
     'footer.col.discover': 'Discover',
@@ -363,6 +381,32 @@ export const translations: Record<string, Dict> = {
     'role.mage': 'Mage',
     'role.marksman': 'Marksman',
     'role.support': 'Support',
+    'heroes.title': 'Heroes',
+    'heroes.loading': 'Loading…',
+    'heroes.count': 'heroes · official Mobile Legends data',
+    'heroes.search': 'Search a hero…',
+    'heroes.none': 'No hero found.',
+    'heroes.role.all': 'All',
+    'heroes.close': 'Close',
+    'heroes.specialities': 'Specialities',
+    'heroes.skills': 'Skills',
+    'heroes.skins': 'Skins',
+    'heroes.lore': 'Lore',
+    'heroes.stat.durability': 'Durability',
+    'heroes.stat.offense': 'Offense',
+    'heroes.stat.effects': 'Effects',
+    'heroes.stat.difficulty': 'Difficulty',
+    'heroes.tab.skills': 'Skills',
+    'heroes.tab.counters': 'Counters',
+    'heroes.winRate': 'Win Rate',
+    'heroes.pickRate': 'Pick Rate',
+    'heroes.banRate': 'Ban Rate',
+    'heroes.combos': 'Combos',
+    'heroes.strongAgainst': 'Strong against',
+    'heroes.weakAgainst': 'Weak against',
+    'heroes.bestTeammates': 'Best teammates',
+    'heroes.worstTeammates': 'Worst teammates',
+    'heroes.metaUnavailable': 'Meta data currently unavailable.',
     'linkGame.title': 'Link a game account',
     'linkGame.subtitle': 'Connect your Mobile Legends account to retrieve your real stats.',
     'linkGame.gameId': 'Game ID (role_id)',
@@ -378,7 +422,6 @@ export const translations: Record<string, Dict> = {
     'linkGame.success': 'Game account linked.',
     'linkGame.invalidCode': 'Invalid or expired code.',
 
-    // Dashboard
     'dashboard.title': 'Dashboard',
     'dashboard.noGame.title': 'Link your game account',
     'dashboard.noGame.desc': 'Link your Mobile Legends account to view your real stats, rank and favorite heroes.',
@@ -464,6 +507,11 @@ export const translations: Record<string, Dict> = {
     'profile.gameAccount': 'Mobile Legends account',
     'profile.gameLinked': 'Linked',
     'profile.gameLink': 'Link',
+    'profile.gameUnlink': 'Unlink',
+    'profile.gameUnlinkConfirm': 'Unlink your game account? Your game stats will be removed from this profile.',
+    'profile.gameUnlinkSuccess': 'Game account unlinked.',
+    'profile.gameUnlinkError': 'Failed to unlink.',
+    'profile.gameUnlinkNeedsGoogle': 'Link a Google account first — it is your only sign-in method.',
     'profile.gameDescUnlinked': 'Retrieve your real game stats.',
     'profile.gameData': 'Game data',
     'profile.allModes': 'All modes',
@@ -537,7 +585,6 @@ export const translations: Record<string, Dict> = {
   },
 };
 
-/** Hook : renvoie la fonction de traduction t(key) selon la langue courante. */
 export function useT() {
   const lang = useLangStore((s: any) => s.lang);
   return (key: string): string => translations[lang]?.[key] ?? translations.fr[key] ?? key;

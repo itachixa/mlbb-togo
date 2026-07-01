@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -27,11 +27,15 @@ const SECTIONS = [
   { key: 'nav.contact', id: 'contact', icon: Mail },
 ];
 
+type OpenMenu = 'lang' | 'profile' | 'sections' | null;
+
 export default function LandingHeader() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
+
+  const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [signInOpen, setSignInOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
+
+  const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
   const lang = useLangStore((s: any) => s.lang);
   const setLang = useLangStore((s: any) => s.setLang);
   const userProfile = useAuthStore((s: any) => s.userProfile);
@@ -39,14 +43,19 @@ export default function LandingHeader() {
   const setUserProfile = useAuthStore((s: any) => s.setUserProfile);
   const t = useT();
 
-  // Applique la langue persistée après le montage (évite tout décalage d'hydratation).
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   useEffect(() => {
     const saved = typeof window !== 'undefined' ? localStorage.getItem('mlbb-lang') : null;
     if (saved && saved !== lang) setLang(saved);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Si un jeton est présent, recharge le profil pour afficher l'avatar dans le header.
   useEffect(() => {
     if (!getToken()) return;
     api.auth
@@ -59,16 +68,27 @@ export default function LandingHeader() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!openMenu) return;
+    const onDown = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) setOpenMenu(null);
+    };
+    document.addEventListener('mousedown', onDown);
+    return () => document.removeEventListener('mousedown', onDown);
+  }, [openMenu]);
+
+  const toggle = (menu: Exclude<OpenMenu, null>) =>
+    setOpenMenu((cur) => (cur === menu ? null : menu));
+
   const logout = () => {
     setToken(null);
     setUser(null);
     setUserProfile(null);
-    setProfileOpen(false);
+    setOpenMenu(null);
   };
 
-  // Défilement fluide vers une section de la page (ou le haut si id vide).
   const goTo = (id: string) => {
-    setMenuOpen(false);
+    setOpenMenu(null);
     if (!id) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -77,20 +97,37 @@ export default function LandingHeader() {
   };
 
   return (
-    <header className="absolute top-0 inset-x-0 z-30 h-20 bg-gradient-to-b from-black/70 via-black/30 to-transparent">
+    <header
+      className={`fixed top-0 inset-x-0 z-40 h-20 transition-colors duration-300 ${
+        scrolled
+          ? 'bg-gaming-dark/90 backdrop-blur border-b border-gaming-border'
+          : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent'
+      }`}
+    >
       <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        {/* Logo */}
+
         <Link href="/" className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/mlbb-togo-logo.png" alt="MLBB Togo" className="h-9 md:h-10 w-auto" />
         </Link>
 
-        {/* Droite */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          {/* Sélecteur de langue */}
+        <nav className="hidden md:flex items-center gap-1">
+          {SECTIONS.map((s) => (
+            <button
+              key={s.key}
+              onClick={() => goTo(s.id)}
+              className="px-3 py-2 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              {t(s.key)}
+            </button>
+          ))}
+        </nav>
+
+        <div ref={navRef} className="flex items-center gap-3 sm:gap-4">
+
           <div className="relative">
             <button
-              onClick={() => setLangOpen((v) => !v)}
+              onClick={() => toggle('lang')}
               className="flex items-center gap-1.5 text-white/80 hover:text-white transition-colors"
               aria-label="Langue"
             >
@@ -99,7 +136,7 @@ export default function LandingHeader() {
               <ChevronDown size={14} />
             </button>
             <AnimatePresence>
-              {langOpen && (
+              {openMenu === 'lang' && (
                 <motion.div
                   initial={{ opacity: 0, y: -8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -111,7 +148,7 @@ export default function LandingHeader() {
                       key={l.code}
                       onClick={() => {
                         setLang(l.code);
-                        setLangOpen(false);
+                        setOpenMenu(null);
                       }}
                       className={`w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors ${
                         lang === l.code
@@ -128,11 +165,10 @@ export default function LandingHeader() {
             </AnimatePresence>
           </div>
 
-          {/* Connecté → avatar + menu profil ; sinon → bouton Login */}
           {userProfile ? (
             <div className="relative">
               <button
-                onClick={() => setProfileOpen((v) => !v)}
+                onClick={() => toggle('profile')}
                 className="flex items-center gap-2 p-1 rounded-lg hover:bg-white/10 transition-colors"
                 aria-label="Profil"
               >
@@ -153,7 +189,7 @@ export default function LandingHeader() {
               </button>
 
               <AnimatePresence>
-                {profileOpen && (
+                {openMenu === 'profile' && (
                   <motion.div
                     initial={{ opacity: 0, y: -8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -168,7 +204,7 @@ export default function LandingHeader() {
                     </div>
                     <Link
                       href="/dashboard"
-                      onClick={() => setProfileOpen(false)}
+                      onClick={() => setOpenMenu(null)}
                       className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-300 hover:bg-gaming-surface hover:text-white transition-colors"
                     >
                       <LayoutDashboard size={16} /> {t('header.dashboard')}
@@ -193,25 +229,24 @@ export default function LandingHeader() {
             </button>
           )}
 
-          {/* Menu */}
-          <div className="relative">
+          <div className="relative md:hidden">
             <button
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={() => toggle('sections')}
               aria-label="Menu"
               className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {openMenu === 'sections' ? <X size={22} /> : <Menu size={22} />}
             </button>
 
             <AnimatePresence>
-              {menuOpen && (
+              {openMenu === 'sections' && (
                 <motion.div
                   initial={{ opacity: 0, y: -8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -8, scale: 0.96 }}
                   className="absolute right-0 top-12 w-56 rounded-xl border border-gaming-border bg-gaming-card shadow-gaming overflow-hidden py-1"
                 >
-                  {/* Sections de la page */}
+
                   {SECTIONS.map((s) => {
                     const Icon = s.icon;
                     return (
