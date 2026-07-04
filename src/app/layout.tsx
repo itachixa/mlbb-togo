@@ -15,9 +15,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark">
+    // suppressHydrationWarning: the inline theme script sets the `class` on
+    // <html> before hydration, which would otherwise trip a mismatch warning.
+    <html lang="fr" suppressHydrationWarning>
       <head>
-
+        {/* Set the theme class before paint to avoid a flash: public routes are
+            dark; the dashboard follows the stored preference (light by default). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var p=location.pathname;var pub=p==='/'||p.indexOf('/admin-login')===0;var t=localStorage.getItem('mlbb-theme')||'light';document.documentElement.classList.toggle('dark',pub?true:t==='dark');}catch(e){document.documentElement.classList.add('dark');}})();",
+          }}
+        />
         <meta name="referrer" content="no-referrer" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
