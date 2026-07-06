@@ -157,6 +157,19 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+        {userProfile.gamePeakRank && (
+          <div className="flex items-center gap-2">
+            {hasRankBadge(userProfile.gamePeakRank) ? (
+              <RankBadge rank={userProfile.gamePeakRank} size={32} />
+            ) : (
+              <Trophy size={16} className="text-yellow-400" />
+            )}
+            <div className="leading-tight">
+              <p className="text-[10px] uppercase tracking-wide text-body dark:text-bodydark">{t('dashboard.peakRank')}</p>
+              <p className="text-sm font-bold text-black dark:text-white">{userProfile.gamePeakRank}</p>
+            </div>
+          </div>
+        )}
         {userProfile.gameLevel != null && (
           <Badge variant="neon" size="sm">{t('dashboard.level')} {userProfile.gameLevel}</Badge>
         )}
