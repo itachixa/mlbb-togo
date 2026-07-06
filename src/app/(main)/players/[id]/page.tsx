@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { ArrowLeft, MapPin, Trophy, UserPlus, UserCheck, UserMinus, Check, X } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { ArrowLeft, MapPin, Trophy, UserPlus, UserCheck, UserMinus, Check, X, MessageSquare } from 'lucide-react';
 import { Card, Badge, Button, Avatar, EmptyState, LoadingSpinner } from '@/components/ui';
 import { api, avatarSrc, mlbbImg } from '@/lib/api';
 import RankBadge, { hasRankBadge } from '@/components/game/RankBadge';
@@ -15,6 +15,7 @@ import toast from 'react-hot-toast';
 export default function PublicProfilePage() {
   const t = useT();
   const params = useParams();
+  const router = useRouter();
   const id = String(params?.id || '');
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -119,6 +120,17 @@ export default function PublicProfilePage() {
                     <Badge variant="green" size="md" className="gap-1">
                       <UserCheck size={14} /> {t('friends.friends')}
                     </Badge>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() =>
+                        router.push(
+                          `/messages?to=${id}&name=${encodeURIComponent(user.displayName || user.username)}`,
+                        )
+                      }
+                    >
+                      <MessageSquare size={14} /> {t('friends.chat')}
+                    </Button>
                     <Button size="sm" variant="ghost" disabled={fbusy} onClick={() => friendAct(() => api.friends.remove(id), 'none', t('friends.removed'))}>
                       <UserMinus size={14} /> {t('friends.remove')}
                     </Button>
@@ -140,6 +152,19 @@ export default function PublicProfilePage() {
                     {user.gameRankLevel != null && (
                       <p className="text-[11px] text-body dark:text-bodydark">{user.gameRankLevel} pts</p>
                     )}
+                  </div>
+                </div>
+              )}
+              {user.gamePeakRank && (
+                <div className="flex items-center gap-2">
+                  {hasRankBadge(user.gamePeakRank) ? (
+                    <RankBadge rank={user.gamePeakRank} size={28} />
+                  ) : (
+                    <Trophy size={16} className="text-yellow-400" />
+                  )}
+                  <div className="leading-tight text-left">
+                    <p className="text-[10px] uppercase tracking-wide text-body dark:text-bodydark">{t('dashboard.peakRank')}</p>
+                    <p className="text-sm font-bold text-black dark:text-white">{user.gamePeakRank}</p>
                   </div>
                 </div>
               )}
