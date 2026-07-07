@@ -15,6 +15,7 @@ import {
   LoadingSpinner,
 } from '@/components/ui';
 import Modal from '@/components/ui/Modal';
+import RoleIcon from '@/components/game/RoleIcon';
 import toast from 'react-hot-toast';
 
 // Shape of a lane as returned by GraphQL / REST.
@@ -44,6 +45,7 @@ type LaneForm = {
 export default function AdminCatalogPage() {
   const t = useT();
   const [lanes, setLanes] = useState<Lane[]>([]);
+  const [roles, setRoles] = useState<any[]>([]);
   const [heroCount, setHeroCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -55,12 +57,14 @@ export default function AdminCatalogPage() {
   // Load lanes + hero count via GraphQL.
   const load = async () => {
     try {
-      const [ls, hs] = await Promise.all([
+      const [ls, hs, rs] = await Promise.all([
         api.catalog.lanes(),
         api.catalog.heroes(),
+        api.catalog.roles(),
       ]);
       setLanes(Array.isArray(ls) ? ls : []);
       setHeroCount(Array.isArray(hs) ? hs.length : 0);
+      setRoles(Array.isArray(rs) ? rs : []);
     } catch (e: any) {
       toast.error(e?.message || 'Erreur de chargement du catalogue');
     }
@@ -147,6 +151,26 @@ export default function AdminCatalogPage() {
         <LoadingSpinner size="lg" className="py-24" />
       ) : (
         <>
+          {/* Hero roles section (read-only reference) */}
+          <SectionCard>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-black dark:text-white">Rôles</h2>
+              <Badge variant="purple" size="sm">{roles.length}</Badge>
+            </div>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {roles.map((r) => (
+                <div
+                  key={r.key}
+                  className="flex flex-col items-center gap-2 rounded-lg border border-stroke bg-gray-2 p-3 text-center dark:border-strokedark dark:bg-meta-4"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={r.icon} alt={r.name} referrerPolicy="no-referrer" className="h-10 w-10 object-contain" />
+                  <span className="text-sm font-medium text-black dark:text-white">{r.name}</span>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+
           {/* Lanes section */}
           <SectionCard>
             <div className="flex items-center justify-between mb-4">
@@ -170,18 +194,12 @@ export default function AdminCatalogPage() {
                     <div className="w-12 h-12 rounded-lg bg-gray-2 border border-stroke shrink-0 dark:bg-meta-4 dark:border-strokedark" />
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-semibold text-black dark:text-white truncate">{lane.name}</p>
-                      {lane.shortName && (
-                        <Badge variant="default" size="sm">
-                          {lane.shortName}
-                        </Badge>
-                      )}
-                    </div>
+                    <p className="text-sm font-semibold text-black dark:text-white truncate">{lane.name}</p>
                     {lane.compatibleClasses?.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-1.5">
                         {lane.compatibleClasses.map((c) => (
-                          <Badge key={c} variant="neon" size="sm">
+                          <Badge key={c} variant="neon" size="sm" className="gap-1">
+                            <RoleIcon role={c} size={13} />
                             {c}
                           </Badge>
                         ))}
