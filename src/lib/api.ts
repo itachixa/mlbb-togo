@@ -1,15 +1,5 @@
 
-import {
-  mockPlayers,
-  mockTeams,
-  mockPosts,
-  mockTournaments,
-  mockEvents,
-  mockMatches,
-  mockAdminLogs,
-  mockFormTemplates,
-  mockFormResponses,
-} from './mockData';
+import { mockPlayers, mockTeams } from './mockData';
 import { gql } from './gql';
 
 export const API_URL =
@@ -271,29 +261,30 @@ export const api = {
   },
 
   admin: {
+    // These routes are admin-only on the backend (JwtAuthGuard + RolesGuard):
+    // they MUST send the auth token, and must NOT fall back to fabricated data
+    // (that silently hid auth failures and showed fake stats/logs to admins).
     stats: () =>
       request('/admin/stats', {
         fallback: {
-          totalUsers: 8, totalTeams: 3, totalTournaments: 3, totalPosts: 4,
-          activeUsers: 5, totalMatches: 3, onlineNow: 4, newUsersToday: 2,
+          totalUsers: 0, totalTeams: 0, totalTournaments: 0, totalPosts: 0,
+          activeUsers: 0, totalMatches: 0, onlineNow: 0, newUsersToday: 0,
         },
-        auth: false,
       }),
-    logs: () => request('/admin/logs', { fallback: mockAdminLogs, auth: false }),
+    logs: () => request('/admin/logs', { fallback: [] }),
     addLog: (data: any) => request('/admin/logs', { method: 'POST', body: data }),
     forms: {
-      list: () => request('/admin/forms', { fallback: mockFormTemplates, auth: false }),
+      list: () => request('/admin/forms', { fallback: [] }),
+      // Public route: the form definition is needed to render a fillable form.
       get: (id: string) =>
-        request(`/admin/forms/${id}`, { fallback: findMock(mockFormTemplates, id), auth: false }),
+        request(`/admin/forms/${id}`, { fallback: null, auth: false }),
       create: (data: any) => request('/admin/forms', { method: 'POST', body: data }),
       update: (id: string, data: any) =>
         request(`/admin/forms/${id}`, { method: 'PATCH', body: data }),
       remove: (id: string) => request(`/admin/forms/${id}`, { method: 'DELETE' }),
       responses: (id: string) =>
-        request(`/admin/forms/${id}/responses`, {
-          fallback: mockFormResponses.filter((r) => r.formId === id),
-          auth: false,
-        }),
+        request(`/admin/forms/${id}/responses`, { fallback: [] }),
+      // Public: anyone can submit a filled form.
       submit: (id: string, data: any) =>
         request(`/admin/forms/${id}/responses`, { method: 'POST', body: { data }, auth: false }),
     },
