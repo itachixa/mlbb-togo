@@ -5,14 +5,13 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   Settings as SettingsIcon, User, Bell, Shield, Palette,
-  Trash2, Save, Moon, Sun, Eye, EyeOff,
+  Trash2, Save, Moon, Sun,
 } from 'lucide-react';
-import { Card, Button, Input, Textarea, Select, Badge, Tabs, PageHeader, SectionCard } from '@/components/ui';
+import { Card, Button, Input, Textarea, Badge, Tabs, PageHeader, SectionCard } from '@/components/ui';
 import ConfirmModal from '@/components/ui/ConfirmModal';
 import { useThemeStore, useAuthStore } from '@/store/useStore';
 import { api, setToken } from '@/lib/api';
 import { isPushSupported, isPushEnabled, enablePush, disablePush } from '@/lib/push';
-import { MLBB_RANKS, MLBB_ROLES } from '@/lib/constants';
 import toast from 'react-hot-toast';
 import { useT } from '@/lib/i18n';
 
@@ -29,16 +28,14 @@ export default function Settings() {
   const t = useT();
 
   const [activeTab, setActiveTab] = useState('profile');
-  const [showPassword, setShowPassword] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [saving, setSaving] = useState<string | null>(null);
 
   const [profile, setProfile] = useState({
-    username: '', email: '', bio: '', rank: 'warrior', role: 'fighter', country: '', city: '',
+    username: '', email: '', bio: '', country: '', city: '',
   });
   const [notifications, setNotifications] = useState<any>(DEFAULT_NOTIFS);
   const [privacy, setPrivacy] = useState<any>(DEFAULT_PRIVACY);
-  const [pwd, setPwd] = useState({ current: '', next: '', confirm: '' });
   const [pushSupported, setPushSupported] = useState(false);
   const [pushOn, setPushOn] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
@@ -81,8 +78,6 @@ export default function Settings() {
       username: userProfile.username || '',
       email: userProfile.email || '',
       bio: userProfile.bio || '',
-      rank: userProfile.rank || 'warrior',
-      role: userProfile.role || 'fighter',
       country: userProfile.country || '',
       city: userProfile.city || '',
     });
@@ -112,31 +107,10 @@ export default function Settings() {
       username: profile.username,
       bio: profile.bio,
       city: profile.city,
-      rank: profile.rank,
-      role: profile.role,
       country: profile.country,
     });
   const saveNotifications = () => persist('notifications', { notifPrefs: notifications });
   const savePrivacy = () => persist('privacy', { privacy });
-
-  const changePassword = async () => {
-    if (!pwd.current || !pwd.next) return toast.error(t('settings.pwdRequired'));
-    if (pwd.next !== pwd.confirm) return toast.error(t('settings.pwdMismatch'));
-    setSaving('password');
-    try {
-      await api.auth.changePassword({
-        email: profile.email,
-        currentPassword: pwd.current,
-        newPassword: pwd.next,
-      });
-      setPwd({ current: '', next: '', confirm: '' });
-      toast.success(t('settings.pwdChanged'));
-    } catch (e: any) {
-      toast.error(e?.message || t('common.error'));
-    } finally {
-      setSaving(null);
-    }
-  };
 
   const deleteAccount = async () => {
     setSaving('delete');
@@ -203,71 +177,6 @@ export default function Settings() {
                 onChange={(e: any) => setProfile({ ...profile, bio: e.target.value })}
                 rows={3}
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Select
-                  label={t('settings.mlbbRank')}
-                  value={profile.rank}
-                  onChange={(e: any) => setProfile({ ...profile, rank: e.target.value })}
-                >
-                  {MLBB_RANKS.map((r) => (
-                    <option key={r.id} value={r.id}>{r.name}</option>
-                  ))}
-                </Select>
-                <Select
-                  label={t('settings.mainRole')}
-                  value={profile.role}
-                  onChange={(e: any) => setProfile({ ...profile, role: e.target.value })}
-                >
-                  {MLBB_ROLES.map((r) => (
-                    <option key={r.id} value={r.id}>{r.icon} {r.name}</option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-          </Card>
-
-          <Card>
-            <h3 className="font-bold text-lg mb-4 text-black dark:text-white">
-              {t('settings.changePassword')}
-            </h3>
-            <div className="space-y-4">
-              <div className="relative">
-                <Input
-                  label={t('settings.currentPassword')}
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={pwd.current}
-                  onChange={(e: any) => setPwd({ ...pwd, current: e.target.value })}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-9 text-bodydark2 hover:text-body dark:hover:text-bodydark"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  label={t('settings.newPassword')}
-                  type="password"
-                  placeholder="••••••••"
-                  value={pwd.next}
-                  onChange={(e: any) => setPwd({ ...pwd, next: e.target.value })}
-                />
-                <Input
-                  label={t('settings.confirmPassword')}
-                  type="password"
-                  placeholder="••••••••"
-                  value={pwd.confirm}
-                  onChange={(e: any) => setPwd({ ...pwd, confirm: e.target.value })}
-                />
-              </div>
-              <div className="flex justify-end">
-                <Button variant="outline" onClick={changePassword} loading={saving === 'password'}>
-                  {t('settings.changePassword')}
-                </Button>
-              </div>
             </div>
           </Card>
 

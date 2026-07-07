@@ -121,9 +121,6 @@ export const api = {
   auth: {
     me: () => request('/auth/me'),
 
-    changePassword: (data: { email: string; currentPassword: string; newPassword: string }) =>
-      request('/auth/change-password', { method: 'POST', body: data, auth: false }),
-
     adminLogin: (data: { username: string; password: string }) =>
       request('/auth/admin/login', { method: 'POST', body: data, auth: false }),
 
@@ -242,6 +239,10 @@ export const api = {
       gql<{ lanes: any[] }>(
         `{ lanes { id key name shortName description icon color compatibleClasses sort } }`,
       ).then((d) => d.lanes),
+    roles: () =>
+      gql<{ heroRoles: any[] }>(
+        `{ heroRoles { id key name icon sort } }`,
+      ).then((d) => d.heroRoles),
     heroes: (role?: string) =>
       gql<{ heroes: any[] }>(
         `query($role: String) { heroes(role: $role) { id name role } }`,

@@ -6,6 +6,7 @@ import { Search, Swords } from 'lucide-react';
 import { api, mlbbImg } from '@/lib/api';
 import { PageHeader, SectionCard, Button, EmptyState, LoadingSpinner } from '@/components/ui';
 import HeroDetailModal from '@/components/game/HeroDetailModal';
+import RoleIcon from '@/components/game/RoleIcon';
 import { useT } from '@/lib/i18n';
 
 const ROLES: Array<{ key: string; labelKey: string }> = [
@@ -70,7 +71,9 @@ export default function HeroesPage() {
               size="sm"
               variant={role === r.key ? 'primary' : 'outline'}
               onClick={() => setRole(r.key)}
+              className="gap-1.5"
             >
+              {r.key !== 'all' && <RoleIcon role={r.key} size={15} />}
               {t(r.labelKey)}
             </Button>
           ))}
@@ -107,7 +110,11 @@ export default function HeroesPage() {
               </div>
               <div className="p-2">
                 <p className="text-xs font-semibold text-black dark:text-white truncate">{h.name}</p>
-                <p className="text-[10px] text-body dark:text-bodydark truncate">{(h.roles || []).join(' · ')}</p>
+                <div className="mt-0.5 flex items-center gap-1">
+                  {(h.roles || []).slice(0, 3).map((r: string) => (
+                    <RoleIcon key={r} role={r} size={13} />
+                  ))}
+                </div>
               </div>
             </motion.button>
           ))}
