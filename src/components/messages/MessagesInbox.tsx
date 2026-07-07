@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Send, MessageSquare, Shield, Search } from 'lucide-react';
+import { ArrowLeft, Send, MessageSquare, Shield, Search, Check, CheckCheck, Clock } from 'lucide-react';
 import { api, avatarSrc } from '@/lib/api';
 import { useT } from '@/lib/i18n';
 import { getSocket, usePresence } from '@/lib/realtime';
@@ -27,7 +27,6 @@ export default function MessagesInbox() {
   // Draft conversation opened from a deep link (?to=) with no existing thread.
   const [draftPeer, setDraftPeer] = useState<{ id: string; name: string } | null>(null);
   const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
   const [text, setText] = useState('');
   const [search, setSearch] = useState('');
   const handledToRef = useRef(false);
@@ -64,6 +63,12 @@ export default function MessagesInbox() {
     })();
   }, [loadThreads]);
 
+  // Tell the server the peer's messages are read (fire-and-forget); this makes
+  // the other party's sent messages show blue read receipts.
+  const markRead = useCallback((id: string) => {
+    if (id) api.messages.markRead(id).catch(() => {});
+  }, []);
+
   const openThread = useCallback(
     async (id: string) => {
       setActiveId(id);
@@ -72,11 +77,12 @@ export default function MessagesInbox() {
         const data: any = await api.messages.thread(id);
         setThread(data);
         scrollToBottom();
+        markRead(id);
       } catch (e: any) {
         toast.error(e?.message || t('common.error'));
       }
     },
-    [scrollToBottom, t],
+    [scrollToBottom, markRead, t],
   );
 
   // Deep link: /messages?to=<userId>&name=<name>. Open the existing thread with
@@ -98,41 +104,64 @@ export default function MessagesInbox() {
 
   const send = useCallback(async () => {
     const body = text.trim();
-    if (!body || sending) return;
+    if (!body) return;
+
+    // Optimistic message shown instantly with a "pending" (clock) state.
+    const tempId = `tmp_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+    const optimistic = {
+      id: tempId,
+      body,
+      senderId: myId,
+      mine: true,
+      readAt: null,
+      createdAt: new Date().toISOString(),
+      status: 'pending',
+    };
+    setText('');
 
     // First message of a draft conversation: create the thread.
     if (!activeId && draftPeer) {
-      setSending(true);
+      setThread({
+        id: null,
+        other: { id: draftPeer.id, displayName: draftPeer.name },
+        messages: [optimistic],
+      });
+      scrollToBottom();
       try {
         const created: any = await api.messages.startThread({ userId: draftPeer.id, body });
         setThread(created);
         setActiveId(created?.id ?? null);
         setDraftPeer(null);
-        setText('');
-        scrollToBottom();
         loadThreads();
       } catch (e: any) {
+        setThread((prev: any) =>
+          prev
+            ? { ...prev, messages: (prev.messages || []).map((m: any) => (m.id === tempId ? { ...m, status: 'failed' } : m)) }
+            : prev,
+        );
         toast.error(e?.message || t('common.error'));
-      } finally {
-        setSending(false);
       }
       return;
     }
 
     if (!activeId) return;
-    setSending(true);
+    const currentId = activeId;
+    setThread((prev: any) => (prev ? { ...prev, messages: [...(prev.messages || []), optimistic] } : prev));
+    scrollToBottom();
     try {
-      const updated: any = await api.messages.reply(activeId, body);
-      setThread(updated);
-      setText('');
-      scrollToBottom();
+      const updated: any = await api.messages.reply(currentId, body);
+      // Swap the optimistic list for the authoritative one (correct ids + ticks).
+      setThread((prev: any) => (prev && prev.id === updated.id ? updated : prev));
       loadThreads();
     } catch (e: any) {
+      setThread((prev: any) =>
+        prev
+          ? { ...prev, messages: (prev.messages || []).map((m: any) => (m.id === tempId ? { ...m, status: 'failed' } : m)) }
+          : prev,
+      );
       toast.error(e?.message || t('common.error'));
-    } finally {
-      setSending(false);
     }
-  }, [text, activeId, draftPeer, sending, scrollToBottom, loadThreads, t]);
+  }, [text, activeId, draftPeer, myId, scrollToBottom, loadThreads, t]);
 
   // Live message reception (WebSocket).
   useEffect(() => {
@@ -142,6 +171,8 @@ export default function MessagesInbox() {
       const threadId = payload?.threadId;
       const message = payload?.message;
       if (!threadId || !message) return;
+      // Ignore my own echo — outgoing messages are shown optimistically.
+      if (message.senderId === myId) return;
 
       if (threadId === activeIdRef.current) {
         setThread((prev: any) => {
@@ -149,13 +180,12 @@ export default function MessagesInbox() {
           if ((prev.messages || []).some((m: any) => m.id === message.id)) return prev;
           return {
             ...prev,
-            messages: [
-              ...(prev.messages || []),
-              { ...message, mine: message.senderId === myId },
-            ],
+            messages: [...(prev.messages || []), { ...message, mine: false }],
           };
         });
         scrollToBottom();
+        // I'm looking at this thread → mark read so the sender sees blue ticks.
+        markRead(threadId);
       }
 
       setThreads((prev: any[]) => {
@@ -174,11 +204,30 @@ export default function MessagesInbox() {
         return [{ ...th, lastMessage: preview, lastMessageAt: message.createdAt }, ...copy];
       });
     };
+
+    // Read receipts: the peer read the thread → turn my sent ticks blue.
+    const onRead = (payload: any) => {
+      const { threadId, readAt } = payload || {};
+      if (!threadId || threadId !== activeIdRef.current) return;
+      setThread((prev: any) =>
+        prev
+          ? {
+              ...prev,
+              messages: (prev.messages || []).map((m: any) =>
+                m.mine && !m.readAt ? { ...m, readAt: readAt || new Date().toISOString() } : m,
+              ),
+            }
+          : prev,
+      );
+    };
+
     s.on('message:new', onMsg);
+    s.on('message:read', onRead);
     return () => {
       s.off('message:new', onMsg);
+      s.off('message:read', onRead);
     };
-  }, [connected, myId, scrollToBottom, loadThreads]);
+  }, [connected, myId, scrollToBottom, loadThreads, markRead]);
 
   const other = thread?.other;
   // Peer shown in the conversation header: the thread's peer, or the draft target.
@@ -204,6 +253,15 @@ export default function MessagesInbox() {
     return isNaN(d.getTime())
       ? ''
       : d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // WhatsApp-style delivery ticks for my own messages.
+  const renderTicks = (m: any) => {
+    if (m.status === 'pending') return <Clock size={13} className="opacity-70" />;
+    if (m.status === 'failed')
+      return <span className="text-[11px] font-bold text-danger">!</span>;
+    if (m.readAt) return <CheckCheck size={15} className="text-sky-400" />;
+    return <CheckCheck size={15} className="opacity-60" />;
   };
 
   return (
@@ -391,14 +449,19 @@ export default function MessagesInbox() {
                     m.mine ? (
                       // Sent message
                       <div key={m.id} className="ml-auto max-w-[31.25rem]">
-                        <div className="mb-2.5 rounded-2xl rounded-br-none bg-primary px-5 py-3">
+                        <div
+                          className={`mb-2.5 rounded-2xl rounded-br-none bg-primary px-5 py-3 ${
+                            m.status === 'pending' ? 'opacity-80' : ''
+                          }`}
+                        >
                           <p className="whitespace-pre-wrap break-words font-medium text-white">
                             {m.body}
                           </p>
                         </div>
-                        <p className="text-right text-xs font-medium text-body dark:text-bodydark">
+                        <div className="flex items-center justify-end gap-1 text-xs font-medium text-body dark:text-bodydark">
                           {fmtTime(m.createdAt)}
-                        </p>
+                          {renderTicks(m)}
+                        </div>
                       </div>
                     ) : (
                       // Received message
@@ -440,7 +503,7 @@ export default function MessagesInbox() {
                   </div>
                   <button
                     type="submit"
-                    disabled={sending || !text.trim()}
+                    disabled={!text.trim()}
                     aria-label={t('messages.send')}
                     className="flex h-13 w-13 items-center justify-center rounded-md bg-primary text-white hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
