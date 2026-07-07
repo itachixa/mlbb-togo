@@ -6,6 +6,7 @@ import { api, avatarSrc } from '@/lib/api';
 import { useT } from '@/lib/i18n';
 import { timeAgo, truncateText } from '@/lib/helpers';
 import { getSocket, usePresence } from '@/lib/realtime';
+import { useAuthStore } from '@/store/useStore';
 import { Avatar } from '@/components/ui';
 
 interface MessageDropdownProps {
@@ -30,6 +31,7 @@ export default function MessageDropdown({ href = '/messages' }: MessageDropdownP
   const [notifying, setNotifying] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const connected = usePresence((s) => s.connected);
+  const myId = useAuthStore((s: any) => s.user?.id);
 
   const loadThreads = () =>
     api.messages
@@ -54,7 +56,12 @@ export default function MessageDropdown({ href = '/messages' }: MessageDropdownP
   useEffect(() => {
     const s = getSocket();
     if (!s) return;
-    const onMsg = () => {
+    const onMsg = (payload: any) => {
+      // Only flag incoming messages; never my own outgoing ones.
+      if (payload?.message?.senderId && payload.message.senderId === myId) {
+        loadThreads();
+        return;
+      }
       setNotifying(true);
       loadThreads();
     };
@@ -62,7 +69,7 @@ export default function MessageDropdown({ href = '/messages' }: MessageDropdownP
     return () => {
       s.off('message:new', onMsg);
     };
-  }, [connected]);
+  }, [connected, myId]);
 
   // Close on outside click.
   useEffect(() => {

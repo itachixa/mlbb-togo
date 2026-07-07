@@ -431,6 +431,8 @@ export const api = {
     thread: (id: string) => request(`/messages/threads/${id}`, { fallback: null }),
     reply: (id: string, body: string) =>
       request(`/messages/threads/${id}`, { method: 'POST', body: { body } }),
+    markRead: (id: string) =>
+      request(`/messages/threads/${id}/read`, { method: 'POST' }),
   },
 };
 
