@@ -63,7 +63,7 @@ export default function Modal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 overflow-y-auto"
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto modal-overlay"
           >
           <motion.div
             initial={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -72,26 +72,37 @@ export default function Modal({
             transition={{ type: 'spring', stiffness: 300, damping: 26 }}
             onClick={(e) => e.stopPropagation()}
             className={cn(
-              'relative w-full max-h-[90vh] flex flex-col rounded-sm bg-white shadow-default overflow-hidden dark:bg-boxdark',
+              'relative w-full max-h-[90vh] flex flex-col rounded-xl overflow-hidden modal-scroll',
               width
             )}
+            style={{
+              background: 'var(--card-bg)',
+              border: '1px solid var(--card-border)',
+              boxShadow: 'var(--shadow-elevated)',
+            }}
           >
             {(title || icon) && (
               <div
                 className={cn(
                   'flex items-center justify-between gap-4 px-6 py-4',
                   gradient
-                    ? 'bg-primary text-white'
-                    : 'border-b border-stroke dark:border-strokedark'
+                    ? 'text-white'
+                    : 'border-b'
                 )}
+                style={gradient ? {
+                  background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                } : {
+                  borderColor: 'var(--card-border)',
+                }}
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {icon && (
                     <div
                       className={cn(
                         'shrink-0 rounded-lg p-2 flex items-center justify-center',
-                        gradient ? 'bg-white/20 text-white' : 'bg-gray text-primary dark:bg-meta-4'
+                        gradient ? 'text-white' : ''
                       )}
+                      style={gradient ? { background: 'rgba(255,255,255,0.2)' } : { background: 'var(--surface-bg)', color: 'var(--accent-primary)' }}
                     >
                       {icon}
                     </div>
@@ -100,8 +111,9 @@ export default function Modal({
                     <h3
                       className={cn(
                         'font-semibold truncate',
-                        gradient ? 'text-white' : 'text-black dark:text-white'
+                        gradient ? 'text-white' : ''
                       )}
+                      style={!gradient ? { color: 'var(--page-text)' } : {}}
                     >
                       {title}
                     </h3>
@@ -109,8 +121,9 @@ export default function Modal({
                       <p
                         className={cn(
                           'text-xs truncate mt-0.5',
-                          gradient ? 'text-white/80' : 'text-body dark:text-bodydark'
+                          gradient ? 'text-white/80' : ''
                         )}
+                        style={!gradient ? { color: 'var(--sidebar-text)' } : {}}
                       >
                         {subtitle}
                       </p>
@@ -125,8 +138,9 @@ export default function Modal({
                     'w-8 h-8 shrink-0 flex items-center justify-center rounded-lg transition-colors',
                     gradient
                       ? 'text-white/90 hover:bg-white/20'
-                      : 'text-body hover:text-black hover:bg-gray dark:text-bodydark dark:hover:text-white dark:hover:bg-meta-4'
+                      : 'transition-colors'
                   )}
+                  style={!gradient ? { color: 'var(--sidebar-text)' } : {}}
                 >
                   <X size={18} />
                 </button>

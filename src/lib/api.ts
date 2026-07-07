@@ -121,6 +121,12 @@ export const api = {
   auth: {
     me: () => request('/auth/me'),
 
+    login: (data: { email: string; password: string }) =>
+      request('/auth/login', { method: 'POST', body: data, auth: false }),
+
+    register: (data: { username: string; email: string; password: string; confirmPassword?: string; rank?: number | string; role?: string; mlbbId?: string }) =>
+      request('/auth/register', { method: 'POST', body: data, auth: false }),
+
     adminLogin: (data: { username: string; password: string }) =>
       request('/auth/admin/login', { method: 'POST', body: data, auth: false }),
 

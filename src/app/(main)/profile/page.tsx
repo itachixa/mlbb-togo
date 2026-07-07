@@ -35,7 +35,7 @@ export default function ProfilePage() {
   if (!userProfile) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-10 h-10 rounded-full border-2 border-stroke border-t-primary animate-spin dark:border-strokedark dark:border-t-primary" />
+        <div className="w-10 h-10 rounded-full border-2 animate-spin" style={{ borderColor: 'var(--card-border)' }} />
       </div>
     );
   }
@@ -130,75 +130,81 @@ export default function ProfilePage() {
       />
 
       {/* Identity header */}
-      <Card>
+      <div className="glass-card">
         <div className="flex items-center gap-4">
           <Avatar name={name} src={userProfile.avatar ? avatarSrc(userProfile.avatar, 160) : undefined} size="xl" />
           <div>
-            <h2 className="text-xl font-bold text-black dark:text-white">{name}</h2>
-            <p className="text-sm text-body dark:text-bodydark">
+            <h2 className="text-xl font-bold" style={{ color: 'var(--page-text)' }}>{name}</h2>
+            <p className="text-sm" style={{ color: 'var(--sidebar-text)' }}>
               {t('profile.displayedProfile')}{' '}
-              <span className="text-primary font-medium">
+              <span className="font-medium" style={{ color: 'var(--accent-primary)' }}>
                 {userProfile.profileSource === 'google' ? t('profile.googleProfile') : t('profile.gameProfile')}
               </span>
             </p>
           </div>
         </div>
-      </Card>
+      </div>
 
-      <Card>
-        <h3 className="font-bold text-black dark:text-white mb-1">{t('profile.shownProfile')}</h3>
-        <p className="text-sm text-body dark:text-bodydark mb-4">
+      <div className="glass-card">
+        <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--page-text)' }}>
+          {t('profile.shownProfile')}
+        </h3>
+        <p className="text-sm mb-4" style={{ color: 'var(--sidebar-text)' }}>
           {t('profile.subtitle')}
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <button
             onClick={() => chooseSource('game')}
             disabled={!userProfile.hasGame || busy === 'source-game'}
-            className={`flex items-center gap-3 p-3 rounded-sm border text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-              userProfile.profileSource === 'game'
-                ? 'border-primary bg-primary/10'
-                : 'border-stroke hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4'
+            className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              userProfile.profileSource === 'game' ? '' : 'opacity-70 hover:opacity-100'
             }`}
+            style={{
+              borderColor: userProfile.profileSource === 'game' ? 'var(--accent-primary)' : 'var(--card-border)',
+              background: userProfile.profileSource === 'game' ? 'var(--sidebar-active-bg)' : 'transparent',
+            }}
           >
-            <Gamepad2 size={20} className="text-primary shrink-0" />
+            <Gamepad2 size={20} className="shrink-0" style={{ color: 'var(--accent-primary)' }} />
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-black dark:text-white">{t('profile.gameProfile')}</p>
-              <p className="text-xs text-body dark:text-bodydark truncate">
+              <p className="text-sm font-semibold" style={{ color: 'var(--page-text)' }}>{t('profile.gameProfile')}</p>
+              <p className="text-xs truncate" style={{ color: 'var(--sidebar-text)' }}>
                 {userProfile.gameNickname || (userProfile.hasGame ? `${t('dashboard.gameId')} ${userProfile.mlbbRoleId} · ${t('dashboard.gameServer')} ${userProfile.mlbbZoneId}` : t('profile.profileSource.nonLinked'))}
               </p>
             </div>
-            {userProfile.profileSource === 'game' && <Check size={16} className="text-primary" />}
+            {userProfile.profileSource === 'game' && <Check size={16} style={{ color: 'var(--accent-primary)' }} />}
           </button>
 
           <button
             onClick={() => chooseSource('google')}
             disabled={!userProfile.hasGoogle || busy === 'source-google'}
-            className={`flex items-center gap-3 p-3 rounded-sm border text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-              userProfile.profileSource === 'google'
-                ? 'border-primary bg-primary/10'
-                : 'border-stroke hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4'
+            className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              userProfile.profileSource === 'google' ? '' : 'opacity-70 hover:opacity-100'
             }`}
+            style={{
+              borderColor: userProfile.profileSource === 'google' ? 'var(--accent-primary)' : 'var(--card-border)',
+              background: userProfile.profileSource === 'google' ? 'var(--sidebar-active-bg)' : 'transparent',
+            }}
           >
             <GoogleGlyph />
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold text-black dark:text-white">{t('profile.googleProfile')}</p>
-              <p className="text-xs text-body dark:text-bodydark truncate">
+              <p className="text-sm font-semibold" style={{ color: 'var(--page-text)' }}>{t('profile.googleProfile')}</p>
+              <p className="text-xs truncate" style={{ color: 'var(--sidebar-text)' }}>
                 {userProfile.googleName || (userProfile.hasGoogle ? userProfile.googleEmail || t('profile.googleLinked') : t('profile.googleDescUnlinked'))}
               </p>
             </div>
-            {userProfile.profileSource === 'google' && <Check size={16} className="text-primary" />}
+            {userProfile.profileSource === 'google' && <Check size={16} style={{ color: 'var(--accent-primary)' }} />}
           </button>
         </div>
-      </Card>
+      </div>
 
-      <Card>
-        <h3 className="font-bold text-black dark:text-white mb-4">{t('profile.linkedAccounts')}</h3>
+      <div className="glass-card">
+        <h3 className="font-bold mb-4" style={{ color: 'var(--page-text)' }}>{t('profile.linkedAccounts')}</h3>
         <div className="space-y-3">
-          <div className="flex items-center gap-3 p-3 rounded-sm border border-stroke dark:border-strokedark">
+          <div className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: 'var(--card-border)' }}>
             <GoogleGlyph />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-black dark:text-white">{t('profile.google')}</p>
-              <p className="text-xs text-body dark:text-bodydark truncate">
+              <p className="text-sm font-semibold" style={{ color: 'var(--page-text)' }}>{t('profile.google')}</p>
+              <p className="text-xs truncate" style={{ color: 'var(--sidebar-text)' }}>
                 {userProfile.hasGoogle
                   ? userProfile.googleEmail || userProfile.googleName || t('profile.googleLinked')
                   : t('profile.googleDescUnlinked')}
@@ -213,11 +219,11 @@ export default function ProfilePage() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 p-3 rounded-sm border border-stroke dark:border-strokedark">
-            <Gamepad2 size={22} className="text-primary shrink-0" />
+          <div className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: 'var(--card-border)' }}>
+            <Gamepad2 size={22} className="shrink-0" style={{ color: 'var(--accent-primary)' }} />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-black dark:text-white">{t('profile.gameAccount')}</p>
-              <p className="text-xs text-body dark:text-bodydark truncate">
+              <p className="text-sm font-semibold" style={{ color: 'var(--page-text)' }}>{t('profile.gameAccount')}</p>
+              <p className="text-xs truncate" style={{ color: 'var(--sidebar-text)' }}>
                 {userProfile.hasGame
                   ? `${t('dashboard.gameId')} ${userProfile.mlbbRoleId} · ${t('dashboard.gameServer')} ${userProfile.mlbbZoneId}`
                   : t('profile.gameDescUnlinked')}
@@ -243,13 +249,13 @@ export default function ProfilePage() {
             )}
           </div>
         </div>
-      </Card>
+      </div>
 
       {userProfile.hasGame && (
-        <Card>
+        <div className="glass-card">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-black dark:text-white">{t('profile.gameData')}</h3>
+              <h3 className="font-bold" style={{ color: 'var(--page-text)' }}>{t('profile.gameData')}</h3>
               <Badge variant="neon" size="sm">{t('dashboard.stats.allModes')}</Badge>
             </div>
             <Button variant="ghost" size="sm" onClick={sync} disabled={busy === 'sync'}>
@@ -260,7 +266,7 @@ export default function ProfilePage() {
 
           {heroes.length > 0 && (
             <>
-              <p className="text-sm font-medium text-body dark:text-bodydark mb-2">{t('profile.favoriteHeroes')}</p>
+              <p className="text-sm font-medium mb-2" style={{ color: 'var(--sidebar-text)' }}>{t('profile.favoriteHeroes')}</p>
               <div className="flex flex-wrap gap-2">
                 {heroes.slice(0, 8).map((h, i) => (
                   <motion.div
@@ -268,24 +274,30 @@ export default function ProfilePage() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.03 }}
-                    className="flex items-center gap-2 rounded-sm border border-stroke bg-gray-2 pr-3 dark:border-strokedark dark:bg-meta-4"
+                    className="flex items-center gap-2 rounded-xl border p-1.5 pr-3 transition-all duration-200 hover:scale-105"
+                    style={{
+                      borderColor: 'var(--card-border)',
+                      background: 'var(--surface-bg)',
+                    }}
                     title={`${h.name} — ${h.winRate}% sur ${h.matches} parties`}
                   >
                     {h.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={mlbbImg(h.image, 64)}
                         alt={h.name}
                         referrerPolicy="no-referrer"
-                        className="w-9 h-9 rounded-l-sm object-cover bg-gray dark:bg-boxdark"
+                        className="w-9 h-9 rounded-lg object-cover"
+                        style={{ background: 'var(--card-bg)' }}
                       />
                     )}
-                    <span className="text-xs text-black dark:text-white">{h.name}</span>
+                    <span className="text-xs" style={{ color: 'var(--page-text)' }}>{h.name}</span>
                   </motion.div>
                 ))}
               </div>
             </>
           )}
-        </Card>
+        </div>
       )}
 
       <LinkGameModal open={linkGameOpen} onClose={() => setLinkGameOpen(false)} />

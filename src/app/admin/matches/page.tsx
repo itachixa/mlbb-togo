@@ -17,8 +17,7 @@ import toast from 'react-hot-toast';
 
 const TYPES = ['friendly', 'training', 'official'];
 
-const inputCls =
-  'w-full px-3 py-2 text-sm rounded-lg border border-stroke bg-gray-2 text-black focus:outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4 dark:text-white';
+const inputCls = 'input-gaming';
 
 type Pending = { message: string; action: () => Promise<any> } | null;
 
@@ -56,14 +55,14 @@ function TeamBadge({ team }: { team: any }) {
           src={team.image}
           alt={team.name}
           referrerPolicy="no-referrer"
-          className="w-8 h-8 rounded-lg object-cover border border-stroke shrink-0 dark:border-strokedark"
+          className="w-8 h-8 rounded-lg object-cover border shrink-0" style={{ borderColor: 'var(--card-border)' }}
         />
       ) : (
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-xs font-bold text-white shrink-0">
           {team.name?.[0]?.toUpperCase() || 'T'}
         </div>
       )}
-      <span className="text-sm font-semibold text-black dark:text-white truncate">{team.name}</span>
+       <span className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{team.name}</span>
     </div>
   );
 }
@@ -164,7 +163,7 @@ export default function AdminMatchesPage() {
           {matches.map((m) => (
             <div
               key={m.id}
-              className="rounded-sm border border-stroke bg-white shadow-default p-3 sm:p-4 dark:border-strokedark dark:bg-boxdark"
+              className="glass-card shadow-[var(--shadow-card)] p-3 sm:p-4 flex flex-col"
             >
               <div className="flex items-center gap-2 flex-wrap mb-3">
                 <Badge variant="default" size="sm">
@@ -174,12 +173,12 @@ export default function AdminMatchesPage() {
                   {t('matchStatus.' + m.status)}
                 </Badge>
                 {m.seasonId && seasonName(m.seasonId) && (
-                  <span className="inline-flex items-center gap-1 text-xs text-body dark:text-bodydark">
+                  <span className="inline-flex items-center gap-1 text-xs" style={{ color: 'var(--page-text)', opacity: 0.7 }}>
                     <Trophy size={12} /> {seasonName(m.seasonId)}
                   </span>
                 )}
                 {m.scheduledAt && (
-                  <span className="text-xs text-bodydark2">
+                   <span className="text-xs" style={{ color: 'var(--sidebar-text)' }}>
                     {new Date(m.scheduledAt).toLocaleString()}
                   </span>
                 )}
@@ -192,11 +191,11 @@ export default function AdminMatchesPage() {
 
                 <div className="flex flex-col items-center px-2 shrink-0">
                   {m.status === 'completed' ? (
-                    <span className="text-lg font-bold text-black dark:text-white tabular-nums">
+                     <span className="text-lg font-bold tabular-nums" style={{ color: 'var(--page-text)' }}>
                       {m.scoreA} - {m.scoreB}
                     </span>
                   ) : (
-                    <Swords size={18} className="text-bodydark2" />
+                     <Swords size={18} style={{ color: 'var(--sidebar-text)' }} />
                   )}
                 </div>
 
@@ -207,7 +206,7 @@ export default function AdminMatchesPage() {
 
               {m.status === 'completed' && m.winner?.name && (
                 <div className="mt-2 text-center text-xs">
-                  <span className="inline-flex items-center gap-1 font-bold text-warning">
+                   <span className="inline-flex items-center gap-1 font-bold" style={{ color: 'var(--badge-warning-text)' }}>
                     <Trophy size={12} /> {m.winner.name}
                   </span>
                 </div>
@@ -359,7 +358,7 @@ function MatchFormModal({
       <form onSubmit={submit} className="space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.type')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.type')}</label>
             <select
               className={inputCls}
               value={form.type}
@@ -373,7 +372,7 @@ function MatchFormModal({
             </select>
           </div>
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.season')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.season')}</label>
             <select
               className={inputCls}
               value={form.seasonId}
@@ -391,7 +390,7 @@ function MatchFormModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.teamA')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.teamA')}</label>
             <select
               className={inputCls}
               value={form.teamAId}
@@ -407,7 +406,7 @@ function MatchFormModal({
             </select>
           </div>
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.teamB')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.teamB')}</label>
             <select
               className={inputCls}
               value={form.teamBId}
@@ -425,11 +424,11 @@ function MatchFormModal({
         </div>
 
         {sameTeams && (
-          <p className="text-xs text-danger">{t('admin.matches.pickTwo')}</p>
+          <p className="text-xs" style={{ color: 'var(--badge-danger-text)' }}>{t('admin.matches.pickTwo')}</p>
         )}
 
         <div>
-          <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.date')}</label>
+          <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.date')}</label>
           <input
             type="datetime-local"
             className={inputCls}
@@ -439,7 +438,7 @@ function MatchFormModal({
         </div>
 
         <div>
-          <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.notes')}</label>
+          <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.notes')}</label>
           <textarea
             className={`${inputCls} min-h-[70px] resize-y`}
             value={form.notes}
@@ -519,15 +518,15 @@ function ResultModal({
     >
       {match && (
         <form onSubmit={submit} className="space-y-3">
-          <div className="flex items-center justify-center gap-2 text-sm font-semibold text-black dark:text-white">
-            <span className="truncate">{match.teamA?.name}</span>
-            <span className="text-bodydark2">vs</span>
-            <span className="truncate">{match.teamB?.name}</span>
+          <div className="flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: 'var(--page-text)' }}>
+            <span className="truncate" style={{ color: 'var(--page-text)' }}>{match.teamA?.name}</span>
+            <span style={{ color: 'var(--sidebar-text)' }}>vs</span>
+            <span className="truncate" style={{ color: 'var(--page-text)' }}>{match.teamB?.name}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.scoreA')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.scoreA')}</label>
               <input
                 type="number"
                 min="0"
@@ -537,7 +536,7 @@ function ResultModal({
               />
             </div>
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.scoreB')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.scoreB')}</label>
               <input
                 type="number"
                 min="0"
@@ -549,7 +548,7 @@ function ResultModal({
           </div>
 
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.matches.winner')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.matches.winner')}</label>
             <select
               className={inputCls}
               value={winner}

@@ -45,7 +45,7 @@ export default function DashboardHeader({ sidebarOpen, setSidebarOpen }: HeaderP
   const avatarUrl = userProfile?.avatar ? avatarSrc(userProfile.avatar) : null;
 
   return (
-    <header className="sticky top-0 z-999 flex w-full bg-white shadow-default dark:bg-boxdark">
+    <header className="sticky top-0 z-999 flex w-full border-b transition-all duration-300" style={{ background: 'var(--header-bg)', borderColor: 'var(--header-border)' }}>
       <div className="flex flex-grow items-center justify-between px-4 py-4 md:px-6 2xl:px-11">
         <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
           {/* Hamburger Toggle BTN */}
@@ -56,7 +56,12 @@ export default function DashboardHeader({ sidebarOpen, setSidebarOpen }: HeaderP
               e.stopPropagation();
               setSidebarOpen(!sidebarOpen);
             }}
-            className="z-99999 block rounded-sm border border-stroke bg-white p-1.5 text-black shadow-sm dark:border-strokedark dark:bg-boxdark dark:text-white lg:hidden"
+            className="z-99999 rounded-lg border p-1.5 transition-all duration-200 hover:scale-105"
+            style={{
+              background: 'var(--input-bg)',
+              borderColor: 'var(--input-border)',
+              color: 'var(--page-text)',
+            }}
           >
             <Menu size={20} />
           </button>
@@ -70,13 +75,14 @@ export default function DashboardHeader({ sidebarOpen, setSidebarOpen }: HeaderP
         {/* Search (optional) */}
         <div className="hidden sm:block">
           <div className="relative">
-            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-body dark:text-bodydark">
+            <span className="absolute left-0 top-1/2 -translate-y-1/2" style={{ color: 'var(--sidebar-text)' }}>
               <Search size={20} />
             </span>
             <input
               type="text"
               placeholder={lang === 'fr' ? 'Rechercher...' : 'Search...'}
-              className="w-full bg-transparent pl-9 pr-4 text-black focus:outline-none dark:text-white xl:w-125"
+              className="w-full bg-transparent pl-9 pr-4 focus:outline-none xl:w-125 transition-colors duration-300"
+              style={{ color: 'var(--page-text)' }}
             />
           </div>
         </div>

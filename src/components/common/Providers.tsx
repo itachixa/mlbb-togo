@@ -8,15 +8,27 @@ import ParticlesBackground from './ParticlesBackground';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const theme = useThemeStore((s: any) => s.theme);
+  const themeVariant = useThemeStore((s: any) => s.themeVariant);
+  const brightness = useThemeStore((s: any) => s.brightness);
   const pathname = usePathname();
-  // Public/landing routes stay dark (gaming look); the dashboard defaults to
-  // light and follows the user's theme choice.
   const isPublic = pathname === '/' || pathname.startsWith('/admin-login');
   const dark = isPublic ? true : theme === 'dark';
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', dark);
-  }, [dark]);
+    const html = document.documentElement;
+    if (dark) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+    html.classList.remove('theme-default', 'theme-esports-gold', 'theme-night');
+    html.classList.add(`theme-${themeVariant}`);
+    if (themeVariant === 'night') {
+      html.style.setProperty('--brightness', String(brightness));
+    } else {
+      html.style.removeProperty('--brightness');
+    }
+  }, [dark, themeVariant, brightness]);
 
   return (
     <>
@@ -27,9 +39,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         toastOptions={{
           duration: 3500,
           style: {
-            background: dark ? 'rgba(18,18,42,0.92)' : 'rgba(255,255,255,0.95)',
-            color: dark ? '#e2e8f0' : '#1a1a2e',
-            border: `1px solid ${dark ? '#1e1e3f' : '#e2e8f0'}`,
+            background: dark ? 'rgba(15, 15, 42, 0.92)' : 'rgba(255,255,255,0.95)',
+            color: dark ? '#e2e8f0' : '#0f172a',
+            border: `1px solid ${dark ? 'rgba(30, 30, 63, 0.8)' : '#e2e8f0'}`,
             borderRadius: '14px',
             padding: '12px 16px',
             fontSize: '14px',
@@ -38,11 +50,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             backdropFilter: 'blur(8px)',
           },
           success: {
-            iconTheme: { primary: '#22c55e', secondary: '#0a0a1a' },
+            iconTheme: { primary: '#22c55e', secondary: dark ? '#0a0a1a' : '#ffffff' },
             style: { borderColor: 'rgba(34,197,94,0.4)' },
           },
           error: {
-            iconTheme: { primary: '#ef4444', secondary: '#0a0a1a' },
+            iconTheme: { primary: '#ef4444', secondary: dark ? '#0a0a1a' : '#ffffff' },
             style: { borderColor: 'rgba(239,68,68,0.4)' },
           },
         }}

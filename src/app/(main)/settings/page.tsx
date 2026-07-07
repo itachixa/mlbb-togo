@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import {
   Settings as SettingsIcon, User, Bell, Shield, Palette,
-  Trash2, Save, Moon, Sun,
+  Trash2, Save, Swords, Crown, Moon, Sun,
 } from 'lucide-react';
 import { Card, Button, Input, Textarea, Badge, Tabs, PageHeader, SectionCard } from '@/components/ui';
 import ConfirmModal from '@/components/ui/ConfirmModal';
@@ -19,7 +19,7 @@ const DEFAULT_NOTIFS = { friends: true, messages: true, teams: true };
 const DEFAULT_PRIVACY = { profilePublic: true, showStats: true, showOnline: true, allowInvites: true };
 
 export default function Settings() {
-  const { theme, toggleTheme } = useThemeStore();
+  const { theme, toggleTheme, themeVariant, setThemeVariant, brightness, setBrightness } = useThemeStore();
   const userProfile = useAuthStore((s: any) => s.userProfile);
   const setUserProfile = useAuthStore((s: any) => s.setUserProfile);
   const setUser = useAuthStore((s: any) => s.setUser);
@@ -137,7 +137,7 @@ export default function Settings() {
         variant="cyan"
       />
 
-      <SectionCard className="!p-4">
+      <div className="section-card !p-4">
         <Tabs
           tabs={[
             { id: 'profile', label: t('settings.tabProfile'), icon: User },
@@ -148,12 +148,12 @@ export default function Settings() {
           active={activeTab}
           onChange={setActiveTab}
         />
-      </SectionCard>
+      </div>
 
       {activeTab === 'profile' && (
         <div className="space-y-6">
-          <Card>
-            <h3 className="font-bold text-lg mb-4 text-black dark:text-white">
+          <div className="glass-card">
+            <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--page-text)' }}>
               {t('settings.profileInfo')}
             </h3>
             <div className="space-y-4">
@@ -178,7 +178,7 @@ export default function Settings() {
                 rows={3}
               />
             </div>
-          </Card>
+          </div>
 
           <div className="flex justify-end">
             <Button onClick={saveProfile} loading={saving === 'profile'}>
@@ -190,23 +190,24 @@ export default function Settings() {
       )}
 
       {activeTab === 'notifications' && (
-        <Card>
-          <h3 className="font-bold text-lg mb-4 text-black dark:text-white">
+        <div className="glass-card">
+          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--page-text)' }}>
             {t('settings.notifications.title')}
           </h3>
 
           {pushSupported && (
-            <div className="mb-4 flex items-center justify-between rounded-sm border border-primary/30 bg-primary/5 p-3">
+            <div className="mb-4 flex items-center justify-between rounded-xl border p-3" style={{ borderColor: 'var(--accent-primary)', background: 'var(--sidebar-active-bg)' }}>
               <div>
-                <p className="font-medium text-sm text-black dark:text-white">{t('settings.push.title')}</p>
-                <p className="text-xs text-body dark:text-bodydark">{t('settings.push.desc')}</p>
+                <p className="font-medium text-sm" style={{ color: 'var(--page-text)' }}>{t('settings.push.title')}</p>
+                <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{t('settings.push.desc')}</p>
               </div>
               <button
                 onClick={togglePush}
                 disabled={pushBusy}
                 className={`relative w-12 h-6 rounded-full transition-colors disabled:opacity-60 ${
-                  pushOn ? 'bg-primary' : 'bg-stroke dark:bg-strokedark'
+                  pushOn ? '' : 'opacity-70'
                 }`}
+                style={{ background: pushOn ? 'var(--accent-primary)' : 'var(--card-border)' }}
               >
                 <motion.div animate={{ x: pushOn ? 24 : 2 }} className="absolute top-1 w-4 h-4 rounded-full bg-white" />
               </button>
@@ -219,16 +220,17 @@ export default function Settings() {
               { key: 'messages', label: t('settings.notifications.messages'), desc: t('settings.notifications.messagesDesc') },
               { key: 'teams', label: t('settings.notifications.teams'), desc: t('settings.notifications.teamsDesc') },
             ].map((item) => (
-              <div key={item.key} className="flex items-center justify-between p-3 rounded-sm bg-gray-2 dark:bg-meta-4">
+              <div key={item.key} className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
                 <div>
-                  <p className="font-medium text-sm text-black dark:text-white">{item.label}</p>
-                  <p className="text-xs text-body dark:text-bodydark">{item.desc}</p>
+                  <p className="font-medium text-sm" style={{ color: 'var(--page-text)' }}>{item.label}</p>
+                  <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{item.desc}</p>
                 </div>
                 <button
                   onClick={() => setNotifications({ ...notifications, [item.key]: !notifications[item.key] })}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    notifications[item.key] ? 'bg-primary' : 'bg-stroke dark:bg-strokedark'
+                    notifications[item.key] ? '' : 'opacity-70'
                   }`}
+                  style={{ background: notifications[item.key] ? 'var(--accent-primary)' : 'var(--card-border)' }}
                 >
                   <motion.div
                     animate={{ x: notifications[item.key] ? 24 : 2 }}
@@ -244,12 +246,12 @@ export default function Settings() {
               {t('settings.save')}
             </Button>
           </div>
-        </Card>
+        </div>
       )}
 
       {activeTab === 'privacy' && (
-        <Card>
-          <h3 className="font-bold text-lg mb-4 text-white">
+        <div className="glass-card">
+          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--page-text)' }}>
             {t('settings.privacy.title')}
           </h3>
           <div className="space-y-4">
@@ -259,16 +261,17 @@ export default function Settings() {
               { key: 'showOnline', label: t('settings.privacy.showOnline'), desc: t('settings.privacy.showOnlineDesc') },
               { key: 'allowInvites', label: t('settings.privacy.allowInvites'), desc: t('settings.privacy.allowInvitesDesc') },
             ].map((item) => (
-              <div key={item.key} className="flex items-center justify-between p-3 rounded-sm bg-gray-2 dark:bg-meta-4">
+              <div key={item.key} className="flex items-center justify-between p-3 rounded-xl" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
                 <div>
-                  <p className="font-medium text-sm text-black dark:text-white">{item.label}</p>
-                  <p className="text-xs text-body dark:text-bodydark">{item.desc}</p>
+                  <p className="font-medium text-sm" style={{ color: 'var(--page-text)' }}>{item.label}</p>
+                  <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{item.desc}</p>
                 </div>
                 <button
                   onClick={() => setPrivacy({ ...privacy, [item.key]: !privacy[item.key] })}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
-                    privacy[item.key] ? 'bg-primary' : 'bg-stroke dark:bg-strokedark'
+                    privacy[item.key] ? '' : 'opacity-70'
                   }`}
+                  style={{ background: privacy[item.key] ? 'var(--accent-primary)' : 'var(--card-border)' }}
                 >
                   <motion.div
                     animate={{ x: privacy[item.key] ? 24 : 2 }}
@@ -279,8 +282,8 @@ export default function Settings() {
             ))}
           </div>
 
-          <div className="mt-8 pt-6 border-t border-stroke dark:border-strokedark">
-            <h4 className="text-danger font-bold mb-3">{t('settings.privacy.dangerZone')}</h4>
+          <div className="mt-8 pt-6" style={{ borderTop: '1px solid var(--card-border)' }}>
+            <h4 className="font-bold mb-3 text-red-400">{t('settings.privacy.dangerZone')}</h4>
             <Button variant="danger" onClick={() => setShowDelete(true)}>
               <Trash2 size={16} />
               {t('settings.privacy.deleteAccount')}
@@ -293,65 +296,117 @@ export default function Settings() {
               {t('settings.save')}
             </Button>
           </div>
-        </Card>
+        </div>
       )}
 
       {activeTab === 'appearance' && (
-        <Card>
-          <h3 className="font-bold text-lg mb-4 text-white">
+        <div className="glass-card">
+          <h3 className="font-bold text-lg mb-4" style={{ color: 'var(--page-text)' }}>
             {t('settings.appearance.title')}
           </h3>
 
           <div className="space-y-6">
-            <div className="flex items-center justify-between p-4 rounded-sm bg-gray-2 dark:bg-meta-4">
+            {/* Theme variant selector */}
+            <div className="p-4 rounded-xl" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
+              <p className="text-sm font-medium mb-3" style={{ color: 'var(--page-text)' }}>Theme</p>
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { id: 'default', label: 'Default', icon: '🎮', desc: 'Original MLBB Togo' },
+                  { id: 'esports-gold', label: 'Esports Gold', icon: '🏆', desc: 'Gold & Bronze' },
+                  { id: 'night', label: 'Night', icon: '🌙', desc: 'Night brightness' },
+                ].map((th) => (
+                  <button
+                    key={th.id}
+                    onClick={() => setThemeVariant(th.id)}
+                    className={`p-3 rounded-xl border text-left transition-all duration-200 ${
+                      themeVariant === th.id ? 'border-opacity-80' : 'opacity-70 hover:opacity-100'
+                    }`}
+                    style={{
+                      borderColor: themeVariant === th.id ? 'var(--accent-primary)' : 'var(--card-border)',
+                      background: themeVariant === th.id ? 'var(--sidebar-active-bg)' : 'var(--card-bg)',
+                    }}
+                  >
+                    <span className="text-xl mb-1 block">{th.icon}</span>
+                    <p className="text-xs font-bold" style={{ color: 'var(--page-text)' }}>{th.label}</p>
+                    <p className="text-[10px]" style={{ color: 'var(--sidebar-text)' }}>{th.desc}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Light / Dark toggle */}
+            <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
               <div className="flex items-center gap-3">
-                {theme === 'dark' ? <Moon size={20} className="text-primary" /> : <Sun size={20} className="text-warning" />}
+                {theme === 'dark' ? <Moon size={20} style={{ color: 'var(--accent-primary)' }} /> : <Sun size={20} style={{ color: 'var(--badge-warning-text)' }} />}
                 <div>
-                  <p className="font-medium text-sm text-black dark:text-white">
-                    {t('settings.appearance.darkTheme')}
+                  <p className="font-medium text-sm" style={{ color: 'var(--page-text)' }}>
+                    {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
                   </p>
-                  <p className="text-xs text-body dark:text-bodydark">
-                    {theme === 'dark' ? t('settings.appearance.darkDesc') : t('settings.appearance.lightDesc')}
+                  <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>
+                    {theme === 'dark' ? 'Thème sombre activé' : 'Thème clair activé'}
                   </p>
                 </div>
               </div>
               <button
                 onClick={toggleTheme}
-                className={`relative w-14 h-7 rounded-full transition-colors ${
-                  theme === 'dark' ? 'bg-primary' : 'bg-warning'
-                }`}
+                className="relative w-14 h-7 rounded-full transition-colors"
+                style={{ background: theme === 'dark' ? 'var(--accent-primary)' : 'var(--card-border)' }}
               >
                 <motion.div
                   animate={{ x: theme === 'dark' ? 28 : 2 }}
                   className="absolute top-1 w-5 h-5 rounded-full bg-white flex items-center justify-center"
                 >
-                  {theme === 'dark' ? <Moon size={12} className="text-primary" /> : <Sun size={12} className="text-warning" />}
+                  {theme === 'dark' ? <Moon size={12} className="text-blue-600" /> : <Sun size={12} className="text-yellow-600" />}
                 </motion.div>
               </button>
             </div>
 
+            {/* Night brightness slider */}
+            {themeVariant === 'night' && (
+              <div className="p-4 rounded-xl" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-medium" style={{ color: 'var(--page-text)' }}>Night Brightness</p>
+                  <span className="text-xs font-bold" style={{ color: 'var(--accent-primary)' }}>{Math.round(brightness * 100)}%</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.4"
+                  max="1.4"
+                  step="0.05"
+                  value={brightness}
+                  onChange={(e) => setBrightness(parseFloat(e.target.value))}
+                  className="w-full h-2 rounded-full appearance-none cursor-pointer"
+                  style={{ background: 'var(--card-border)' }}
+                />
+                <div className="flex justify-between mt-1">
+                  <span className="text-[10px]" style={{ color: 'var(--sidebar-text)' }}>Dimmer</span>
+                  <span className="text-[10px]" style={{ color: 'var(--sidebar-text)' }}>Brighter</span>
+                </div>
+              </div>
+            )}
+
             <div>
-              <p className="text-sm text-body dark:text-bodydark mb-3">{t('settings.appearance.preview')}</p>
+              <p className="text-sm mb-3" style={{ color: 'var(--sidebar-text)' }}>{t('settings.appearance.preview')}</p>
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-sm border bg-white border-stroke shadow-default dark:bg-boxdark dark:border-strokedark">
+                <div className="glass-card !p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-sm bg-primary" />
+                    <div className="w-8 h-8 rounded-lg" style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' }} />
                     <div>
-                      <p className="text-sm font-bold text-black dark:text-white">{t('settings.appearance.previewCard')}</p>
-                      <p className="text-xs text-body dark:text-bodydark">{t('settings.appearance.previewStyle')}</p>
+                      <p className="text-sm font-bold" style={{ color: 'var(--page-text)' }}>{t('settings.appearance.previewCard')}</p>
+                      <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{t('settings.appearance.previewStyle')}</p>
                     </div>
                   </div>
                 </div>
-                <div className="p-4 rounded-sm bg-primary/10 border border-primary/30">
+                <div className="glass-card !p-4" style={{ borderColor: 'var(--accent-primary)' }}>
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant="neon" size="sm">{t('settings.appearance.previewGlow')}</Badge>
                   </div>
-                  <p className="text-sm text-black dark:text-white font-bold">{t('settings.appearance.previewEffect')}</p>
+                  <p className="text-sm font-bold" style={{ color: 'var(--page-text)' }}>{t('settings.appearance.previewEffect')}</p>
                 </div>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {/* Confirmation de suppression du compte */}

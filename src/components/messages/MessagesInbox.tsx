@@ -259,24 +259,24 @@ export default function MessagesInbox() {
   const renderTicks = (m: any) => {
     if (m.status === 'pending') return <Clock size={13} className="opacity-70" />;
     if (m.status === 'failed')
-      return <span className="text-[11px] font-bold text-danger">!</span>;
-    if (m.readAt) return <CheckCheck size={15} className="text-sky-400" />;
+      return <span className="text-[11px] font-bold" style={{ color: 'var(--badge-danger-text)' }}>!</span>;
+    if (m.readAt) return <CheckCheck size={15} style={{ color: 'var(--accent-primary)' }} />;
     return <CheckCheck size={15} className="opacity-60" />;
   };
 
   return (
     <div className="h-[calc(100vh-186px)] overflow-hidden sm:h-[calc(100vh-174px)]">
-      <div className="h-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark xl:flex">
+      <div className="h-full rounded-xl border shadow-sm xl:flex" style={{ background: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
         {/* Left column: conversation list */}
         <div
           className={`${
             panelOpen ? 'hidden' : 'flex'
           } h-full flex-col xl:flex xl:w-1/4`}
         >
-          <div className="sticky border-b border-stroke px-6 py-7.5 dark:border-strokedark">
-            <h3 className="text-lg font-medium text-black dark:text-white 2xl:text-xl">
+          <div className="sticky border-b px-6 py-7.5" style={{ borderColor: 'var(--card-border)' }}>
+            <h3 className="text-lg font-medium 2xl:text-xl" style={{ color: 'var(--page-text)' }}>
               {t('messages.conversations')}
-              <span className="rounded-md border-[.5px] border-stroke bg-gray-2 px-2 py-0.5 text-base font-medium text-black dark:border-strokedark dark:bg-boxdark-2 dark:text-white 2xl:ml-4">
+              <span className="rounded-xl border px-2 py-0.5 text-base font-medium 2xl:ml-4" style={{ background: 'var(--surface-bg)', borderColor: 'var(--card-border)', color: 'var(--page-text)' }}>
                 {threads.length}
               </span>
             </h3>
@@ -290,10 +290,11 @@ export default function MessagesInbox() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full rounded border border-stroke bg-gray-2 py-2.5 pl-5 pr-10 text-sm text-black outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2 dark:text-white"
+                  className="w-full rounded-xl border py-2.5 pl-5 pr-10 text-sm outline-none focus:border-opacity-80"
+                  style={{ background: 'var(--surface-bg)', borderColor: 'var(--card-border)', color: 'var(--page-text)' }}
                   placeholder={t('messages.search')}
                 />
-                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-bodydark2">
+                <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--sidebar-text)' }}>
                   <Search size={18} />
                 </span>
               </div>
@@ -302,10 +303,10 @@ export default function MessagesInbox() {
             {/* Thread list */}
             {loading ? (
               <div className="flex items-center justify-center py-10">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-stroke border-t-primary dark:border-strokedark dark:border-t-primary" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2" style={{ borderColor: 'var(--card-border)' }} />
               </div>
             ) : visibleThreads.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-2 px-4 py-12 text-center text-sm text-bodydark2">
+              <div className="flex flex-col items-center justify-center gap-2 px-4 py-12 text-center text-sm" style={{ color: 'var(--sidebar-text)' }}>
                 <MessageSquare size={28} className="opacity-50" />
                 {t('messages.none')}
               </div>
@@ -326,9 +327,10 @@ export default function MessagesInbox() {
                           openThread(th.id);
                         }
                       }}
-                      className={`flex cursor-pointer items-center rounded px-4 py-2 hover:bg-gray-2 dark:hover:bg-strokedark ${
-                        active ? 'bg-gray-2 dark:bg-strokedark' : ''
+                      className={`flex cursor-pointer items-center rounded-xl px-4 py-2 transition-colors duration-200 ${
+                        active ? '' : ''
                       }`}
+                      style={{ background: active ? 'var(--surface-bg)' : 'transparent' }}
                     >
                       <div className="relative mr-3.5 h-11 w-11 shrink-0 rounded-full">
                         {o?.avatar ? (
@@ -340,26 +342,26 @@ export default function MessagesInbox() {
                             className="h-full w-full rounded-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
+                          <div className="flex h-full w-full items-center justify-center rounded-full text-sm font-bold" style={{ background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}>
                             {initialOf(o)}
                           </div>
                         )}
                         {o?.id && online.has(o.id) && (
-                          <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2 border-gray-2 bg-success" />
+                          <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full border-2" style={{ background: 'var(--badge-success-text)', borderColor: 'var(--surface-bg)' }} />
                         )}
                       </div>
                       <div className="w-full min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <h5 className="truncate text-sm font-medium text-black dark:text-white">
+                          <h5 className="truncate text-sm font-medium" style={{ color: 'var(--page-text)' }}>
                             {nameOf(o) || th.subject || ''}
                           </h5>
                           {isStaff(o?.roleUser) && (
-                            <span className="inline-flex shrink-0 items-center gap-0.5 rounded bg-meta-5/10 px-1 py-0.5 text-[9px] font-bold uppercase text-meta-5">
+                            <span className="inline-flex shrink-0 items-center gap-0.5 rounded-lg px-1 py-0.5 text-[9px] font-bold uppercase" style={{ background: 'rgba(245, 158, 11, 0.1)', color: 'var(--badge-warning-text)' }}>
                               <Shield size={9} /> {o.roleUser}
                             </span>
                           )}
                         </div>
-                        <p className="truncate text-sm font-medium text-body dark:text-bodydark">
+                        <p className="truncate text-sm font-medium" style={{ color: 'var(--sidebar-text)' }}>
                           {th.lastMessage?.body || ''}
                         </p>
                       </div>
@@ -375,17 +377,18 @@ export default function MessagesInbox() {
         <div
           className={`${
             panelOpen ? 'flex' : 'hidden'
-          } h-full flex-col border-l border-stroke dark:border-strokedark xl:flex xl:w-3/4`}
+          } h-full flex-col border-l xl:flex xl:w-3/4`}
+          style={{ borderColor: 'var(--card-border)' }}
         >
           {!panelOpen ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-2 text-sm text-bodydark2">
+            <div className="flex flex-1 flex-col items-center justify-center gap-2 text-sm" style={{ color: 'var(--sidebar-text)' }}>
               <MessageSquare size={32} className="opacity-50" />
               {t('messages.empty')}
             </div>
           ) : (
             <>
               {/* Header */}
-              <div className="sticky flex items-center justify-between border-b border-stroke px-6 py-4.5 dark:border-strokedark">
+              <div className="sticky flex items-center justify-between border-b px-6 py-4.5" style={{ borderColor: 'var(--card-border)' }}>
                 <div className="flex items-center">
                   <button
                     type="button"
@@ -394,7 +397,8 @@ export default function MessagesInbox() {
                       setThread(null);
                       setDraftPeer(null);
                     }}
-                    className="mr-3 rounded-md p-1.5 text-body hover:bg-gray-2 dark:text-bodydark dark:hover:bg-meta-4 xl:hidden"
+                    className="mr-3 rounded-xl p-1.5 transition-colors duration-200 xl:hidden"
+                    style={{ color: 'var(--sidebar-text)' }}
                     aria-label={t('messages.title')}
                   >
                     <ArrowLeft size={18} />
@@ -409,19 +413,19 @@ export default function MessagesInbox() {
                         className="h-full w-full rounded-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center rounded-full bg-primary text-base font-bold text-white">
+                      <div className="flex h-full w-full items-center justify-center rounded-full text-base font-bold" style={{ background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}>
                         {initialOf(headerPeer)}
                       </div>
                     )}
                     {headerPeer?.id && online.has(headerPeer.id) && (
-                      <span className="absolute bottom-0 right-0 block h-3.5 w-3.5 rounded-full border-2 border-white bg-success dark:border-boxdark" />
+                      <span className="absolute bottom-0 right-0 block h-3.5 w-3.5 rounded-full border-2" style={{ background: 'var(--badge-success-text)', borderColor: 'var(--card-bg)' }} />
                     )}
                   </div>
                   <div className="min-w-0">
-                    <h5 className="truncate font-medium text-black dark:text-white">
+                    <h5 className="truncate font-medium" style={{ color: 'var(--page-text)' }}>
                       {nameOf(headerPeer) || thread?.subject || ''}
                     </h5>
-                    <p className="text-sm font-medium text-body dark:text-bodydark">
+                    <p className="text-sm font-medium" style={{ color: 'var(--sidebar-text)' }}>
                       {t('messages.replyTo')}
                     </p>
                   </div>
@@ -435,13 +439,13 @@ export default function MessagesInbox() {
               >
                 {!thread ? (
                   draftPeer ? (
-                    <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-sm text-bodydark2">
+                    <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-sm" style={{ color: 'var(--sidebar-text)' }}>
                       <MessageSquare size={28} className="opacity-50" />
                       {t('messages.startWith', { name: draftPeer.name })}
                     </div>
                   ) : (
                     <div className="flex items-center justify-center py-10">
-                      <div className="h-8 w-8 animate-spin rounded-full border-2 border-stroke border-t-primary dark:border-strokedark dark:border-t-primary" />
+                      <div className="h-8 w-8 animate-spin rounded-full border-2" style={{ borderColor: 'var(--card-border)' }} />
                     </div>
                   )
                 ) : (
@@ -450,15 +454,16 @@ export default function MessagesInbox() {
                       // Sent message
                       <div key={m.id} className="ml-auto max-w-[31.25rem]">
                         <div
-                          className={`mb-2.5 rounded-2xl rounded-br-none bg-primary px-5 py-3 ${
+                          className={`mb-2.5 rounded-2xl rounded-br-none px-5 py-3 ${
                             m.status === 'pending' ? 'opacity-80' : ''
                           }`}
+                          style={{ background: 'var(--accent-primary)' }}
                         >
-                          <p className="whitespace-pre-wrap break-words font-medium text-white">
+                          <p className="whitespace-pre-wrap break-words font-medium" style={{ color: 'var(--badge-success-text)' }}>
                             {m.body}
                           </p>
                         </div>
-                        <div className="flex items-center justify-end gap-1 text-xs font-medium text-body dark:text-bodydark">
+                        <div className="flex items-center justify-end gap-1 text-xs font-medium" style={{ color: 'var(--sidebar-text)' }}>
                           {fmtTime(m.createdAt)}
                           {renderTicks(m)}
                         </div>
@@ -466,15 +471,15 @@ export default function MessagesInbox() {
                     ) : (
                       // Received message
                       <div key={m.id} className="max-w-[31.25rem]">
-                        <p className="mb-2.5 text-sm font-medium text-black dark:text-white">
+                        <p className="mb-2.5 text-sm font-medium" style={{ color: 'var(--page-text)' }}>
                           {nameOf(other) || thread?.subject || ''}
                         </p>
-                        <div className="mb-2.5 rounded-2xl rounded-tl-none bg-gray px-5 py-3 dark:bg-boxdark-2">
-                          <p className="whitespace-pre-wrap break-words font-medium text-black dark:text-white">
+                        <div className="mb-2.5 rounded-2xl rounded-tl-none px-5 py-3" style={{ background: 'var(--surface-bg)' }}>
+                          <p className="whitespace-pre-wrap break-words font-medium" style={{ color: 'var(--page-text)' }}>
                             {m.body}
                           </p>
                         </div>
-                        <p className="text-xs font-medium text-body dark:text-bodydark">
+                        <p className="text-xs font-medium" style={{ color: 'var(--sidebar-text)' }}>
                           {fmtTime(m.createdAt)}
                         </p>
                       </div>
@@ -484,7 +489,7 @@ export default function MessagesInbox() {
               </div>
 
               {/* Composer */}
-              <div className="sticky bottom-0 border-t border-stroke bg-white px-6 py-5 dark:border-strokedark dark:bg-boxdark">
+              <div className="sticky bottom-0 border-t px-6 py-5" style={{ borderColor: 'var(--card-border)', background: 'var(--card-bg)' }}>
                 <form
                   className="flex items-center justify-between space-x-4.5"
                   onSubmit={(e) => {
@@ -498,14 +503,16 @@ export default function MessagesInbox() {
                       value={text}
                       onChange={(e) => setText(e.target.value)}
                       placeholder={t('messages.placeholder')}
-                      className="h-13 w-full rounded-md border border-stroke bg-gray pl-5 pr-19 font-medium text-black placeholder-body outline-none focus:border-primary dark:border-strokedark dark:bg-boxdark-2 dark:text-white"
+                      className="h-13 w-full rounded-xl border py-2.5 pl-5 pr-19 font-medium outline-none focus:border-opacity-80"
+                      style={{ background: 'var(--surface-bg)', borderColor: 'var(--card-border)', color: 'var(--page-text)' }}
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={!text.trim()}
                     aria-label={t('messages.send')}
-                    className="flex h-13 w-13 items-center justify-center rounded-md bg-primary text-white hover:bg-opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-13 w-13 items-center justify-center rounded-xl transition-opacity duration-200 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    style={{ background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}
                   >
                     <Send size={18} />
                   </button>

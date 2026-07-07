@@ -37,9 +37,14 @@ function TeamCard({ tm, accent }: { tm: EsportTeam; accent: string }) {
   return (
     <Link
       href={`/teams/${tm.id}`}
-      className="group block overflow-hidden rounded-sm border border-stroke bg-white shadow-default transition-colors hover:border-primary dark:border-strokedark dark:bg-boxdark"
+      className="group block overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1"
+      style={{
+        background: 'var(--card-bg)',
+        borderColor: 'var(--card-border)',
+        boxShadow: 'var(--shadow-card)',
+      }}
     >
-      <div className="relative aspect-video w-full overflow-hidden bg-gray-2 dark:bg-meta-4">
+      <div className="relative aspect-video w-full overflow-hidden" style={{ background: 'var(--surface-bg)' }}>
         {tm.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -49,8 +54,8 @@ function TeamCard({ tm, accent }: { tm: EsportTeam; accent: string }) {
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Shield size={40} className="text-bodydark2" />
+          <div className="w-full h-full flex items-center justify-center" style={{ color: 'var(--sidebar-text)' }}>
+            <Shield size={40} />
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 h-1" style={{ backgroundColor: accent }} />
@@ -58,9 +63,9 @@ function TeamCard({ tm, accent }: { tm: EsportTeam; accent: string }) {
       <div className="flex items-center justify-between gap-2 p-3">
         <div className="flex items-center gap-2 min-w-0">
           <Shield size={16} style={{ color: accent }} className="shrink-0" />
-          <p className="truncate text-sm font-medium text-black dark:text-white">{tm.name}</p>
+          <p className="truncate text-sm font-medium" style={{ color: 'var(--page-text)' }}>{tm.name}</p>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1 text-xs text-body dark:text-bodydark">
+        <span className="inline-flex shrink-0 items-center gap-1 text-xs" style={{ color: 'var(--sidebar-text)' }}>
           <Users size={13} /> {tm.memberCount ?? 0}
         </span>
       </div>
@@ -138,7 +143,11 @@ export default function TeamsPage() {
             </Button>
             <Link
               href="/my-requests"
-              className="inline-flex shrink-0 items-center rounded-md border border-stroke px-3 py-1.5 text-xs font-medium text-body transition-colors hover:border-primary hover:text-primary dark:border-strokedark dark:text-bodydark"
+              className="inline-flex shrink-0 items-center rounded-lg border px-3 py-1.5 text-xs font-medium transition-all duration-200 hover:border-opacity-80"
+              style={{
+                borderColor: 'var(--card-border)',
+                color: 'var(--sidebar-text)',
+              }}
             >
               {t('requests.mine')}
             </Link>
@@ -148,23 +157,22 @@ export default function TeamsPage() {
 
       {/* Esport organisation */}
       {org && (
-        <SectionCard className="flex items-center gap-4">
+        <div className="section-card flex items-center gap-4">
           {org.logo && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={org.logo}
               alt={org.name}
               referrerPolicy="no-referrer"
-              className="h-16 w-16 rounded-sm bg-gray-2 object-contain p-1 dark:bg-meta-4"
+              className="h-16 w-16 rounded-lg object-contain p-1"
+              style={{ background: 'var(--surface-bg)' }}
             />
           )}
           <div className="min-w-0">
-            <h2 className="text-lg font-bold" style={{ color: accent }}>
-              {org.name}
-            </h2>
-            {org.description && <p className="mt-0.5 text-sm text-body dark:text-bodydark">{t('teams.orgDesc')}</p>}
+            <h2 className="text-lg font-bold" style={{ color: accent }}>{org.name}</h2>
+            {org.description && <p className="mt-0.5 text-sm" style={{ color: 'var(--sidebar-text)' }}>{t('teams.orgDesc')}</p>}
           </div>
-        </SectionCard>
+        </div>
       )}
 
       {/* Tabs + search */}
@@ -180,7 +188,8 @@ export default function TeamsPage() {
         <div className="relative w-full sm:w-72">
           <Search
             size={16}
-            className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-bodydark2"
+            className="absolute left-3 top-1/2 z-10 -translate-y-1/2"
+            style={{ color: 'var(--sidebar-text)' }}
           />
           <Input
             value={query}

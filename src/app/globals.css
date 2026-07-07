@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   FONTS
+   ============================================================ */
+
 /* Satoshi font (TailAdmin dashboard) */
 @font-face {
   font-family: 'Satoshi';
@@ -39,64 +43,348 @@
   font-style: normal;
 }
 
+/* ============================================================
+   CSS VARIABLES - THEME SYSTEM
+   ============================================================ */
+
 @layer base {
   :root {
-    --color-neon-blue: #00d4ff;
-    --color-neon-purple: #a855f7;
-    --color-neon-pink: #ec4899;
-    --color-gaming-dark: #0a0a1a;
-    --color-gaming-darker: #050510;
-    --color-gaming-card: #12122a;
-    --color-gaming-border: #1e1e3f;
-    --color-gaming-surface: #1a1a3e;
-
-    /* Driven palette (RGB triplets) - DARK values by default. */
-    --gaming-dark: 10 10 26;
-    --gaming-darker: 5 5 16;
-    --gaming-card: 18 18 42;
-    --gaming-border: 30 30 63;
-    --gaming-surface: 26 26 62;
-    --page-bg: #0a0a1a;
-    --page-text: #e2e8f0;
-  }
-
-  /* DARK theme (.dark class present on <html>). */
-  .dark {
-    --gaming-dark: 10 10 26;
-    --gaming-darker: 5 5 16;
-    --gaming-card: 18 18 42;
-    --gaming-border: 30 30 63;
-    --gaming-surface: 26 26 62;
-    --page-bg: #0a0a1a;
-    --page-text: #e2e8f0;
-  }
-
-  /* LIGHT theme (no .dark class). */
-  html:not(.dark) {
-    --gaming-dark: 243 244 248;
-    --gaming-darker: 248 250 252;
-    --gaming-card: 255 255 255;
-    --gaming-border: 226 232 240;
-    --gaming-surface: 241 245 249;
+    /* Light theme fallback */
     --page-bg: #f3f4f8;
     --page-text: #0f172a;
+    --card-bg: #ffffff;
+    --card-border: #e2e8f0;
+    --card-hover-border: #6366f1;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --input-focus-border: #6366f1;
+    --input-text: #0f172a;
+    --input-placeholder: #94a3b8;
+    --surface-bg: #f1f5f9;
+    --surface-border: #e2e8f0;
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #475569;
+    --sidebar-active-bg: rgba(99, 102, 241, 0.1);
+    --sidebar-active-text: #4f46e5;
+    --sidebar-hover-bg: #f8fafc;
+    --header-bg: #ffffff;
+    --header-border: #e2e8f0;
+    --header-text: #0f172a;
+    --badge-primary-bg: rgba(99, 102, 241, 0.1);
+    --badge-primary-text: #4f46e5;
+    --badge-success-bg: rgba(34, 197, 94, 0.1);
+    --badge-success-text: #16a34a;
+    --badge-danger-bg: rgba(239, 68, 68, 0.1);
+    --badge-danger-text: #dc2626;
+    --badge-warning-bg: rgba(245, 158, 11, 0.1);
+    --badge-warning-text: #d97706;
+    --badge-gold-bg: rgba(212, 168, 67, 0.15);
+    --badge-gold-text: #b8941f;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.15);
+    --badge-bronze-text: #a85d1a;
+    --badge-silver-bg: rgba(148, 163, 184, 0.15);
+    --badge-silver-text: #64748b;
+    --accent-primary: #6366f1;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(99, 102, 241, 0.4);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.3);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: #cbd5e1;
+    --scrollbar-track: #f1f5f9;
+    --overlay-bg: rgba(0, 0, 0, 0.4);
   }
 
+  /* ============================================================
+     THEME 1: DEFAULT (Original MLBB Togo)
+     ============================================================ */
+  html.dark {
+    --page-bg: #060612;
+    --page-text: #e2e8f0;
+    --card-bg: rgba(15, 15, 42, 0.8);
+    --card-border: rgba(0, 212, 255, 0.12);
+    --card-hover-border: rgba(0, 212, 255, 0.4);
+    --input-bg: rgba(15, 15, 42, 0.9);
+    --input-border: rgba(30, 30, 63, 0.8);
+    --input-focus-border: rgba(0, 212, 255, 0.6);
+    --input-text: #e2e8f0;
+    --input-placeholder: #64748b;
+    --surface-bg: rgba(26, 26, 62, 0.6);
+    --surface-border: rgba(30, 30, 63, 0.8);
+    --sidebar-bg: rgba(10, 10, 26, 0.95);
+    --sidebar-text: #94a3b8;
+    --sidebar-active-bg: rgba(0, 212, 255, 0.1);
+    --sidebar-active-text: #00d4ff;
+    --sidebar-hover-bg: rgba(0, 212, 255, 0.05);
+    --header-bg: rgba(15, 15, 42, 0.9);
+    --header-border: rgba(30, 30, 63, 0.8);
+    --header-text: #e2e8f0;
+    --badge-primary-bg: rgba(0, 212, 255, 0.12);
+    --badge-primary-text: #00d4ff;
+    --badge-success-bg: rgba(34, 197, 94, 0.12);
+    --badge-success-text: #22c55e;
+    --badge-danger-bg: rgba(239, 68, 68, 0.12);
+    --badge-danger-text: #ef4444;
+    --badge-warning-bg: rgba(245, 158, 11, 0.12);
+    --badge-warning-text: #f59e0b;
+    --badge-gold-bg: rgba(245, 158, 11, 0.12);
+    --badge-gold-text: #fbbf24;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.12);
+    --badge-bronze-text: #cd7f32;
+    --badge-silver-bg: rgba(148, 163, 184, 0.12);
+    --badge-silver-text: #94a3b8;
+    --accent-primary: #00d4ff;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(0, 212, 255, 0.5);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.4);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: rgba(0, 212, 255, 0.4);
+    --scrollbar-track: rgba(10, 10, 26, 0.8);
+    --overlay-bg: rgba(0, 0, 0, 0.6);
+  }
+
+  /* ============================================================
+     THEME 2: ESPORTS GOLD
+     ============================================================ */
+  html.theme-esports-gold {
+    --page-bg: #faf8f5;
+    --page-text: #1a1a1a;
+    --card-bg: #ffffff;
+    --card-border: rgba(212, 168, 67, 0.2);
+    --card-hover-border: rgba(212, 168, 67, 0.45);
+    --input-bg: #ffffff;
+    --input-border: rgba(212, 168, 67, 0.25);
+    --input-focus-border: rgba(212, 168, 67, 0.6);
+    --input-text: #1a1a1a;
+    --input-placeholder: #78706a;
+    --surface-bg: #f5f0e8;
+    --surface-border: rgba(212, 168, 67, 0.2);
+    --sidebar-bg: #ffffff;
+    --sidebar-text: #78706a;
+    --sidebar-active-bg: rgba(212, 168, 67, 0.1);
+    --sidebar-active-text: #b8941f;
+    --sidebar-hover-bg: rgba(212, 168, 67, 0.05);
+    --header-bg: #ffffff;
+    --header-border: rgba(212, 168, 67, 0.2);
+    --header-text: #1a1a1a;
+    --badge-primary-bg: rgba(212, 168, 67, 0.12);
+    --badge-primary-text: #b8941f;
+    --badge-success-bg: rgba(34, 197, 94, 0.1);
+    --badge-success-text: #16a34a;
+    --badge-danger-bg: rgba(239, 68, 68, 0.1);
+    --badge-danger-text: #dc2626;
+    --badge-warning-bg: rgba(245, 158, 11, 0.1);
+    --badge-warning-text: #d97706;
+    --badge-gold-bg: rgba(212, 168, 67, 0.18);
+    --badge-gold-text: #b8941f;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.15);
+    --badge-bronze-text: #a85d1a;
+    --badge-silver-bg: rgba(148, 163, 184, 0.15);
+    --badge-silver-text: #64748b;
+    --accent-primary: #d4a843;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(212, 168, 67, 0.4);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 15px rgba(212, 168, 67, 0.3);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: rgba(212, 168, 67, 0.4);
+    --scrollbar-track: #f1f5f9;
+    --overlay-bg: rgba(0, 0, 0, 0.4);
+  }
+
+  html.theme-esports-gold.dark {
+    --page-bg: #0a0a0a;
+    --page-text: #f5f0e8;
+    --card-bg: rgba(20, 18, 15, 0.9);
+    --card-border: rgba(212, 168, 67, 0.15);
+    --card-hover-border: rgba(212, 168, 67, 0.45);
+    --input-bg: rgba(20, 18, 15, 0.95);
+    --input-border: rgba(45, 40, 30, 0.8);
+    --input-focus-border: rgba(212, 168, 67, 0.6);
+    --input-text: #f5f0e8;
+    --input-placeholder: #78706a;
+    --surface-bg: rgba(30, 28, 22, 0.6);
+    --surface-border: rgba(45, 40, 30, 0.8);
+    --sidebar-bg: rgba(10, 10, 10, 0.95);
+    --sidebar-text: #a0998c;
+    --sidebar-active-bg: rgba(212, 168, 67, 0.1);
+    --sidebar-active-text: #d4a843;
+    --sidebar-hover-bg: rgba(212, 168, 67, 0.05);
+    --header-bg: rgba(20, 18, 15, 0.9);
+    --header-border: rgba(45, 40, 30, 0.8);
+    --header-text: #f5f0e8;
+    --badge-primary-bg: rgba(212, 168, 67, 0.12);
+    --badge-primary-text: #d4a843;
+    --badge-success-bg: rgba(34, 197, 94, 0.12);
+    --badge-success-text: #22c55e;
+    --badge-danger-bg: rgba(239, 68, 68, 0.12);
+    --badge-danger-text: #ef4444;
+    --badge-warning-bg: rgba(245, 158, 11, 0.12);
+    --badge-warning-text: #f59e0b;
+    --badge-gold-bg: rgba(212, 168, 67, 0.18);
+    --badge-gold-text: #f0d78c;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.15);
+    --badge-bronze-text: #cd7f32;
+    --badge-silver-bg: rgba(148, 163, 184, 0.12);
+    --badge-silver-text: #94a3b8;
+    --accent-primary: #d4a843;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(212, 168, 67, 0.5);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 20px rgba(212, 168, 67, 0.35);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: rgba(212, 168, 67, 0.4);
+    --scrollbar-track: rgba(10, 10, 10, 0.8);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+  }
+
+  /* ============================================================
+     THEME 3: NIGHT BRIGHTNESS
+     ============================================================ */
+  html.theme-night {
+    --page-bg: #f5f0e8;
+    --page-text: #2d2a26;
+    --card-bg: #ffffff;
+    --card-border: rgba(180, 140, 100, 0.2);
+    --card-hover-border: rgba(180, 140, 100, 0.45);
+    --input-bg: #ffffff;
+    --input-border: rgba(180, 140, 100, 0.25);
+    --input-focus-border: rgba(180, 140, 100, 0.6);
+    --input-text: #2d2a26;
+    --input-placeholder: #78706a;
+    --surface-bg: #ebe5d9;
+    --surface-border: rgba(180, 140, 100, 0.2);
+    --sidebar-bg: #f5f0e8;
+    --sidebar-text: #78706a;
+    --sidebar-active-bg: rgba(180, 140, 100, 0.15);
+    --sidebar-active-text: #a08060;
+    --sidebar-hover-bg: rgba(180, 140, 100, 0.05);
+    --header-bg: #f5f0e8;
+    --header-border: rgba(180, 140, 100, 0.2);
+    --header-text: #2d2a26;
+    --badge-primary-bg: rgba(180, 140, 100, 0.12);
+    --badge-primary-text: #a08060;
+    --badge-success-bg: rgba(34, 197, 94, 0.1);
+    --badge-success-text: #16a34a;
+    --badge-danger-bg: rgba(239, 68, 68, 0.1);
+    --badge-danger-text: #dc2626;
+    --badge-warning-bg: rgba(245, 158, 11, 0.1);
+    --badge-warning-text: #d97706;
+    --badge-gold-bg: rgba(180, 140, 100, 0.18);
+    --badge-gold-text: #a08060;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.15);
+    --badge-bronze-text: #a85d1a;
+    --badge-silver-bg: rgba(148, 163, 184, 0.15);
+    --badge-silver-text: #64748b;
+    --accent-primary: #b8941f;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(184, 148, 31, 0.3);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 15px rgba(184, 148, 31, 0.25);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: rgba(180, 140, 100, 0.4);
+    --scrollbar-track: #f1f5f9;
+    --overlay-bg: rgba(0, 0, 0, 0.4);
+  }
+
+  html.theme-night.dark {
+    --page-bg: #0f0d0a;
+    --page-text: #d4cfc7;
+    --card-bg: rgba(20, 18, 15, 0.9);
+    --card-border: rgba(180, 140, 100, 0.12);
+    --card-hover-border: rgba(180, 140, 100, 0.35);
+    --input-bg: rgba(20, 18, 15, 0.95);
+    --input-border: rgba(45, 40, 30, 0.8);
+    --input-focus-border: rgba(180, 140, 100, 0.6);
+    --input-text: #d4cfc7;
+    --input-placeholder: #78706a;
+    --surface-bg: rgba(26, 24, 20, 0.6);
+    --surface-border: rgba(45, 40, 30, 0.8);
+    --sidebar-bg: rgba(10, 10, 8, 0.95);
+    --sidebar-text: #a0988c;
+    --sidebar-active-bg: rgba(180, 140, 100, 0.08);
+    --sidebar-active-text: #c4a868;
+    --sidebar-hover-bg: rgba(180, 140, 100, 0.05);
+    --header-bg: rgba(20, 18, 15, 0.9);
+    --header-border: rgba(45, 40, 30, 0.8);
+    --header-text: #d4cfc7;
+    --badge-primary-bg: rgba(180, 140, 100, 0.12);
+    --badge-primary-text: #c4a868;
+    --badge-success-bg: rgba(34, 197, 94, 0.12);
+    --badge-success-text: #22c55e;
+    --badge-danger-bg: rgba(239, 68, 68, 0.12);
+    --badge-danger-text: #ef4444;
+    --badge-warning-bg: rgba(245, 158, 11, 0.12);
+    --badge-warning-text: #f59e0b;
+    --badge-gold-bg: rgba(180, 140, 100, 0.18);
+    --badge-gold-text: #d4b878;
+    --badge-bronze-bg: rgba(205, 127, 50, 0.15);
+    --badge-bronze-text: #cd7f32;
+    --badge-silver-bg: rgba(148, 163, 184, 0.12);
+    --badge-silver-text: #94a3b8;
+    --accent-primary: #c4a868;
+    --accent-secondary: #a855f7;
+    --accent-glow: rgba(196, 168, 104, 0.4);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.6);
+    --shadow-glow: 0 0 20px rgba(196, 168, 104, 0.3);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --scrollbar-thumb: rgba(180, 140, 100, 0.4);
+    --scrollbar-track: rgba(10, 10, 8, 0.8);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+  }
+
+  html.theme-night {
+    --brightness: 1;
+  }
+
+  html.theme-night body {
+    filter: brightness(var(--brightness, 1));
+  }
+
+  /* ============================================================
+     BASE STYLES
+     ============================================================ */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--color-neon-blue) var(--color-gaming-dark);
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
   *::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
 
   *::-webkit-scrollbar-track {
-    background: var(--color-gaming-dark);
+    background: var(--scrollbar-track);
   }
 
   *::-webkit-scrollbar-thumb {
-    background: var(--color-neon-blue);
+    background: var(--scrollbar-thumb);
     border-radius: 3px;
   }
 
@@ -109,24 +397,62 @@
     background-color: var(--page-bg);
     color: var(--page-text);
     overflow-x: hidden;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   ::selection {
     background: rgba(0, 212, 255, 0.3);
     color: white;
   }
+
+  html.theme-esports-gold ::selection {
+    background: rgba(212, 168, 67, 0.3);
+    color: #0a0a0a;
+  }
+
+  html.theme-night ::selection {
+    background: rgba(180, 140, 100, 0.3);
+    color: #1a1a1a;
+  }
+
+  html.dark .text-gradient {
+    background: linear-gradient(to right, #00d4ff, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html.theme-esports-gold .text-gradient {
+    background: linear-gradient(to right, #d4a843, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html.theme-night .text-gradient {
+    background: linear-gradient(to right, #b8941f, #a08060);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
+/* ============================================================
+   DESIGN SYSTEM COMPONENTS - THEME 1: DARK ESPORTS
+   ============================================================ */
+
 @layer components {
+  /* Buttons */
   .btn-primary {
     @apply relative px-6 py-3 font-semibold text-white rounded-lg overflow-hidden transition-all duration-300;
     background: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
   }
 
   .btn-primary:hover {
     @apply shadow-neon scale-105;
     background: linear-gradient(135deg, #00e5ff 0%, #b975ff 100%);
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.5), 0 0 50px rgba(0, 212, 255, 0.2);
   }
 
   .btn-primary::before {
@@ -140,13 +466,15 @@
   }
 
   .btn-secondary {
-    @apply px-6 py-3 font-semibold text-white rounded-lg border border-neon-blue/30 transition-all duration-300;
+    @apply px-6 py-3 font-semibold text-white rounded-lg border transition-all duration-300;
     background: rgba(0, 212, 255, 0.1);
+    border-color: rgba(0, 212, 255, 0.3);
   }
 
   .btn-secondary:hover {
     @apply border-neon-blue/60 shadow-neon;
     background: rgba(0, 212, 255, 0.2);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
   }
 
   .btn-ghost {
@@ -157,54 +485,100 @@
     @apply text-white bg-white/10;
   }
 
+  /* Cards */
   .card-gaming {
-    @apply rounded-xl border border-gaming-border p-6 transition-all duration-300;
-    background: linear-gradient(135deg, rgba(18, 18, 42, 0.8) 0%, rgba(26, 26, 62, 0.6) 100%);
+    @apply rounded-xl border p-6 transition-all duration-300;
+    background: var(--card-bg);
+    border-color: var(--card-border);
     backdrop-filter: blur(10px);
   }
 
   .card-gaming:hover {
-    @apply border-neon-blue/30 shadow-neon;
+    border-color: var(--card-hover-border);
+    box-shadow: var(--shadow-glow);
     transform: translateY(-2px);
   }
 
+  /* Inputs */
   .input-gaming {
-    @apply w-full px-4 py-3 rounded-lg border border-gaming-border bg-gaming-card text-white placeholder-gray-500 transition-all duration-300 focus:outline-none focus:border-neon-blue/50 focus:shadow-neon;
+    @apply w-full px-4 py-3 rounded-lg border transition-all duration-300 focus:outline-none;
+    background: var(--input-bg);
+    border-color: var(--input-border);
+    color: var(--input-text);
+  }
+
+  .input-gaming::placeholder {
+    color: var(--input-placeholder);
   }
 
   .input-gaming:focus {
-    background: rgba(18, 18, 42, 0.9);
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 15px var(--accent-glow);
   }
 
+  /* Badges */
   .badge {
     @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
   }
 
   .badge-gold {
-    @apply badge bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+    @apply badge;
+    background: var(--badge-gold-bg);
+    color: var(--badge-gold-text);
+    border: 1px solid rgba(212, 168, 67, 0.2);
   }
 
   .badge-silver {
-    @apply badge bg-gray-400/20 text-gray-300 border border-gray-400/30;
+    @apply badge;
+    background: var(--badge-silver-bg);
+    color: var(--badge-silver-text);
+    border: 1px solid rgba(148, 163, 184, 0.2);
   }
 
   .badge-bronze {
-    @apply badge bg-orange-500/20 text-orange-400 border border-orange-500/30;
+    @apply badge;
+    background: var(--badge-bronze-bg);
+    color: var(--badge-bronze-text);
+    border: 1px solid rgba(205, 127, 50, 0.2);
   }
 
   .badge-neon {
-    @apply badge bg-neon-blue/20 text-neon-blue border border-neon-blue/30;
+    @apply badge;
+    background: var(--badge-primary-bg);
+    color: var(--badge-primary-text);
+    border: 1px solid rgba(0, 212, 255, 0.2);
   }
 
   .badge-purple {
-    @apply badge bg-neon-purple/20 text-neon-purple border border-neon-purple/30;
+    @apply badge;
+    background: rgba(168, 85, 247, 0.12);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.2);
   }
 
+  /* Text gradient */
   .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #00d4ff 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
+  html.theme-esports-gold .text-gradient {
+    background: linear-gradient(135deg, #d4a843 0%, #f0d78c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  html.theme-night .text-gradient {
+    background: linear-gradient(135deg, #b8941f 0%, #d4b878 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Grid background */
   .bg-grid {
     background-image:
       linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
@@ -212,37 +586,407 @@
     background-size: 50px 50px;
   }
 
+html.theme-esports-gold .bg-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(212, 168, 67, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(212, 168, 67, 0.05) 1px, transparent 1px);
+}
+
+html.theme-night .bg-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(180, 140, 100, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(180, 140, 100, 0.05) 1px, transparent 1px);
+}
+
+  /* Glow line */
   .glow-line {
     @apply h-px;
-    background: linear-gradient(90deg, transparent 0%, var(--color-neon-blue) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0%, var(--accent-primary) 50%, transparent 100%);
   }
 
+  /* Stat card */
   .stat-card {
     @apply card-gaming flex flex-col items-center justify-center p-4 text-center;
   }
 
+  /* Navigation link */
   .nav-link {
-    @apply relative px-4 py-2 text-sm font-medium text-gray-400 transition-all duration-300 rounded-lg;
+    @apply relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg;
+    color: var(--sidebar-text);
   }
 
   .nav-link:hover,
   .nav-link.active {
-    @apply text-neon-blue bg-neon-blue/10;
+    color: var(--sidebar-active-text);
+    background: var(--sidebar-active-bg);
   }
 
   .nav-link.active::after {
     content: '';
-    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full bg-neon-blue;
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 rounded-full;
+    background: var(--accent-primary);
   }
 
+  /* Skeleton */
   .skeleton {
-    @apply animate-pulse rounded bg-gaming-surface;
+    @apply animate-pulse rounded;
+    background: var(--surface-bg);
   }
 
+  /* Tooltip */
   .tooltip-gaming {
-    @apply absolute z-50 px-3 py-2 text-xs text-white bg-gaming-card border border-gaming-border rounded-lg shadow-gaming;
+    @apply absolute z-50 px-3 py-2 text-xs text-white rounded-lg;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Glass card */
+  .glass-card {
+    @apply rounded-xl border p-6 transition-all duration-300;
+    background: var(--card-bg);
+    border-color: var(--card-border);
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-card:hover {
+    border-color: var(--card-hover-border);
+    box-shadow: var(--shadow-glow);
+    transform: translateY(-3px);
+  }
+
+  /* Surface */
+  .surface {
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+  }
+
+  /* Section card */
+  .section-card {
+    @apply rounded-xl border p-6 transition-all duration-300;
+    background: var(--card-bg);
+    border-color: var(--card-border);
+  }
+
+  /* Page header */
+  .page-header {
+    @apply mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between;
+  }
+
+  .page-header-title {
+    @apply text-2xl font-bold tracking-tight;
+    color: var(--page-text);
+  }
+
+  .page-header-subtitle {
+    @apply mt-1 text-sm;
+    color: var(--sidebar-text);
+  }
+
+  /* Dropdown */
+  .dropdown-panel {
+    @apply rounded-xl border shadow-xl overflow-hidden;
+    background: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Table */
+  .table-gaming {
+    @apply w-full text-left text-sm;
+  }
+
+  .table-gaming thead {
+    @apply border-b;
+    border-color: var(--card-border);
+  }
+
+  .table-gaming th {
+    @apply py-3 pr-4 font-medium text-xs uppercase tracking-wider;
+    color: var(--sidebar-text);
+  }
+
+  .table-gaming tbody tr {
+    @apply border-b transition-colors duration-200;
+    border-color: var(--card-border);
+  }
+
+  .table-gaming tbody tr:hover {
+    background: var(--surface-bg);
+  }
+
+  .table-gaming td {
+    @apply py-3 pr-4;
+  }
+
+  /* Tabs */
+  .tabs-gaming {
+    @apply inline-flex rounded-lg p-1;
+    background: var(--surface-bg);
+    border: 1px solid var(--surface-border);
+  }
+
+  .tab-item {
+    @apply flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-all duration-200;
+    color: var(--sidebar-text);
+  }
+
+  .tab-item:hover {
+    color: var(--page-text);
+    background: var(--sidebar-hover-bg);
+  }
+
+  .tab-item.active {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  /* Pagination */
+  .pagination-gaming {
+    @apply inline-flex items-center gap-1;
+  }
+
+  .pagination-btn {
+    @apply flex items-center justify-center w-9 h-9 rounded-lg text-sm font-medium transition-all duration-200;
+    color: var(--sidebar-text);
+    background: transparent;
+  }
+
+  .pagination-btn:hover {
+    color: var(--accent-primary);
+    background: var(--sidebar-hover-bg);
+  }
+
+  .pagination-btn.active {
+    background: var(--accent-primary);
+    color: white;
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  /* Modal overlay */
+  .modal-overlay {
+    @apply fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Scrollbar for modals */
+  .modal-scroll::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .modal-scroll::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 2px;
+  }
+
+  /* Notification dot */
+  .notif-dot {
+    @apply absolute right-2.5 top-2.5 h-2 w-2 rounded-full;
+    background: #ef4444;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+  }
+
+  /* Avatar ring */
+  .avatar-ring {
+    @apply rounded-full;
+    box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--accent-primary);
+  }
+
+  /* Progress bar */
+  .progress-gaming {
+    @apply h-2 rounded-full overflow-hidden;
+    background: var(--surface-bg);
+  }
+
+  .progress-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  /* Toggle switch */
+  .toggle-gaming {
+    @apply relative w-14 h-7.5 rounded-full cursor-pointer transition-colors duration-300;
+    background: var(--surface-border);
+  }
+
+  .toggle-gaming.active {
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  .toggle-knob {
+    @apply absolute top-1/2 left-1 h-6 w-6 -translate-y-1/2 rounded-full bg-white shadow-card transition-all duration-300 flex items-center justify-center;
+  }
+
+  .toggle-gaming.active .toggle-knob {
+    left: calc(100% - 1.5rem);
+  }
+
+  /* Chip / Pill */
+  .chip {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border transition-all duration-200;
+    background: transparent;
+  }
+
+  .chip:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Shimmer skeleton */
+  .skeleton-premium {
+    @apply rounded-lg overflow-hidden relative;
+    background: linear-gradient(90deg, var(--surface-bg) 25%, var(--card-border) 50%, var(--surface-bg) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply transition-all duration-200;
+  }
+
+  .focus-ring:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-glow);
+    border-color: var(--accent-primary);
+  }
+
+  /* Animated border */
+  .animated-border {
+    @apply relative rounded-xl overflow-hidden;
+  }
+
+  .animated-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--accent-primary), transparent, var(--accent-secondary));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  .animated-border:hover::before {
+    opacity: 1;
   }
 }
+
+/* ============================================================
+   THEME 2: ROYAL GOLD - COMPONENT OVERRIDES
+   ============================================================ */
+
+@layer components {
+   html.theme-esports-gold .btn-primary {
+     background: linear-gradient(135deg, #d4a843 0%, #8b6914 100%);
+     box-shadow: 0 0 15px rgba(212, 168, 67, 0.3);
+   }
+
+   html.theme-esports-gold .btn-primary:hover {
+     background: linear-gradient(135deg, #f0d78c 0%, #d4a843 100%);
+     box-shadow: 0 0 25px rgba(212, 168, 67, 0.5), 0 0 50px rgba(212, 168, 67, 0.2);
+   }
+
+   html.theme-esports-gold .btn-primary::before {
+     background: linear-gradient(135deg, #8b6914 0%, #d4a843 100%);
+   }
+
+   html.theme-esports-gold .btn-secondary {
+     background: rgba(212, 168, 67, 0.1);
+     border-color: rgba(212, 168, 67, 0.3);
+   }
+
+   html.theme-esports-gold .btn-secondary:hover {
+     background: rgba(212, 168, 67, 0.2);
+     box-shadow: 0 0 15px rgba(212, 168, 67, 0.3);
+   }
+
+   html.theme-esports-gold .btn-ghost:hover {
+     background: rgba(212, 168, 67, 0.1);
+   }
+
+   html.theme-night .btn-primary {
+     background: linear-gradient(135deg, #b8941f 0%, #8b6914 100%);
+     box-shadow: 0 0 12px rgba(180, 140, 100, 0.25);
+   }
+
+   html.theme-night .btn-primary:hover {
+     background: linear-gradient(135deg, #d4b878 0%, #b8941f 100%);
+     box-shadow: 0 0 20px rgba(180, 140, 100, 0.4);
+   }
+
+   html.theme-night .btn-primary::before {
+     background: linear-gradient(135deg, #8b6914 0%, #b8941f 100%);
+   }
+
+   html.theme-night .btn-secondary {
+     background: rgba(180, 140, 100, 0.1);
+     border-color: rgba(180, 140, 100, 0.3);
+   }
+
+   html.theme-night .btn-secondary:hover {
+     background: rgba(180, 140, 100, 0.2);
+     box-shadow: 0 0 12px rgba(180, 140, 100, 0.25);
+   }
+
+   html.theme-night .btn-ghost:hover {
+     background: rgba(180, 140, 100, 0.1);
+   }
+
+   html.theme-esports-gold .tab-item.active,
+   html.theme-night .tab-item.active {
+     background: var(--accent-primary);
+     box-shadow: 0 0 10px var(--accent-glow);
+   }
+
+   html.theme-esports-gold .pagination-btn.active,
+   html.theme-night .pagination-btn.active {
+     background: var(--accent-primary);
+     box-shadow: 0 0 10px var(--accent-glow);
+   }
+
+   html.theme-esports-gold .toggle-gaming.active,
+   html.theme-night .toggle-gaming.active {
+     background: var(--accent-primary);
+     box-shadow: 0 0 10px var(--accent-glow);
+   }
+
+   html.theme-esports-gold .notif-dot,
+   html.theme-night .notif-dot {
+     background: #ef4444;
+     box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+   }
+
+   html.theme-esports-gold .progress-fill {
+     background: linear-gradient(90deg, #d4a843, #f0d78c);
+     box-shadow: 0 0 8px rgba(212, 168, 67, 0.4);
+   }
+
+   html.theme-night .progress-fill {
+     background: linear-gradient(90deg, #b8941f, #d4b878);
+     box-shadow: 0 0 8px rgba(180, 140, 100, 0.35);
+   }
+}
+
+/* ============================================================
+   UTILITIES
+   ============================================================ */
 
 @layer utilities {
   .text-shadow-neon {
@@ -253,11 +997,39 @@
     text-shadow: 0 0 20px rgba(0, 212, 255, 0.8), 0 0 40px rgba(0, 212, 255, 0.4);
   }
 
-  .backdrop-gaming {
-    backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(10, 10, 26, 0.8);
-  }
+   html.theme-esports-gold .text-shadow-neon {
+     text-shadow: 0 0 10px rgba(212, 168, 67, 0.5), 0 0 20px rgba(212, 168, 67, 0.3);
+   }
+
+   html.theme-esports-gold .text-shadow-lg {
+     text-shadow: 0 0 20px rgba(212, 168, 67, 0.8), 0 0 40px rgba(212, 168, 67, 0.4);
+   }
+
+   html.theme-night .text-shadow-neon {
+     text-shadow: 0 0 10px rgba(180, 140, 100, 0.5), 0 0 20px rgba(180, 140, 100, 0.3);
+   }
+
+   html.theme-night .text-shadow-lg {
+     text-shadow: 0 0 20px rgba(180, 140, 100, 0.8), 0 0 40px rgba(180, 140, 100, 0.4);
+   }
+
+   .backdrop-gaming {
+     backdrop-filter: blur(20px) saturate(180%);
+     background: rgba(10, 10, 26, 0.8);
+   }
+
+   html.theme-esports-gold .backdrop-gaming {
+     background: rgba(10, 10, 10, 0.85);
+   }
+
+   html.theme-night .backdrop-gaming {
+     background: rgba(15, 13, 10, 0.85);
+   }
 }
+
+/* ============================================================
+   ANIMATED BACKGROUNDS
+   ============================================================ */
 
 /* Particles background */
 .particles-container {
@@ -275,9 +1047,23 @@
   position: absolute;
   width: 2px;
   height: 2px;
-  background: rgba(0, 212, 255, 0.4);
   border-radius: 50%;
   animation: particleFloat linear infinite;
+}
+
+html.dark .particle {
+  background: rgba(0, 212, 255, 0.4);
+  box-shadow: 0 0 4px rgba(0, 212, 255, 0.6);
+}
+
+html.theme-esports-gold.dark .particle {
+  background: rgba(212, 168, 67, 0.4);
+  box-shadow: 0 0 4px rgba(212, 168, 67, 0.6);
+}
+
+html.theme-night.dark .particle {
+  background: rgba(180, 140, 100, 0.35);
+  box-shadow: 0 0 4px rgba(180, 140, 100, 0.5);
 }
 
 @keyframes particleFloat {
@@ -321,6 +1107,24 @@
   transition: opacity 0.3s;
 }
 
+html.theme-esports-gold .glow-btn::after {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(212, 168, 67, 0.3) 60deg,
+    transparent 120deg
+  );
+}
+
+html.theme-night .glow-btn::after {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(180, 140, 100, 0.3) 60deg,
+    transparent 120deg
+  );
+}
+
 .glow-btn:hover::after {
   opacity: 1;
 }
@@ -334,6 +1138,18 @@
 /* Hero gradient animation */
 .hero-gradient {
   background: linear-gradient(-45deg, #0a0a1a, #1a1a3e, #0f0f2a, #151535);
+  background-size: 400% 400%;
+  animation: heroGradient 15s ease infinite;
+}
+
+html.theme-esports-gold .hero-gradient {
+  background: linear-gradient(-45deg, #0a0a0a, #1a1510, #0f0d08, #15120a);
+  background-size: 400% 400%;
+  animation: heroGradient 15s ease infinite;
+}
+
+html.theme-night .hero-gradient {
+  background: linear-gradient(-45deg, #0f0d0a, #1a1816, #12100c, #181510);
   background-size: 400% 400%;
   animation: heroGradient 15s ease infinite;
 }
@@ -364,22 +1180,19 @@
 .role-support { color: #1abc9c; }
 
 /* ============================================================
-   LIGHT THEME - adjustments (gaming-* backgrounds/borders already
-   switch via CSS variables; here we handle cards, inputs and text).
+   LIGHT THEME ADJUSTMENTS
    ============================================================ */
 
-/* Cards */
 html:not(.dark) .card-gaming {
   background: #ffffff;
   border-color: rgb(226 232 240);
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
 }
 html:not(.dark) .card-gaming:hover {
-  border-color: rgba(0, 212, 255, 0.45);
+  border-color: rgba(99, 102, 241, 0.45);
   box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
 }
 
-/* Input fields */
 html:not(.dark) .input-gaming {
   background: #ffffff;
   color: #0f172a;
@@ -387,13 +1200,41 @@ html:not(.dark) .input-gaming {
 html:not(.dark) .input-gaming::placeholder { color: #94a3b8; }
 html:not(.dark) .input-gaming:focus { background: #ffffff; }
 
-/* Loading skeleton */
 html:not(.dark) .skeleton { background: rgb(226 232 240); }
 
-/* Light scrollbar */
 html:not(.dark) *::-webkit-scrollbar-track { background: #e2e8f0; }
 html:not(.dark) *::-webkit-scrollbar-thumb { background: #94a3b8; }
 
-/* Note: the old light-mode text-white/text-gray overrides were removed. Public
-   routes are forced dark, and the dashboard uses proper text-black/dark:text-white
-   semantics (TailAdmin), so forcing whites to dark broke the dark sidebar. */
+html.theme-esports-gold:not(.dark) .card-gaming {
+  background: #ffffff;
+  border-color: rgba(212, 168, 67, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+html.theme-esports-gold:not(.dark) .card-gaming:hover {
+  border-color: rgba(212, 168, 67, 0.45);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+html.theme-esports-gold:not(.dark) .input-gaming {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+html.theme-esports-gold:not(.dark) .input-gaming::placeholder { color: #78706a; }
+html.theme-esports-gold:not(.dark) .input-gaming:focus { background: #ffffff; }
+
+html.theme-night:not(.dark) .card-gaming {
+  background: #ffffff;
+  border-color: rgba(180, 140, 100, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+html.theme-night:not(.dark) .card-gaming:hover {
+  border-color: rgba(180, 140, 100, 0.45);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+html.theme-night:not(.dark) .input-gaming {
+  background: #ffffff;
+  color: #2d2a26;
+}
+html.theme-night:not(.dark) .input-gaming::placeholder { color: #78706a; }
+html.theme-night:not(.dark) .input-gaming:focus { background: #ffffff; }

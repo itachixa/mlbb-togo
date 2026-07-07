@@ -18,9 +18,13 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
 
   return (
     <aside
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-boxdark duration-300 ease-linear lg:static lg:translate-x-0 ${
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden border-r duration-300 ease-linear lg:static lg:translate-x-0 ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}
+      style={{
+        background: 'var(--sidebar-bg)',
+        borderColor: 'var(--card-border)',
+      }}
     >
       {/* SIDEBAR HEADER */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
@@ -31,14 +35,15 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
             alt="MLBB Togo"
             className="h-9 w-9 rounded-md object-contain"
           />
-          <span className="text-lg font-bold text-white">{t('admin.area')}</span>
+          <span className="text-lg font-bold" style={{ color: 'var(--page-text)' }}>{t('admin.area')}</span>
         </Link>
 
         <button
           type="button"
           onClick={() => setSidebarOpen(false)}
           aria-label="Fermer le menu"
-          className="block text-white lg:hidden"
+          className="block lg:hidden transition-colors duration-200 hover:opacity-80"
+          style={{ color: 'var(--page-text)' }}
         >
           <ChevronLeft size={22} />
         </button>
@@ -50,7 +55,7 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
           {adminMenuGroups.map((group) => (
             <div key={group.id}>
               {group.titleKey && (
-                <h3 className="mb-4 ml-4 text-sm font-semibold uppercase text-bodydark2">
+                <h3 className="mb-4 ml-4 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--sidebar-text)' }}>
                   {t(group.titleKey)}
                 </h3>
               )}
@@ -64,14 +69,21 @@ export default function AdminSidebar({ sidebarOpen, setSidebarOpen }: SidebarPro
                       <Link
                         href={item.href}
                         onClick={() => setSidebarOpen(false)}
-                        className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium duration-300 ease-in-out ${
+                        className={`group relative flex items-center gap-2.5 rounded-lg px-4 py-2.5 font-medium transition-all duration-200 ${
                           active
-                            ? 'bg-graydark text-white dark:bg-meta-4'
-                            : 'text-bodydark hover:bg-graydark dark:hover:bg-meta-4'
+                            ? ''
+                            : 'opacity-80 hover:opacity-100'
                         }`}
+                        style={{
+                          background: active ? 'var(--sidebar-active-bg)' : 'transparent',
+                          color: active ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)',
+                        }}
                       >
                         <Icon size={18} />
                         {t(item.labelKey)}
+                        {active && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-r-full" style={{ background: 'var(--accent-primary)' }} />
+                        )}
                       </Link>
                     </li>
                   );

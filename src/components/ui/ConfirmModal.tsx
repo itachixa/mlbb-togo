@@ -59,7 +59,6 @@ export default function ConfirmModal({
   confirmLabel?: string;
   cancelLabel?: string;
   variant?: Variant;
-  /** Backward-compatible alias: `danger` => variant "danger". */
   danger?: boolean;
   loading?: boolean;
   loadingLabel?: string;
@@ -83,12 +82,13 @@ export default function ConfirmModal({
               'shrink-0 w-12 h-12 rounded-full flex items-center justify-center',
               iconBg
             )}
+            style={{ background: 'var(--surface-bg)' }}
           >
             {icon}
           </div>
-          <div className="flex-1 pt-1 text-sm text-body dark:text-bodydark">{message}</div>
+          <div className="flex-1 pt-1 text-sm" style={{ color: 'var(--sidebar-text)' }}>{message}</div>
         </div>
-        <div className="flex gap-3 pt-4 border-t border-stroke dark:border-strokedark">
+        <div className="flex gap-3 pt-4 border-t" style={{ borderColor: 'var(--card-border)' }}>
           <Button
             variant="outline"
             onClick={onClose}

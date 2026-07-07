@@ -10,7 +10,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="font-satoshi bg-whiten text-body dark:bg-boxdark-2 dark:text-bodydark">
+    <div className="font-satoshi min-h-screen transition-colors duration-300" style={{ background: 'var(--page-bg)', color: 'var(--page-text)' }}>
       <div className="flex h-screen overflow-hidden">
         {/* Sidebar */}
         <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />

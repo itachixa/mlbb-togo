@@ -94,13 +94,13 @@ export default function AdminUsers() {
       <Card hover={false}>
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-xs">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-bodydark2" />
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" style={{ color: 'var(--input-placeholder)' }} />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t('admin.users.search')}
-              className="w-full rounded-sm border border-stroke bg-gray-2 py-2.5 pl-10 pr-4 text-sm text-black outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
+              className="input-gaming"
             />
           </div>
           <Tabs
@@ -124,12 +124,22 @@ export default function AdminUsers() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead>
-                <tr className="border-b border-stroke text-xs uppercase text-bodydark2 dark:border-strokedark">
-                  <th className="py-3 pr-4 font-medium">{t('admin.users.colUser')}</th>
-                  <th className="py-3 pr-4 font-medium">{t('admin.users.colRole')}</th>
-                  <th className="py-3 pr-4 font-medium">{t('admin.users.colStatus')}</th>
-                  <th className="py-3 pr-4 font-medium">{t('admin.users.colJoined')}</th>
-                  <th className="py-3 pr-4 font-medium text-right">{t('admin.users.colActions')}</th>
+                <tr className="border-b" style={{ borderColor: 'var(--card-border)' }}>
+                  <th className="py-3 pr-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--sidebar-text)' }}>
+                    {t('admin.users.colUser')}
+                  </th>
+                  <th className="py-3 pr-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--sidebar-text)' }}>
+                    {t('admin.users.colRole')}
+                  </th>
+                  <th className="py-3 pr-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--sidebar-text)' }}>
+                    {t('admin.users.colStatus')}
+                  </th>
+                  <th className="py-3 pr-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--sidebar-text)' }}>
+                    {t('admin.users.colJoined')}
+                  </th>
+                  <th className="py-3 pr-4 font-medium text-xs uppercase tracking-wider text-right" style={{ color: 'var(--sidebar-text)' }}>
+                    {t('admin.users.colActions')}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -137,7 +147,7 @@ export default function AdminUsers() {
                   const rb = ROLE_BADGE[u.roleUser] || ROLE_BADGE.user;
                   const self = u.id === me?.id;
                   return (
-                    <tr key={u.id} className="border-b border-stroke dark:border-strokedark">
+                    <tr key={u.id} className="border-b transition-colors duration-200" style={{ borderColor: 'var(--card-border)' }}>
                       <td className="py-3 pr-4">
                         <div className="flex items-center gap-3">
                           <Avatar
@@ -147,11 +157,11 @@ export default function AdminUsers() {
                             online={u.isOnline}
                           />
                           <div className="min-w-0">
-                            <p className="truncate font-medium text-black dark:text-white">
+                              <p className="truncate font-medium" style={{ color: 'var(--page-text)' }}>
                               {u.displayName || u.username}
-                              {self && <span className="ml-1 text-xs text-bodydark2">({t('admin.users.you')})</span>}
+                              <span className="ml-1 text-xs" style={{ color: 'var(--sidebar-text)' }}>({t('admin.users.you')})</span>
                             </p>
-                            <p className="truncate text-xs text-body dark:text-bodydark">{u.email}</p>
+                              <p className="truncate text-xs" style={{ color: 'var(--page-text)', opacity: 0.7 }}>{u.email}</p>
                           </div>
                         </div>
                       </td>
@@ -165,7 +175,7 @@ export default function AdminUsers() {
                           <Badge variant="green" size="sm">{t('admin.users.active')}</Badge>
                         )}
                       </td>
-                      <td className="py-3 pr-4 text-xs text-body dark:text-bodydark">{fmtDate(u.joinedAt)}</td>
+                      <td className="py-3 pr-4 text-xs" style={{ color: 'var(--page-text)', opacity: 0.7 }}>{fmtDate(u.joinedAt)}</td>
                       <td className="py-3 pr-4">
                         <div className="flex items-center justify-end gap-2">
                           {/* Ban / unban: admin + moderator */}
@@ -176,7 +186,7 @@ export default function AdminUsers() {
                             onClick={() => toggleBan(u)}
                             title={u.isBanned ? t('admin.users.unban') : t('admin.users.ban')}
                           >
-                            {u.isBanned ? <CheckCircle2 size={15} className="text-success" /> : <Ban size={15} className="text-danger" />}
+                             {u.isBanned ? <CheckCircle2 size={15} style={{ color: 'var(--badge-success-text)' }} /> : <Ban size={15} style={{ color: 'var(--badge-danger-text)' }} />}
                           </Button>
 
                           {/* Change role + delete: admin only */}
@@ -189,7 +199,7 @@ export default function AdminUsers() {
                                 onClick={() => cycleRole(u)}
                                 title={t('admin.users.changeRole')}
                               >
-                                {u.roleUser === 'admin' ? <ShieldCheck size={15} className="text-danger" /> : <Shield size={15} />}
+                                {u.roleUser === 'admin' ? <ShieldCheck size={15} style={{ color: 'var(--badge-danger-text)' }} /> : <Shield size={15} style={{ color: 'var(--accent-primary)' }} />}
                               </Button>
                               <Button
                                 size="sm"
@@ -198,7 +208,7 @@ export default function AdminUsers() {
                                 onClick={() => setConfirmDelete(u)}
                                 title={t('admin.users.delete')}
                               >
-                                <Trash2 size={15} className="text-danger" />
+                                  <Trash2 size={15} style={{ color: 'var(--badge-danger-text)' }} />
                               </Button>
                             </>
                           )}

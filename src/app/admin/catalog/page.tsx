@@ -154,18 +154,18 @@ export default function AdminCatalogPage() {
           {/* Hero roles section (read-only reference) */}
           <SectionCard>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-black dark:text-white">Rôles</h2>
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--page-text)' }}>Rôles</h2>
               <Badge variant="purple" size="sm">{roles.length}</Badge>
             </div>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
               {roles.map((r) => (
                 <div
                   key={r.key}
-                  className="flex flex-col items-center gap-2 rounded-lg border border-stroke bg-gray-2 p-3 text-center dark:border-strokedark dark:bg-meta-4"
+                  className="surface flex flex-col items-center gap-2 rounded-lg p-3 text-center"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={r.icon} alt={r.name} referrerPolicy="no-referrer" className="h-10 w-10 object-contain" />
-                  <span className="text-sm font-medium text-black dark:text-white">{r.name}</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--page-text)' }}>{r.name}</span>
                 </div>
               ))}
             </div>
@@ -174,7 +174,7 @@ export default function AdminCatalogPage() {
           {/* Lanes section */}
           <SectionCard>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-black dark:text-white">Lanes</h2>
+              <h2 className="text-lg font-semibold" style={{ color: 'var(--page-text)' }}>Lanes</h2>
               <Badge variant="purple" size="sm">
                 {lanes.length}
               </Badge>
@@ -188,13 +188,13 @@ export default function AdminCatalogPage() {
                       src={lane.icon}
                       alt={lane.name}
                       referrerPolicy="no-referrer"
-                      className="w-12 h-12 rounded-lg object-contain bg-gray-2 border border-stroke shrink-0 dark:bg-meta-4 dark:border-strokedark"
+                      className="w-12 h-12 rounded-lg object-contain border shrink-0 surface"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-lg bg-gray-2 border border-stroke shrink-0 dark:bg-meta-4 dark:border-strokedark" />
+                    <div className="w-12 h-12 rounded-lg border shrink-0 surface" />
                   )}
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-black dark:text-white truncate">{lane.name}</p>
+                    <p className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{lane.name}</p>
                     {lane.compatibleClasses?.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-1.5">
                         {lane.compatibleClasses.map((c) => (
@@ -206,7 +206,7 @@ export default function AdminCatalogPage() {
                       </div>
                     )}
                     {lane.description && (
-                      <p className="text-xs text-body dark:text-bodydark mt-1.5 line-clamp-2">{lane.description}</p>
+                      <p className="text-xs mt-1.5 line-clamp-2" style={{ color: 'var(--page-text)', opacity: 0.7 }}>{lane.description}</p>
                     )}
                   </div>
                   <Button size="sm" variant="ghost" onClick={() => openEdit(lane)}>
@@ -221,8 +221,8 @@ export default function AdminCatalogPage() {
           <SectionCard>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold text-black dark:text-white">Héros</h2>
-                <p className="text-sm text-body dark:text-bodydark mt-0.5">
+                <h2 className="text-lg font-semibold" style={{ color: 'var(--page-text)' }}>Héros</h2>
+                <p className="text-sm mt-0.5" style={{ color: 'var(--page-text)', opacity: 0.7 }}>
                   {heroCount ?? 0} héros en base. Resynchronise depuis les serveurs MLBB.
                 </p>
               </div>

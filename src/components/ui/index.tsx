@@ -34,9 +34,13 @@ export function LoadingSpinner({ size = 'md', className }: any) {
     <div className={cn('flex items-center justify-center', className)}>
       <div
         className={cn(
-          'rounded-full border-2 border-stroke border-t-primary animate-spin dark:border-strokedark dark:border-t-primary',
+          'rounded-full border-2 animate-spin',
           sizes[size]
         )}
+        style={{
+          borderColor: 'var(--card-border)',
+          borderTopColor: 'var(--accent-primary)',
+        }}
       />
     </div>
   );
@@ -64,18 +68,7 @@ export function Button({
   loading?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const base =
-    'relative inline-flex items-center justify-center gap-2 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-50 disabled:cursor-not-allowed';
-
-  // TailAdmin button variants.
-  const variants: Record<ButtonVariant, string> = {
-    primary: 'bg-primary text-white hover:bg-opacity-90',
-    secondary: 'border border-primary text-primary hover:bg-primary hover:text-white',
-    outline:
-      'border border-stroke text-body hover:border-primary hover:text-primary dark:border-strokedark dark:text-bodydark',
-    ghost: 'text-body hover:bg-gray dark:text-bodydark dark:hover:bg-meta-4',
-    danger: 'bg-danger text-white hover:bg-opacity-90',
-    success: 'bg-success text-white hover:bg-opacity-90',
-  };
+    'relative inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
   const sizes: Record<string, string> = {
     sm: 'px-3 py-1.5 text-xs',
@@ -83,11 +76,50 @@ export function Button({
     lg: 'px-7 py-3 text-base',
   };
 
+  const variantClasses: Record<ButtonVariant, string> = {
+    primary: 'text-white',
+    secondary: 'border',
+    outline: 'border',
+    ghost: '',
+    danger: 'text-white',
+    success: 'text-white',
+  };
+
   return (
     <button
       type={type}
-      className={cn(base, variants[variant], sizes[size], className)}
+      className={cn(base, variantClasses[variant], sizes[size], className)}
       disabled={disabled || loading}
+      style={{
+        background: variant === 'primary' ? 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' : variant === 'danger' ? '#ef4444' : variant === 'success' ? '#22c55e' : variant === 'secondary' ? 'rgba(0, 212, 255, 0.1)' : variant === 'outline' ? 'transparent' : 'transparent',
+        borderColor: variant === 'secondary' ? 'rgba(0, 212, 255, 0.3)' : variant === 'outline' ? 'var(--card-border)' : 'transparent',
+        color: variant === 'primary' || variant === 'danger' || variant === 'success' ? '#ffffff' : 'var(--accent-primary)',
+        boxShadow: variant === 'primary' ? 'var(--shadow-glow)' : 'none',
+      }}
+      onMouseEnter={(e) => {
+        if (disabled) return;
+        const el = e.currentTarget;
+        if (variant === 'primary') {
+          el.style.filter = 'brightness(1.15)';
+          el.style.transform = 'scale(1.02)';
+        } else if (variant === 'secondary') {
+          el.style.background = 'rgba(0, 212, 255, 0.2)';
+          el.style.boxShadow = '0 0 15px rgba(0, 212, 255, 0.3)';
+        } else if (variant === 'outline') {
+          el.style.background = 'var(--sidebar-hover-bg)';
+          el.style.borderColor = 'var(--accent-primary)';
+        } else if (variant === 'ghost') {
+          el.style.background = 'var(--sidebar-hover-bg)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        const el = e.currentTarget;
+        el.style.filter = '';
+        el.style.transform = '';
+        el.style.background = variant === 'primary' ? 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' : variant === 'danger' ? '#ef4444' : variant === 'success' ? '#22c55e' : variant === 'secondary' ? 'rgba(0, 212, 255, 0.1)' : 'transparent';
+        el.style.borderColor = variant === 'secondary' ? 'rgba(0, 212, 255, 0.3)' : variant === 'outline' ? 'var(--card-border)' : 'transparent';
+        el.style.boxShadow = variant === 'primary' ? 'var(--shadow-glow)' : 'none';
+      }}
       {...props}
     >
       {loading && <SpinLoader />}
@@ -101,15 +133,19 @@ export function Button({
 /* ------------------------------------------------------------------ */
 
 export function Card({ children, className, hover = false, glow = false, ...props }: any) {
-  // hover/glow are consumed here so they don't leak as DOM attributes.
   return (
     <div
       className={cn(
-        'rounded-sm border border-stroke bg-white shadow-default p-6 dark:border-strokedark dark:bg-boxdark',
-        hover && 'transition-colors hover:border-primary',
+        'rounded-xl border p-6 transition-all duration-300',
+        hover && 'hover:-translate-y-1 hover:shadow-lg',
         glow && 'shadow-lg',
         className
       )}
+      style={{
+        background: 'var(--card-bg)',
+        borderColor: 'var(--card-border)',
+        boxShadow: hover ? 'var(--shadow-elevated)' : 'var(--shadow-card)',
+      }}
       {...props}
     >
       {children}
@@ -122,9 +158,13 @@ export function SectionCard({ children, className, ...props }: any) {
   return (
     <div
       className={cn(
-        'rounded-sm border border-stroke bg-white p-6.5 shadow-default dark:border-strokedark dark:bg-boxdark',
+        'rounded-xl border p-6.5 transition-all duration-300',
         className
       )}
+      style={{
+        background: 'var(--card-bg)',
+        borderColor: 'var(--card-border)',
+      }}
       {...props}
     >
       {children}
@@ -137,16 +177,15 @@ export function SectionCard({ children, className, ...props }: any) {
 /* ------------------------------------------------------------------ */
 
 export function Badge({ children, variant = 'default', size = 'md', className }: any) {
-  // TailAdmin pill badges: soft tinted background + matching text color.
   const variants: Record<string, string> = {
-    default: 'bg-gray text-body dark:bg-meta-4 dark:text-bodydark',
-    neon: 'bg-primary/10 text-primary',
-    blue: 'bg-primary/10 text-primary',
-    green: 'bg-success/10 text-success',
-    red: 'bg-danger/10 text-danger',
-    gold: 'bg-warning/10 text-warning',
-    purple: 'bg-meta-5/10 text-meta-5',
-    pink: 'bg-meta-1/10 text-meta-1',
+    default: 'badge',
+    neon: 'badge-neon',
+    blue: 'badge-neon',
+    green: 'badge-gold',
+    red: 'badge-gold',
+    gold: 'badge-gold',
+    purple: 'badge-purple',
+    pink: 'badge-gold',
   };
   const sizes: Record<string, string> = {
     sm: 'px-2 py-0.5 text-xs',
@@ -156,8 +195,8 @@ export function Badge({ children, variant = 'default', size = 'md', className }:
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full font-medium',
-        variants[variant],
+        'inline-flex items-center gap-1 rounded-full font-medium transition-all duration-200',
+        variants[variant] || 'badge',
         sizes[size],
         className
       )}
@@ -173,18 +212,23 @@ export function Badge({ children, variant = 'default', size = 'md', className }:
 
 // TailAdmin form field base (form-elements.html).
 const fieldBase =
-  'w-full rounded-lg border bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default dark:bg-form-input dark:text-white dark:focus:border-primary';
-const labelClass = 'mb-2.5 block text-black dark:text-white';
+  'w-full rounded-lg border bg-transparent py-3 px-5 outline-none transition focus:border-opacity-80 active:border-opacity-80 disabled:cursor-default';
+const labelClass = 'mb-2.5 block text-sm font-medium';
 
 export function Input({ label, error, className, ...props }: any) {
   return (
     <div className="w-full">
-      {label && <label className={labelClass}>{label}</label>}
+      {label && <label className="mb-2.5 block text-sm font-medium" style={{ color: 'var(--page-text)' }}>{label}</label>}
       <input
-        className={cn(fieldBase, error ? 'border-danger' : 'border-stroke dark:border-form-strokedark', className)}
+        className={cn(fieldBase, error ? 'border-red-500' : '', className)}
+        style={{
+          background: 'var(--input-bg)',
+          borderColor: error ? '#ef4444' : 'var(--input-border)',
+          color: 'var(--input-text)',
+        }}
         {...props}
       />
-      {error && <p className="mt-1.5 text-sm text-danger">{error}</p>}
+      {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
     </div>
   );
 }
@@ -192,17 +236,22 @@ export function Input({ label, error, className, ...props }: any) {
 export function Textarea({ label, error, className, ...props }: any) {
   return (
     <div className="w-full">
-      {label && <label className={labelClass}>{label}</label>}
+      {label && <label className="mb-2.5 block text-sm font-medium" style={{ color: 'var(--page-text)' }}>{label}</label>}
       <textarea
         className={cn(
           fieldBase,
           'min-h-[90px] resize-y',
-          error ? 'border-danger' : 'border-stroke dark:border-form-strokedark',
+          error ? 'border-red-500' : '',
           className
         )}
+        style={{
+          background: 'var(--input-bg)',
+          borderColor: error ? '#ef4444' : 'var(--input-border)',
+          color: 'var(--input-text)',
+        }}
         {...props}
       />
-      {error && <p className="mt-1.5 text-sm text-danger">{error}</p>}
+      {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
     </div>
   );
 }
@@ -210,20 +259,25 @@ export function Textarea({ label, error, className, ...props }: any) {
 export function Select({ label, options, error, className, children, ...props }: any) {
   return (
     <div className="w-full">
-      {label && <label className={labelClass}>{label}</label>}
+      {label && <label className="mb-2.5 block text-sm font-medium" style={{ color: 'var(--page-text)' }}>{label}</label>}
       <select
-        className={cn(fieldBase, error ? 'border-danger' : 'border-stroke dark:border-form-strokedark', className)}
+        className={cn(fieldBase, error ? 'border-red-500' : '', className)}
+        style={{
+          background: 'var(--input-bg)',
+          borderColor: error ? '#ef4444' : 'var(--input-border)',
+          color: 'var(--input-text)',
+        }}
         {...props}
       >
         {options
           ? options.map((opt: any) => (
-              <option key={opt.value} value={opt.value} className="text-body dark:text-bodydark">
+              <option key={opt.value} value={opt.value} style={{ background: 'var(--card-bg)', color: 'var(--page-text)' }}>
                 {opt.label}
               </option>
             ))
           : children}
       </select>
-      {error && <p className="mt-1.5 text-sm text-danger">{error}</p>}
+      {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
     </div>
   );
 }
@@ -251,9 +305,12 @@ export function Avatar({ name, src, size = 'md', online, className }: any) {
     <div className={cn('relative', className)}>
       <div
         className={cn(
-          'shrink-0 rounded-full bg-primary flex items-center justify-center font-bold text-white overflow-hidden',
+          'shrink-0 rounded-full flex items-center justify-center font-bold text-white overflow-hidden',
           sizes[size]
         )}
+        style={{
+          background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+        }}
       >
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -270,9 +327,10 @@ export function Avatar({ name, src, size = 'md', online, className }: any) {
       {online !== undefined && (
         <span
           className={cn(
-            'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-white dark:border-boxdark',
-            online ? 'bg-success' : 'bg-body'
+            'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2',
+            online ? 'bg-green-500' : 'bg-gray-400'
           )}
+          style={{ borderColor: 'var(--card-bg)' }}
         />
       )}
     </div>
@@ -281,10 +339,14 @@ export function Avatar({ name, src, size = 'md', online, className }: any) {
 
 export function ProgressBar({ value, max = 100, className }: any) {
   return (
-    <div className={cn('h-2 rounded-full bg-stroke overflow-hidden dark:bg-strokedark', className)}>
+    <div className={cn('h-2 rounded-full overflow-hidden', className)} style={{ background: 'var(--surface-bg)' }}>
       <div
-        className="h-full rounded-full bg-primary transition-all duration-500"
-        style={{ width: `${Math.min(100, (value / max) * 100)}%` }}
+        className="h-full rounded-full transition-all duration-500"
+        style={{
+          width: `${Math.min(100, (value / max) * 100)}%`,
+          background: 'linear-gradient(90deg, var(--accent-primary), var(--accent-secondary))',
+          boxShadow: '0 0 8px var(--accent-glow)',
+        }}
       />
     </div>
   );
@@ -295,29 +357,33 @@ export function ProgressBar({ value, max = 100, className }: any) {
 /* ------------------------------------------------------------------ */
 
 export function StatCard({ label, value, icon, trend, translucent: _translucent = false, className }: any) {
-  // `translucent` is accepted for backward-compat but no longer affects rendering.
   return (
     <div
       className={cn(
-        'rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark',
+        'rounded-xl border p-6.5 transition-all duration-300',
         className
       )}
+      style={{
+        background: 'var(--card-bg)',
+        borderColor: 'var(--card-border)',
+        boxShadow: 'var(--shadow-card)',
+      }}
     >
       {icon && (
-        <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 text-primary dark:bg-meta-4">
+        <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full" style={{ background: 'var(--surface-bg)', color: 'var(--accent-primary)' }}>
           {icon}
         </div>
       )}
       <div className="mt-4 flex items-end justify-between">
         <div>
-          <h4 className="text-title-md font-bold text-black dark:text-white">{value}</h4>
-          <span className="mt-1 block text-sm font-medium text-body dark:text-bodydark">{label}</span>
+          <h4 className="text-title-md font-bold" style={{ color: 'var(--page-text)' }}>{value}</h4>
+          <span className="mt-1 block text-sm font-medium" style={{ color: 'var(--sidebar-text)' }}>{label}</span>
         </div>
         {trend !== undefined && trend !== null && (
           <span
             className={cn(
               'flex items-center gap-1 text-sm font-medium',
-              trend > 0 ? 'text-meta-3' : 'text-meta-1'
+              trend > 0 ? 'text-green-400' : 'text-red-400'
             )}
           >
             {trend > 0 ? '+' : ''}
@@ -347,38 +413,31 @@ export function PageHeader({
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   action?: React.ReactNode;
-  children?: React.ReactNode; // optional grid of cards below the heading
-  breadcrumb?: React.ReactNode; // current-page label (defaults to `title`)
+  children?: React.ReactNode;
+  breadcrumb?: React.ReactNode;
   variant?: BannerVariant;
   className?: string;
 }) {
   const t = useT();
-  // `icon` and `variant` are kept for backward-compat but no longer rendered.
   return (
-    <div className={className}>
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-title-md2 font-bold text-black dark:text-white">{title}</h2>
-          {subtitle && <p className="mt-1 text-sm text-body dark:text-bodydark">{subtitle}</p>}
-        </div>
-        {/* TailAdmin page header: action (optional) + breadcrumb on the right */}
-        <div className="flex items-center gap-4">
-          {action}
-          <nav>
-            <ol className="flex items-center gap-2">
-              <li>
-                <Link className="font-medium text-body dark:text-bodydark" href="/dashboard">
-                  {t('header.dashboard')} /
-                </Link>
-              </li>
-              <li className="font-medium text-primary">{breadcrumb ?? title}</li>
-            </ol>
-          </nav>
-        </div>
+    <div className={cn('page-header', className)}>
+      <div>
+        <h2 className="page-header-title">{title}</h2>
+        {subtitle && <p className="page-header-subtitle">{subtitle}</p>}
       </div>
-      {children && (
-        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">{children}</div>
-      )}
+      <div className="flex items-center gap-4">
+        {action}
+        <nav>
+          <ol className="flex items-center gap-2">
+            <li>
+              <Link className="font-medium" style={{ color: 'var(--sidebar-text)' }} href="/dashboard">
+                {t('header.dashboard')} /
+              </Link>
+            </li>
+            <li className="font-medium" style={{ color: 'var(--accent-primary)' }}>{breadcrumb ?? title}</li>
+          </ol>
+        </nav>
+      </div>
     </div>
   );
 }
@@ -396,13 +455,13 @@ export function EmptyState({ icon, title, description, action, className }: any)
       )}
     >
       {icon && (
-        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray text-body dark:bg-meta-4">
+        <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: 'var(--surface-bg)', color: 'var(--sidebar-text)' }}>
           {icon}
         </div>
       )}
-      <h3 className="mb-1.5 text-lg font-semibold text-black dark:text-white">{title}</h3>
+      <h3 className="mb-1.5 text-lg font-semibold" style={{ color: 'var(--page-text)' }}>{title}</h3>
       {description && (
-        <p className="mb-6 max-w-md text-sm text-body dark:text-bodydark">{description}</p>
+        <p className="mb-6 max-w-md text-sm" style={{ color: 'var(--sidebar-text)' }}>{description}</p>
       )}
       {action}
     </div>
@@ -417,7 +476,7 @@ export function Tabs({ tabs, active, onChange, className }: any) {
   return (
     <div
       className={cn(
-        'inline-flex rounded-sm border border-stroke bg-white p-1 dark:border-strokedark dark:bg-boxdark',
+        'tabs-gaming',
         className
       )}
     >
@@ -429,10 +488,8 @@ export function Tabs({ tabs, active, onChange, className }: any) {
             type="button"
             onClick={() => onChange(tab.id)}
             className={cn(
-              'flex items-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-colors',
-              isActive
-                ? 'bg-primary text-white'
-                : 'text-body hover:bg-gray dark:text-bodydark dark:hover:bg-meta-4'
+              'tab-item',
+              isActive ? 'active' : ''
             )}
           >
             {tab.icon && <tab.icon size={16} />}

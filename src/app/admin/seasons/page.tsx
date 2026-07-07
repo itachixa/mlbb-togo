@@ -24,8 +24,7 @@ type SeasonForm = {
 };
 const emptyForm: SeasonForm = { name: '', description: '', startDate: '', endDate: '', isActive: false };
 
-const inputCls =
-  'w-full px-3 py-2 text-sm rounded-lg border border-stroke bg-gray-2 text-black placeholder-bodydark2 focus:outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4 dark:text-white';
+const inputCls = 'input-gaming';
 
 const fmtDate = (v: any) => {
   if (!v) return null;
@@ -150,15 +149,15 @@ export default function AdminSeasonsPage() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-sm font-semibold text-black dark:text-white truncate">{s.name || '—'}</p>
+                        <p className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{s.name || '—'}</p>
                         {s.isActive && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-success/10 text-success">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold" style={{ background: 'var(--badge-success-bg)', color: 'var(--badge-success-text)' }}>
                             {t('admin.seasons.active')}
                           </span>
                         )}
                       </div>
                       {period && (
-                        <p className="mt-1 inline-flex items-center gap-1 text-xs text-body dark:text-bodydark">
+                          <p className="mt-1 inline-flex items-center gap-1 text-xs" style={{ color: 'var(--page-text)', opacity: 0.7 }}>
                           <CalendarDays size={12} /> {period}
                         </p>
                       )}
@@ -173,7 +172,7 @@ export default function AdminSeasonsPage() {
                     </div>
                   </div>
                 {s.description && (
-                  <p className="text-xs text-body dark:text-bodydark whitespace-pre-line">{s.description}</p>
+                  <p className="text-xs whitespace-pre-line" style={{ color: 'var(--page-text)', opacity: 0.7 }}>{s.description}</p>
                 )}
               </Card>
             );
@@ -191,11 +190,11 @@ export default function AdminSeasonsPage() {
       >
         <form onSubmit={submit} className="space-y-3">
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.seasons.name')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.seasons.name')}</label>
             <input className={inputCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           </div>
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.seasons.description')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.seasons.description')}</label>
             <textarea
               className={inputCls}
               rows={3}
@@ -205,7 +204,7 @@ export default function AdminSeasonsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.seasons.startDate')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.seasons.startDate')}</label>
               <input
                 type="date"
                 className={inputCls}
@@ -214,7 +213,7 @@ export default function AdminSeasonsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.seasons.endDate')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.seasons.endDate')}</label>
               <input
                 type="date"
                 className={inputCls}
@@ -223,10 +222,11 @@ export default function AdminSeasonsPage() {
               />
             </div>
           </div>
-          <label className="flex items-center gap-2 text-sm text-body dark:text-bodydark cursor-pointer">
+          <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: 'var(--page-text)' }}>
             <input
               type="checkbox"
-              className="w-4 h-4 rounded border-stroke bg-gray-2 accent-primary dark:border-strokedark dark:bg-meta-4"
+              className="w-4 h-4 rounded"
+              style={{ borderColor: 'var(--card-border)', background: 'var(--surface-bg)', accentColor: 'var(--accent-primary)' }}
               checked={form.isActive}
               onChange={(e) => setForm({ ...form, isActive: e.target.checked })}
             />

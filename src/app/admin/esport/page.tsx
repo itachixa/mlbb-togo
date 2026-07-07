@@ -46,8 +46,7 @@ const emptyTeamForm: TeamForm = {
   description: '',
 };
 
-const inputCls =
-  'w-full px-3 py-2 text-sm rounded-lg border border-stroke bg-gray-2 text-black placeholder-bodydark2 focus:outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4 dark:text-white';
+const inputCls = 'input-gaming';
 
 type Pending = {
   message: string;
@@ -175,9 +174,9 @@ export default function AdminEsportPage() {
           {visibleTeams.map((team) => (
             <div
               key={team.id}
-              className="rounded-sm border border-stroke bg-white shadow-default overflow-hidden flex flex-col dark:border-strokedark dark:bg-boxdark"
+              className="glass-card shadow-[var(--shadow-card)] overflow-hidden flex flex-col"
             >
-              <div className="relative aspect-video w-full bg-gray-2 dark:bg-meta-4">
+              <div                 className="surface">
                 {team.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -187,7 +186,7 @@ export default function AdminEsportPage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-3xl font-bold text-bodydark2">
+                   <div className="w-full h-full flex items-center justify-center text-3xl font-bold" style={{ color: 'var(--sidebar-text)' }}>
                     {team.name?.[0]?.toUpperCase() || 'T'}
                   </div>
                 )}
@@ -195,12 +194,12 @@ export default function AdminEsportPage() {
 
               <div className="p-3 flex-1 flex flex-col">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <p className="text-sm font-semibold text-black dark:text-white truncate">{team.name}</p>
+                  <p className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{team.name}</p>
                   <Badge variant={team.type === 'esport' ? 'gold' : 'default'} size="sm">
                     {t('admin.esport.badge.' + (team.type || 'community'))}
                   </Badge>
                 </div>
-                <div className="flex items-center gap-1 mt-1 mb-3 text-xs text-body dark:text-bodydark">
+                <div className="flex items-center gap-1 mt-1 mb-3 text-xs" style={{ color: 'var(--page-text)', opacity: 0.7 }}>
                   <Users size={13} /> {team.memberCount ?? team.members?.length ?? 0} {t('teams.members')}
                 </div>
 
@@ -344,15 +343,15 @@ function TeamFormModal({
     >
       <form onSubmit={submit} className="space-y-3">
         <div>
-          <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.teamName')}</label>
+          <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.teamName')}</label>
           <input className={inputCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
         </div>
         <div>
-          <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.teamImage')}</label>
+          <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.teamImage')}</label>
           <input className={inputCls} value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} />
         </div>
         <div>
-          <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.teamDesc')}</label>
+          <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.teamDesc')}</label>
           <textarea
             className={`${inputCls} min-h-[80px] resize-y`}
             value={form.description}
@@ -446,7 +445,7 @@ function MembersPanel({
   return (
     <div className="space-y-4">
       {members.length === 0 ? (
-        <div className="text-sm text-bodydark2">{t('admin.esport.noMembers')}</div>
+        <div className="text-sm" style={{ color: 'var(--sidebar-text)' }}>{t('admin.esport.noMembers')}</div>
       ) : (
         <div className="space-y-2">
           {members.map((m) => {
@@ -454,7 +453,7 @@ function MembersPanel({
             return (
               <div
                 key={m.id ?? m.userId}
-                className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-sm border border-stroke bg-gray-2 p-2.5 dark:border-strokedark dark:bg-meta-4"
+                className="surface flex flex-col sm:flex-row sm:items-center gap-3 p-2.5"
               >
                 {u.avatar ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -462,7 +461,7 @@ function MembersPanel({
                     src={avatarSrc(u.avatar, 64)}
                     alt={u.displayName || u.username}
                     referrerPolicy="no-referrer"
-                    className="w-10 h-10 rounded-lg object-cover border border-stroke shrink-0 dark:border-strokedark"
+                     className="w-10 h-10 rounded-lg object-cover border shrink-0" style={{ borderColor: 'var(--card-border)' }}
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-sm font-bold text-white shrink-0">
@@ -472,7 +471,7 @@ function MembersPanel({
 
                 <div className="min-w-0 flex-1 flex items-center gap-2">
                   {m.role && <RoleIcon role={m.role} size={16} />}
-                  <span className="text-sm text-black dark:text-white truncate">{u.displayName || u.username}</span>
+                  <span className="text-sm truncate" style={{ color: 'var(--page-text)' }}>{u.displayName || u.username}</span>
                   {hasRankBadge(u.gameRank) && <RankBadge rank={u.gameRank} size={16} />}
                   {m.isCaptain && (
                     <Badge variant="gold" size="sm">
@@ -494,11 +493,11 @@ function MembersPanel({
                   <button
                     onClick={() => toggleSub(m)}
                     disabled={busy}
-                    className={`px-2 py-1 text-xs rounded-lg border transition-colors ${
-                      m.isSubstitute
-                        ? 'bg-gray-2 border-stroke text-body dark:bg-meta-4 dark:border-strokedark dark:text-bodydark'
-                        : 'bg-primary/10 border-primary text-primary'
-                    }`}
+                  className={`px-2 py-1 text-xs rounded-lg border transition-colors ${
+                    m.isSubstitute
+                      ? 'surface'
+                      : ''
+                  }`}
                   >
                     {m.isSubstitute ? t('admin.esport.substitute') : t('admin.esport.starter')}
                   </button>
@@ -508,7 +507,7 @@ function MembersPanel({
                       onClick={() => makeCaptain(m)}
                       disabled={busy}
                       title={t('admin.esport.setCaptain')}
-                      className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border border-stroke text-body hover:text-warning hover:border-warning transition-colors dark:border-strokedark dark:text-bodydark"
+                      className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border transition-colors hover:text-[var(--badge-warning-text)] hover:border-[var(--badge-warning-text)]"
                     >
                       <Star size={11} />
                     </button>
@@ -518,7 +517,8 @@ function MembersPanel({
                     onClick={() => askRemove(m)}
                     disabled={busy}
                     title={t('admin.esport.remove')}
-                    className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border border-danger/30 text-danger hover:bg-danger/10 transition-colors"
+                    className="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg transition-colors"
+                    style={{ border: '1px solid var(--badge-danger-text)', color: 'var(--badge-danger-text)' }}
                   >
                     <X size={11} />
                   </button>
@@ -529,20 +529,20 @@ function MembersPanel({
         </div>
       )}
 
-      <div className="pt-3 border-t border-stroke dark:border-strokedark">
-        <p className="text-xs font-medium text-body dark:text-bodydark mb-2">{t('admin.esport.addMember')}</p>
-        <div className="relative mb-3">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-bodydark2" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t('admin.esport.searchPlayer')}
-            className={`${inputCls} pl-9`}
-          />
+      <div className="pt-3" style={{ borderTop: '1px solid var(--card-border)' }}>
+        <p className="text-xs font-medium mb-2" style={{ color: 'var(--page-text)' }}>{t('admin.esport.addMember')}</p>
+          <div className="relative mb-3">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--input-placeholder)' }} />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t('admin.esport.searchPlayer')}
+              className={`${inputCls} pl-9`}
+            />
         </div>
 
         {results.length === 0 ? (
-          <div className="text-sm text-bodydark2">{t('admin.esport.noPlayers')}</div>
+          <div className="text-sm" style={{ color: 'var(--sidebar-text)' }}>{t('admin.esport.noPlayers')}</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto">
             {results.map((p) => (
@@ -550,7 +550,7 @@ function MembersPanel({
                 key={p.id}
                 onClick={() => addPlayer(p)}
                 disabled={busy}
-                className="flex items-center gap-2 rounded-sm border border-stroke bg-gray-2 p-2 text-left hover:border-primary transition-colors dark:border-strokedark dark:bg-meta-4"
+                className="surface flex items-center gap-2 rounded-sm p-2 text-left hover:border-[var(--accent-primary)] transition-colors"
               >
                 {p.avatar ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -558,15 +558,15 @@ function MembersPanel({
                     src={avatarSrc(p.avatar, 64)}
                     alt={p.displayName || p.username}
                     referrerPolicy="no-referrer"
-                    className="w-8 h-8 rounded-lg object-cover border border-stroke shrink-0 dark:border-strokedark"
+                     className="w-8 h-8 rounded-lg object-cover border shrink-0" style={{ borderColor: 'var(--card-border)' }}
                   />
                 ) : (
                   <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-xs font-bold text-white shrink-0">
                     {(p.displayName || p.username)?.[0]?.toUpperCase() || 'J'}
                   </div>
                 )}
-                <span className="text-sm text-black dark:text-white truncate">{p.displayName || p.username}</span>
-                <Plus size={14} className="ml-auto text-primary shrink-0" />
+                <span className="text-sm truncate" style={{ color: 'var(--page-text)' }}>{p.displayName || p.username}</span>
+                <Plus size={14} className="ml-auto shrink-0" style={{ color: 'var(--accent-primary)' }} />
               </button>
             ))}
           </div>

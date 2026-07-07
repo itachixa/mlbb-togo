@@ -21,8 +21,16 @@ export const useLangStore = create<any>((set) => ({
 export const useThemeStore = create<any>((set) => ({
   theme:
     typeof window !== 'undefined'
-      ? localStorage.getItem('mlbb-theme') || 'light'
-      : 'light',
+      ? localStorage.getItem('mlbb-theme') || 'dark'
+      : 'dark',
+  themeVariant:
+    typeof window !== 'undefined'
+      ? localStorage.getItem('mlbb-theme-variant') || 'default'
+      : 'default',
+  brightness:
+    typeof window !== 'undefined'
+      ? parseFloat(localStorage.getItem('mlbb-brightness') || '1')
+      : 1,
   toggleTheme: () =>
     set((state: any) => {
       const newTheme = state.theme === 'dark' ? 'light' : 'dark';
@@ -38,6 +46,18 @@ export const useThemeStore = create<any>((set) => ({
       document.documentElement.classList.toggle('dark', theme === 'dark');
     }
     set({ theme });
+  },
+  setThemeVariant: (variant: string) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mlbb-theme-variant', variant);
+    }
+    set({ themeVariant: variant });
+  },
+  setBrightness: (brightness: number) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('mlbb-brightness', String(brightness));
+    }
+    set({ brightness });
   },
 }));
 

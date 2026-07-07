@@ -32,7 +32,8 @@ export default function MyRequestsPage() {
     <div className="space-y-6">
       <Link
         href="/teams"
-        className="inline-flex items-center gap-1.5 text-sm text-body hover:text-black dark:text-bodydark dark:hover:text-white"
+        className="inline-flex items-center gap-1.5 text-sm hover:opacity-80 transition-opacity"
+        style={{ color: 'var(--accent-primary)' }}
       >
         <ArrowLeft size={16} /> {t('teams.back')}
       </Link>
@@ -67,15 +68,15 @@ export default function MyRequestsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                className="rounded-sm border border-stroke bg-white shadow-default p-4 dark:border-strokedark dark:bg-boxdark"
+                className="glass-card !p-4"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-sm font-semibold text-black dark:text-white truncate">{r.proposedName}</p>
+                      <p className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{r.proposedName}</p>
                     </div>
-                    {r.message && <p className="text-sm text-body dark:text-bodydark mt-1 whitespace-pre-line">{r.message}</p>}
-                    {dateLabel && <p className="text-xs text-bodydark2 mt-2">{dateLabel}</p>}
+                    {r.message && <p className="text-sm mt-1 whitespace-pre-line" style={{ color: 'var(--sidebar-text)' }}>{r.message}</p>}
+                    {dateLabel && <p className="text-xs mt-2" style={{ color: 'var(--sidebar-text)' }}>{dateLabel}</p>}
                   </div>
                   <Badge variant={STATUS_VARIANT[r.status] || 'default'} size="sm">
                     {t('requests.status.' + r.status)}

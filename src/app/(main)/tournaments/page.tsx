@@ -94,7 +94,7 @@ export default function Tournaments() {
         variant="gold"
       />
 
-      <SectionCard className="!p-4">
+      <div className="section-card !p-4">
         <Tabs
           tabs={[
             { id: 'all', label: `Tous (${tournaments.length})` },
@@ -105,7 +105,7 @@ export default function Tournaments() {
           active={activeTab}
           onChange={setActiveTab}
         />
-      </SectionCard>
+      </div>
 
       {loading ? (
         <LoadingSpinner size="lg" className="py-24" />
@@ -122,9 +122,12 @@ export default function Tournaments() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: Math.min(index * 0.06, 0.4) }}
                 >
-                  <Card
-                    className={`cursor-pointer ${selectedId === tour.id ? 'border-primary shadow-lg' : ''}`}
+                  <div
+                    className={`glass-card cursor-pointer transition-all duration-300 ${
+                      selectedId === tour.id ? '!border-opacity-80' : ''
+                    }`}
                     onClick={() => setSelectedId(tour.id)}
+                    style={selectedId === tour.id ? { borderColor: 'var(--accent-primary)', boxShadow: 'var(--shadow-glow)' } : {}}
                   >
                     <div className="mb-3 flex items-start justify-between gap-3">
                       <div>
@@ -132,21 +135,21 @@ export default function Tournaments() {
                           <Badge variant={sb.variant} size="sm">{sb.label}</Badge>
                           {tour.format && <Badge variant="purple" size="sm">{tour.format}</Badge>}
                         </div>
-                        <h3 className="text-xl font-bold text-black dark:text-white">{tour.name}</h3>
+                        <h3 className="text-xl font-bold" style={{ color: 'var(--page-text)' }}>{tour.name}</h3>
                       </div>
                       {tour.prizePool && (
                         <div className="text-right shrink-0">
-                          <p className="text-lg font-bold text-warning">{tour.prizePool}</p>
-                          <p className="text-xs text-body dark:text-bodydark">Prize Pool</p>
+                          <p className="text-lg font-bold" style={{ color: 'var(--badge-warning-text)' }}>{tour.prizePool}</p>
+                          <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>Prize Pool</p>
                         </div>
                       )}
                     </div>
 
                     {tour.description && (
-                      <p className="mb-4 text-sm text-body dark:text-bodydark">{tour.description}</p>
+                      <p className="mb-4 text-sm" style={{ color: 'var(--sidebar-text)' }}>{tour.description}</p>
                     )}
 
-                    <div className="mb-4 flex flex-wrap items-center gap-4 text-xs text-body dark:text-bodydark">
+                    <div className="mb-4 flex flex-wrap items-center gap-4 text-xs" style={{ color: 'var(--sidebar-text)' }}>
                       {(tour.startDate || tour.endDate) && (
                         <span className="flex items-center gap-1">
                           <Calendar size={14} />
@@ -174,21 +177,20 @@ export default function Tournaments() {
                         {regTeams.slice(0, 5).map((team: any) => (
                           <div
                             key={team.id}
-                            className="h-8 w-8 overflow-hidden rounded-sm border-2 border-white bg-primary dark:border-boxdark"
+                            className="h-8 w-8 overflow-hidden rounded-lg flex items-center justify-center text-xs font-bold"
+                            style={{ border: '2px solid var(--card-bg)', background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}
                             title={team.name}
                           >
                             {team.logo ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img src={avatarSrc(team.logo, 48)} alt="" className="h-full w-full object-cover" />
                             ) : (
-                              <span className="flex h-full w-full items-center justify-center text-xs font-bold text-white">
-                                {team.name?.[0]?.toUpperCase()}
-                              </span>
+                              <span>{team.name?.[0]?.toUpperCase()}</span>
                             )}
                           </div>
                         ))}
                         {regTeams.length > 5 && (
-                          <div className="flex h-8 w-8 items-center justify-center rounded-sm border-2 border-white bg-gray-2 text-xs text-body dark:border-boxdark dark:bg-meta-4 dark:text-bodydark">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg text-xs" style={{ border: '2px solid var(--card-bg)', background: 'var(--surface-bg)', color: 'var(--sidebar-text)' }}>
                             +{regTeams.length - 5}
                           </div>
                         )}
@@ -201,7 +203,7 @@ export default function Tournaments() {
                         </a>
                       )}
                     </div>
-                  </Card>
+                  </div>
                 </motion.div>
               );
             })}
@@ -217,59 +219,57 @@ export default function Tournaments() {
 
           <div>
             {tournament ? (
-              <Card>
-                <h3 className="mb-4 text-lg font-bold text-black dark:text-white">{tournament.name}</h3>
+              <div className="glass-card">
+                <h3 className="mb-4 text-lg font-bold" style={{ color: 'var(--page-text)' }}>{tournament.name}</h3>
 
                 <div className="space-y-4">
                   {tournament.format && (
                     <div>
-                      <p className="mb-2 text-xs text-body dark:text-bodydark">Format</p>
+                      <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>Format</p>
                       <Badge variant="neon">{tournament.format}</Badge>
                     </div>
                   )}
                   {tournament.organizer && (
                     <div>
-                      <p className="mb-2 text-xs text-body dark:text-bodydark">Organisateur</p>
-                      <p className="text-sm font-medium text-black dark:text-white">{tournament.organizer}</p>
+                      <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>Organisateur</p>
+                      <p className="text-sm font-medium" style={{ color: 'var(--page-text)' }}>{tournament.organizer}</p>
                     </div>
                   )}
                   {(tournament.startDate || tournament.endDate) && (
                     <div>
-                      <p className="mb-2 text-xs text-body dark:text-bodydark">Dates</p>
-                      <p className="text-sm text-body dark:text-bodydark">
+                      <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>Dates</p>
+                      <p className="text-sm" style={{ color: 'var(--sidebar-text)' }}>
                         {formatDate(tournament.startDate)} → {formatDate(tournament.endDate)}
                       </p>
                     </div>
                   )}
                   {tournament.prizePool && (
                     <div>
-                      <p className="mb-2 text-xs text-body dark:text-bodydark">Prize Pool</p>
-                      <p className="text-2xl font-bold text-warning">{tournament.prizePool}</p>
+                      <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>Prize Pool</p>
+                      <p className="text-2xl font-bold" style={{ color: 'var(--badge-warning-text)' }}>{tournament.prizePool}</p>
                     </div>
                   )}
 
                   <div>
-                    <p className="mb-2 text-xs text-body dark:text-bodydark">
+                    <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>
                       Équipes inscrites ({(tournament.registeredTeams || []).length})
                     </p>
                     <div className="space-y-2">
                       {(tournament.registeredTeams || []).map((team: any) => (
-                        <div key={team.id} className="flex items-center gap-2 rounded-sm bg-gray-2 p-2 dark:bg-meta-4">
-                          <div className="h-6 w-6 overflow-hidden rounded bg-primary">
+                        <div key={team.id} className="flex items-center gap-2 rounded-xl p-2" style={{ background: 'var(--surface-bg)', border: '1px solid var(--card-border)' }}>
+                          <div className="h-6 w-6 overflow-hidden rounded-md flex items-center justify-center text-[10px] font-bold" style={{ background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}>
                             {team.logo ? (
                               // eslint-disable-next-line @next/next/no-img-element
                               <img src={avatarSrc(team.logo, 48)} alt="" className="h-full w-full object-cover" />
                             ) : (
-                              <span className="flex h-full w-full items-center justify-center text-[10px] font-bold text-white">
-                                {team.name?.[0]?.toUpperCase()}
-                              </span>
+                              <span>{team.name?.[0]?.toUpperCase()}</span>
                             )}
                           </div>
-                          <span className="text-sm text-black dark:text-white">{team.name}</span>
+                          <span className="text-sm" style={{ color: 'var(--page-text)' }}>{team.name}</span>
                         </div>
                       ))}
                       {(tournament.registeredTeams || []).length === 0 && (
-                        <p className="text-xs text-bodydark2">Aucune équipe inscrite.</p>
+                        <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>Aucune équipe inscrite.</p>
                       )}
                     </div>
                   </div>
@@ -289,7 +289,7 @@ export default function Tournaments() {
                         <Target size={16} /> Inscrire mon équipe
                       </Button>
                     ) : (
-                      <p className="rounded-sm bg-gray-2 p-3 text-center text-xs text-body dark:bg-meta-4 dark:text-bodydark">
+                      <p className="rounded-xl p-3 text-center text-xs" style={{ background: 'var(--surface-bg)', color: 'var(--sidebar-text)' }}>
                         Tu dois être capitaine d&apos;une équipe e-sport pour t&apos;inscrire.
                       </p>
                     )
@@ -303,16 +303,16 @@ export default function Tournaments() {
                     </a>
                   )}
                 </div>
-              </Card>
+              </div>
             ) : (
-              <Card>
+              <div className="glass-card">
                 <div className="py-8 text-center">
-                  <Medal className="mx-auto mb-3 h-10 w-10 text-bodydark2" />
-                  <p className="text-sm text-body dark:text-bodydark">
+                  <Medal className="mx-auto mb-3 h-10 w-10" style={{ color: 'var(--sidebar-text)' }} />
+                  <p className="text-sm" style={{ color: 'var(--sidebar-text)' }}>
                     Sélectionnez un tournoi pour voir les détails
                   </p>
                 </div>
-              </Card>
+              </div>
             )}
           </div>
         </div>
@@ -327,26 +327,25 @@ export default function Tournaments() {
         size="sm"
       >
         <div className="space-y-2">
-          <p className="mb-2 text-sm text-body dark:text-bodydark">Choisis l&apos;équipe à inscrire :</p>
+          <p className="mb-2 text-sm" style={{ color: 'var(--sidebar-text)' }}>Choisis l&apos;équipe à inscrire :</p>
           {myTeams.map((tm) => (
             <button
               key={tm.id}
               type="button"
               disabled={busy}
               onClick={() => register(registerFor.id, tm.id)}
-              className="flex w-full items-center gap-3 rounded-sm border border-stroke bg-white p-3 text-left hover:border-primary disabled:opacity-60 dark:border-strokedark dark:bg-boxdark-2"
+              className="flex w-full items-center gap-3 rounded-xl border p-3 text-left transition-all duration-200 hover:border-opacity-80 disabled:opacity-60"
+              style={{ background: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
-              <div className="h-8 w-8 overflow-hidden rounded-sm bg-primary">
+              <div className="h-8 w-8 overflow-hidden rounded-md flex items-center justify-center text-xs font-bold" style={{ background: 'var(--accent-primary)', color: 'var(--badge-success-text)' }}>
                 {tm.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={avatarSrc(tm.image, 48)} alt="" className="h-full w-full object-cover" />
                 ) : (
-                  <span className="flex h-full w-full items-center justify-center text-xs font-bold text-white">
-                    {tm.name?.[0]?.toUpperCase()}
-                  </span>
+                  <span>{tm.name?.[0]?.toUpperCase()}</span>
                 )}
               </div>
-              <span className="text-sm font-medium text-black dark:text-white">{tm.name}</span>
+              <span className="text-sm font-medium" style={{ color: 'var(--page-text)' }}>{tm.name}</span>
             </button>
           ))}
         </div>

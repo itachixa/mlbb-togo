@@ -27,8 +27,6 @@ const config: Config = {
           green: '#22c55e',
           gold: '#f59e0b',
         },
-        // Palette pilotée par variables CSS : bascule automatiquement
-        // entre thème sombre et thème clair (voir globals.css).
         gaming: {
           dark: 'rgb(var(--gaming-dark) / <alpha-value>)',
           darker: 'rgb(var(--gaming-darker) / <alpha-value>)',
@@ -36,8 +34,6 @@ const config: Config = {
           border: 'rgb(var(--gaming-border) / <alpha-value>)',
           surface: 'rgb(var(--gaming-surface) / <alpha-value>)',
         },
-
-        // TailAdmin dashboard palette (exact values from their config).
         secondary: '#80CAEE',
         black: { DEFAULT: '#1C2434', 2: '#010101' },
         body: '#64748B',
@@ -61,6 +57,27 @@ const config: Config = {
         success: '#219653',
         danger: '#D34053',
         warning: '#FFA70B',
+        gold: {
+          DEFAULT: '#d4a843',
+          light: '#f0d78c',
+          dark: '#8b6914',
+          bronze: '#cd7f32',
+        },
+        royal: {
+          DEFAULT: '#1a1a1a',
+          light: '#2d2d2d',
+          dark: '#0a0a0a',
+          text: '#f5f0e8',
+          muted: '#a0998c',
+          border: 'rgba(212, 168, 67, 0.2)',
+        },
+        esports: {
+          DEFAULT: '#0f0f2a',
+          dark: '#060612',
+          navy: '#1a1a3e',
+          border: 'rgba(0, 212, 255, 0.15)',
+          glow: '#00d4ff',
+        },
       },
       fontFamily: {
         sans: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
@@ -91,6 +108,8 @@ const config: Config = {
         'neon-lg': '0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3)',
         'neon-purple': '0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(168, 85, 247, 0.3)',
         gaming: '0 4px 30px rgba(0, 0, 0, 0.5)',
+        'gold-glow': '0 0 15px rgba(212, 168, 67, 0.4), 0 0 30px rgba(212, 168, 67, 0.2)',
+        'gold-lg': '0 0 25px rgba(212, 168, 67, 0.5), 0 0 50px rgba(212, 168, 67, 0.25)',
       },
       spacing: {
         4.5: '1.125rem', 5.5: '1.375rem', 6.5: '1.625rem', 7.5: '1.875rem',
@@ -125,6 +144,7 @@ const config: Config = {
         'fade-in': 'fadeIn 0.5s ease-out',
         'scale-in': 'scaleIn 0.3s ease-out',
         'bounce-in': 'bounceIn 0.6s ease-out',
+        'gold-shimmer': 'goldShimmer 3s linear infinite',
       },
       keyframes: {
         glow: {
@@ -161,10 +181,20 @@ const config: Config = {
           '70%': { transform: 'scale(0.9)' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
+        goldShimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'hero-pattern': 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 50%, #0a0a1a 100%)',
+      },
+      borderRadius: {
+        'xl': '12px',
+        '2xl': '16px',
+        '3xl': '24px',
+        'glass': '16px',
       },
     },
   },

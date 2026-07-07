@@ -82,11 +82,18 @@ export default function RecruitmentPage() {
       />
 
       {/* Role filter */}
-      <SectionCard className="!p-4">
+      <div className="section-card !p-4">
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setRole('')}
-            className={`rounded-full border px-3 py-1.5 text-xs transition-colors ${role === '' ? 'border-primary bg-primary/10 text-primary' : 'border-stroke bg-gray-2 text-body hover:text-black dark:border-strokedark dark:bg-meta-4 dark:text-bodydark dark:hover:text-white'}`}
+            className={`rounded-full border px-3 py-1.5 text-xs transition-all duration-200 hover:scale-105 ${
+              role === '' ? 'border-opacity-80' : 'opacity-70 hover:opacity-100'
+            }`}
+            style={{
+              borderColor: role === '' ? 'var(--accent-primary)' : 'var(--card-border)',
+              background: role === '' ? 'var(--sidebar-active-bg)' : 'transparent',
+              color: role === '' ? 'var(--accent-primary)' : 'var(--sidebar-text)',
+            }}
           >
             {t('recruitment.filterAll')}
           </button>
@@ -94,13 +101,20 @@ export default function RecruitmentPage() {
             <button
               key={l}
               onClick={() => setRole(l)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors ${role === l ? 'border-primary bg-primary/10 text-primary' : 'border-stroke bg-gray-2 text-body hover:text-black dark:border-strokedark dark:bg-meta-4 dark:text-bodydark dark:hover:text-white'}`}
+              className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-all duration-200 hover:scale-105 ${
+                role === l ? 'border-opacity-80' : 'opacity-70 hover:opacity-100'
+              }`}
+              style={{
+                borderColor: role === l ? 'var(--accent-primary)' : 'var(--card-border)',
+                background: role === l ? 'var(--sidebar-active-bg)' : 'transparent',
+                color: role === l ? 'var(--accent-primary)' : 'var(--sidebar-text)',
+              }}
             >
               <RoleIcon role={l} size={14} /> {t('lane.' + l)}
             </button>
           ))}
         </div>
-      </SectionCard>
+      </div>
 
       {loading ? (
         <LoadingSpinner size="lg" className="py-24" />
@@ -117,20 +131,20 @@ export default function RecruitmentPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                className="flex flex-col rounded-sm border border-stroke bg-white p-4 shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="glass-card flex flex-col"
               >
                 <Link href={`/teams/${c.teamId}`} className="mb-3 flex items-center gap-3">
                   {team.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={team.image} alt={team.name} referrerPolicy="no-referrer" className="h-11 w-11 rounded-full border border-stroke object-cover dark:border-strokedark" />
+                    <img src={team.image} alt={team.name} referrerPolicy="no-referrer" className="h-11 w-11 rounded-full object-cover" style={{ border: '2px solid var(--card-border)' }} />
                   ) : (
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary font-bold text-white">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full text-lg font-bold text-white" style={{ background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))' }}>
                       {team.name?.[0]?.toUpperCase() || 'T'}
                     </div>
                   )}
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-black dark:text-white">{team.name}</p>
-                    <p className="text-xs text-bodydark2">{t('recruitment.recruits')}</p>
+                    <p className="truncate text-sm font-medium" style={{ color: 'var(--page-text)' }}>{team.name}</p>
+                    <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{t('recruitment.recruits')}</p>
                   </div>
                 </Link>
 
@@ -143,7 +157,7 @@ export default function RecruitmentPage() {
                   ))}
                 </div>
 
-                {c.message && <p className="mb-3 whitespace-pre-line text-sm text-body dark:text-bodydark">{c.message}</p>}
+                {c.message && <p className="mb-3 whitespace-pre-line text-sm flex-1" style={{ color: 'var(--sidebar-text)' }}>{c.message}</p>}
 
                 <div className="mt-auto">
                   {applied ? (
@@ -165,13 +179,13 @@ export default function RecruitmentPage() {
         open={!!apply}
         onClose={() => setApply(null)}
         closeLabel={t('common.close')}
-        icon={<Send size={18} />}
         title={t('recruitment.applyTitle')}
         subtitle={apply?.team?.name || ''}
+        icon={<Send size={18} />}
       >
         <form onSubmit={submitApply} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-black dark:text-white">{t('recruitment.applyRole')}</label>
+            <label className="mb-1.5 block text-sm font-medium" style={{ color: 'var(--page-text)' }}>{t('recruitment.applyRole')}</label>
             <RoleSelect
               value={applyForm.role}
               onChange={(v) => setApplyForm({ ...applyForm, role: v })}

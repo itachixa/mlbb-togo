@@ -24,7 +24,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var p=location.pathname;var pub=p==='/'||p.indexOf('/admin-login')===0;var t=localStorage.getItem('mlbb-theme')||'light';document.documentElement.classList.toggle('dark',pub?true:t==='dark');}catch(e){document.documentElement.classList.add('dark');}})();",
+              "(function(){try{var p=location.pathname;var pub=p==='/'||p.indexOf('/admin-login')===0;var t=localStorage.getItem('mlbb-theme')||'dark';var v=localStorage.getItem('mlbb-theme-variant')||'default';var html=document.documentElement;if(pub){html.classList.add('dark');}else{html.classList.toggle('dark',t==='dark');}html.classList.add('theme-'+v);}catch(e){document.documentElement.classList.add('dark');document.documentElement.classList.add('theme-default');}})();",
           }}
         />
         <meta name="referrer" content="no-referrer" />

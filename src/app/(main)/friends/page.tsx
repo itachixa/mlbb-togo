@@ -105,7 +105,7 @@ export default function FriendsPage() {
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: Math.min(i * 0.03, 0.3) }}
-                className="flex items-center gap-3 rounded-sm border border-stroke bg-white p-3 shadow-default dark:border-strokedark dark:bg-boxdark"
+                className="glass-card flex items-center gap-3"
               >
                 <Avatar
                   name={u.displayName || u.username}
@@ -114,10 +114,10 @@ export default function FriendsPage() {
                   online={online.has(u.id)}
                 />
                 <Link href={`/players/${u.id}`} className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-black transition-colors hover:text-primary dark:text-white">
+                  <p className="truncate text-sm font-medium transition-colors hover:text-[var(--accent-primary)]" style={{ color: 'var(--page-text)' }}>
                     {u.displayName || u.username}
                   </p>
-                  <div className="mt-0.5 flex items-center gap-1.5 text-xs text-body dark:text-bodydark">
+                  <div className="mt-0.5 flex items-center gap-1.5 text-xs" style={{ color: 'var(--sidebar-text)' }}>
                     {hasRankBadge(u.gameRank) && <RankBadge rank={u.gameRank} size={14} />}
                     {u.gameRank || u.country}
                   </div>
@@ -157,7 +157,7 @@ export default function FriendsPage() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(i * 0.03, 0.3) }}
-              className="flex items-center gap-3 rounded-sm border border-stroke bg-white p-3 shadow-default dark:border-strokedark dark:bg-boxdark"
+              className="glass-card flex items-center gap-3"
             >
               <Avatar
                 name={u.displayName || u.username}
@@ -165,10 +165,10 @@ export default function FriendsPage() {
                 size="md"
               />
               <Link href={`/players/${u.id}`} className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-black transition-colors hover:text-primary dark:text-white">
+                <p className="truncate text-sm font-medium transition-colors hover:text-[var(--accent-primary)]" style={{ color: 'var(--page-text)' }}>
                   {u.displayName || u.username}
                 </p>
-                {u.country && <p className="text-xs text-body dark:text-bodydark">{u.country}</p>}
+                {u.country && <p className="text-xs" style={{ color: 'var(--sidebar-text)' }}>{u.country}</p>}
               </Link>
               <div className="flex items-center gap-2 shrink-0">
                 <Button

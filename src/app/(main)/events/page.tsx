@@ -137,23 +137,23 @@ export default function Events() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <div className="lg:col-span-2">
-          <Card>
+          <div className="glass-card">
 
             <div className="mb-6 flex items-center justify-between">
-              <button onClick={prevMonth} className="rounded-sm p-2 transition-colors hover:bg-gray-2 dark:hover:bg-meta-4">
-                <ChevronLeft size={20} className="text-body dark:text-bodydark" />
+              <button onClick={prevMonth} className="rounded-lg p-2 transition-all duration-200 hover:scale-110" style={{ background: 'var(--surface-bg)', color: 'var(--sidebar-text)' }}>
+                <ChevronLeft size={20} />
               </button>
-              <h2 className="text-xl font-bold text-black dark:text-white">
+              <h2 className="text-xl font-bold" style={{ color: 'var(--page-text)' }}>
                 {t(MONTH_KEYS[month])} {year}
               </h2>
-              <button onClick={nextMonth} className="rounded-sm p-2 transition-colors hover:bg-gray-2 dark:hover:bg-meta-4">
-                <ChevronRight size={20} className="text-body dark:text-bodydark" />
+              <button onClick={nextMonth} className="rounded-lg p-2 transition-all duration-200 hover:scale-110" style={{ background: 'var(--surface-bg)', color: 'var(--sidebar-text)' }}>
+                <ChevronRight size={20} />
               </button>
             </div>
 
             <div className="mb-2 grid grid-cols-7 gap-1">
               {DAY_KEYS.map((dayKey) => (
-                <div key={dayKey} className="py-2 text-center text-xs font-medium text-body dark:text-bodydark">
+                <div key={dayKey} className="py-2 text-center text-xs font-medium" style={{ color: 'var(--sidebar-text)' }}>
                   {t(dayKey)}
                 </div>
               ))}
@@ -172,34 +172,34 @@ export default function Events() {
                     whileTap={day ? { scale: 0.95 } : {}}
                     onClick={() => day && setSelectedDate(isSelected ? null : day)}
                     disabled={!day}
-                    className={`relative flex aspect-square flex-col items-center justify-start rounded-sm p-1 transition-all ${
+                    className={`relative flex aspect-square flex-col items-center justify-start rounded-lg p-1 transition-all duration-200 ${
                       !day
                         ? ''
                         : isSelected
-                          ? 'border border-primary/40 bg-primary/10'
+                          ? 'border'
                           : isToday
-                            ? 'border border-primary/20 bg-gray-2 dark:bg-meta-4'
-                            : 'border border-transparent hover:bg-gray-2 dark:hover:bg-meta-4'
+                            ? 'border'
+                            : 'border border-transparent'
                     }`}
+                    style={!day ? {} : isSelected ? { borderColor: 'var(--accent-primary)', background: 'var(--sidebar-active-bg)' } : isToday ? { borderColor: 'var(--accent-primary)', background: 'var(--surface-bg)' } : {}}
                   >
                     {day && (
                       <>
                         <span className={`text-sm font-medium ${
                           isSelected
-                            ? 'text-primary'
+                            ? ''
                             : isToday
-                              ? 'font-bold text-primary'
-                              : 'text-body dark:text-bodydark'
-                        }`}>
+                              ? 'font-bold'
+                              : ''
+                        }`}
+                        style={{ color: isSelected || isToday ? 'var(--accent-primary)' : 'var(--page-text)' }}
+                        >
                           {day}
                         </span>
                         {dayEvents.length > 0 && (
                           <div className="mt-1 flex gap-0.5">
                             {dayEvents.slice(0, 3).map((evt: any, i: number) => (
-                              <div key={i} className={`h-1.5 w-1.5 rounded-full ${
-                                evt.type === 'scrim' ? 'bg-primary' :
-                                evt.type === 'tournament' ? 'bg-warning' : 'bg-meta-5'
-                              }`} />
+                              <div key={i} className="h-1.5 w-1.5 rounded-full" style={{ background: evt.type === 'scrim' ? 'var(--accent-primary)' : evt.type === 'tournament' ? 'var(--badge-warning-text)' : 'var(--accent-secondary)' }} />
                             ))}
                           </div>
                         )}
@@ -209,40 +209,41 @@ export default function Events() {
                 );
               })}
             </div>
-          </Card>
+          </div>
         </div>
 
         <div>
-          <Card>
-            <h3 className="mb-4 font-bold text-black dark:text-white">
+          <div className="glass-card">
+            <h3 className="mb-4 font-bold" style={{ color: 'var(--page-text)' }}>
               {selectedDate ? `${t('events.eventsOfDayPrefix')} ${selectedDate} ${t(MONTH_KEYS[month])}` : t('events.allEvents')}
             </h3>
             <div className="space-y-3">
               {selectedEvents.map((event: any) => {
                 const cardStyle = eventTypeCard[event.type] || eventTypeCard.scrim;
                 const Icon = eventTypeIcons[event.type] || Swords;
-                const iconColor = event.type === 'tournament' ? 'text-warning' : event.type === 'coaching' ? 'text-meta-5' : 'text-primary';
+                const iconColor = event.type === 'tournament' ? 'var(--badge-warning-text)' : event.type === 'coaching' ? 'var(--accent-secondary)' : 'var(--accent-primary)';
 
                 return (
                   <motion.div
                     key={event.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`rounded-sm border p-3 ${cardStyle}`}
+                    className="rounded-xl border p-3"
+                    style={cardStyle === 'bg-primary/10 border-primary/30' ? { borderColor: 'var(--accent-primary)', background: 'var(--sidebar-active-bg)' } : cardStyle === 'bg-meta-5/10 border-meta-5/30' ? { borderColor: 'var(--accent-secondary)', background: 'rgba(168, 85, 247, 0.08)' } : { borderColor: 'var(--badge-warning-text)', background: 'rgba(245, 158, 11, 0.08)' }}
                   >
                     <div className="mb-2 flex items-center gap-2">
-                      <Icon size={14} className={iconColor} />
+                      <Icon size={14} style={{ color: iconColor }} />
                       <Badge variant={event.type === 'tournament' ? 'gold' : event.type === 'scrim' ? 'neon' : 'purple'} size="sm">
                         {event.type}
                       </Badge>
                     </div>
-                    <h4 className="mb-1 text-sm font-semibold text-black dark:text-white">
+                    <h4 className="mb-1 text-sm font-semibold" style={{ color: 'var(--page-text)' }}>
                       {event.title}
                     </h4>
-                    <p className="mb-2 text-xs text-body dark:text-bodydark">
+                    <p className="mb-2 text-xs" style={{ color: 'var(--sidebar-text)' }}>
                       {event.description}
                     </p>
-                    <div className="flex items-center gap-3 text-xs text-body dark:text-bodydark">
+                    <div className="flex items-center gap-3 text-xs" style={{ color: 'var(--sidebar-text)' }}>
                       <span className="flex items-center gap-1">
                         <CalendarIcon size={12} />
                         {event.date}
@@ -263,7 +264,7 @@ export default function Events() {
                 />
               )}
             </div>
-          </Card>
+          </div>
         </div>
       </div>
 

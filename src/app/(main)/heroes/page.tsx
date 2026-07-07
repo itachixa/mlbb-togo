@@ -54,14 +54,19 @@ export default function HeroesPage() {
       />
 
       {/* Filters: search + roles */}
-      <SectionCard className="flex flex-col gap-3 !p-4">
+      <div className="section-card flex flex-col gap-3 !p-4">
         <div className="relative w-full sm:max-w-xs">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-bodydark2" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--sidebar-text)' }} />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('heroes.search')}
-            className="pl-9 pr-3 py-2 w-full text-sm rounded-sm bg-gray-2 border border-stroke text-black placeholder-bodydark2 focus:outline-none focus:border-primary dark:bg-meta-4 dark:border-strokedark dark:text-white"
+            className="pl-9 pr-3 py-2 w-full text-sm rounded-lg border outline-none transition-all duration-300 focus:shadow-lg"
+            style={{
+              background: 'var(--input-bg)',
+              borderColor: 'var(--input-border)',
+              color: 'var(--input-text)',
+            }}
           />
         </div>
         <div className="flex flex-wrap gap-2">
@@ -78,7 +83,7 @@ export default function HeroesPage() {
             </Button>
           ))}
         </div>
-      </SectionCard>
+      </div>
 
       {loading ? (
         <div className="flex items-center justify-center py-24">
@@ -95,21 +100,26 @@ export default function HeroesPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: Math.min(i * 0.015, 0.4) }}
               onClick={() => setSelected(h.heroId)}
-              className="group rounded-sm overflow-hidden border border-stroke bg-white shadow-default hover:border-primary transition-colors text-left dark:border-strokedark dark:bg-boxdark"
+              className="group rounded-xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 text-left"
+              style={{
+                background: 'var(--card-bg)',
+                borderColor: 'var(--card-border)',
+                boxShadow: 'var(--shadow-card)',
+              }}
             >
-              <div className="aspect-square bg-gray dark:bg-meta-4 overflow-hidden">
+              <div className="aspect-square overflow-hidden" style={{ background: 'var(--surface-bg)' }}>
                 {h.image && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={mlbbImg(h.image, 160)}
                     alt={h.name}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 )}
               </div>
               <div className="p-2">
-                <p className="text-xs font-semibold text-black dark:text-white truncate">{h.name}</p>
+                <p className="text-xs font-semibold truncate" style={{ color: 'var(--page-text)' }}>{h.name}</p>
                 <div className="mt-0.5 flex items-center gap-1">
                   {(h.roles || []).slice(0, 3).map((r: string) => (
                     <RoleIcon key={r} role={r} size={13} />

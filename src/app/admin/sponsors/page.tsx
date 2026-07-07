@@ -18,8 +18,7 @@ import toast from 'react-hot-toast';
 type SponsorForm = { logo: string; name: string; url: string };
 const emptyForm: SponsorForm = { logo: '', name: '', url: '' };
 
-const inputCls =
-  'w-full px-3 py-2 text-sm rounded-lg border border-stroke bg-gray-2 text-black placeholder-bodydark2 focus:outline-none focus:border-primary dark:border-strokedark dark:bg-meta-4 dark:text-white';
+const inputCls = 'input-gaming';
 
 export default function AdminSponsorsPage() {
   const t = useT();
@@ -128,19 +127,19 @@ export default function AdminSponsorsPage() {
                     src={s.logo}
                     alt={s.name || 'sponsor'}
                     referrerPolicy="no-referrer"
-                    className="w-14 h-14 rounded-lg object-contain bg-gray-2 border border-stroke shrink-0 dark:bg-meta-4 dark:border-strokedark"
+                     className="w-14 h-14 rounded-lg object-contain border shrink-0 surface"
                   />
                 ) : (
-                  <div className="w-14 h-14 rounded-lg bg-gray-2 border border-stroke shrink-0 dark:bg-meta-4 dark:border-strokedark" />
+                  <div className="w-14 h-14 rounded-lg border shrink-0 surface" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-black dark:text-white truncate">{s.name || '—'}</p>
+                  <p className="text-sm font-semibold truncate" style={{ color: 'var(--page-text)' }}>{s.name || '—'}</p>
                   {s.url && (
                     <a
                       href={s.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-primary truncate hover:underline"
+                      className="inline-flex items-center gap-1 text-xs truncate hover:underline" style={{ color: 'var(--accent-primary)' }}
                     >
                       <ExternalLink size={11} /> {s.url}
                     </a>
@@ -169,16 +168,16 @@ export default function AdminSponsorsPage() {
       >
         <form onSubmit={submit} className="space-y-3">
           <div>
-            <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.sponsorLogo')}</label>
+            <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.sponsorLogo')}</label>
             <input className={inputCls} value={form.logo} onChange={(e) => setForm({ ...form, logo: e.target.value })} required />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.sponsorName')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.sponsorName')}</label>
               <input className={inputCls} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             </div>
             <div>
-              <label className="block text-xs text-body dark:text-bodydark mb-1">{t('admin.esport.sponsorUrl')}</label>
+              <label className="block text-xs mb-1" style={{ color: 'var(--page-text)' }}>{t('admin.esport.sponsorUrl')}</label>
               <input className={inputCls} value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} />
             </div>
           </div>
