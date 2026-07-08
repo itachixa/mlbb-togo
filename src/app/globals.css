@@ -1238,3 +1238,148 @@ html.theme-night:not(.dark) .input-gaming {
 }
 html.theme-night:not(.dark) .input-gaming::placeholder { color: #78706a; }
 html.theme-night:not(.dark) .input-gaming:focus { background: #ffffff; }
+
+/* ============================================================
+   LEGACY TAILADMIN / GAMING CLASS ALIASES
+   ============================================================ */
+
+/* Borders */
+html:not(.dark) .border-stroke { border-color: #e2e8f0 !important; }
+html.dark .border-stroke { border-color: var(--card-border) !important; }
+html.dark .dark\:border-strokedark { border-color: var(--card-border) !important; }
+html.theme-esports-gold.dark .border-stroke { border-color: rgba(212,168,67,0.15) !important; }
+html.theme-esports-gold.dark .dark\:border-strokedark { border-color: rgba(212,168,67,0.15) !important; }
+html.theme-night.dark .border-stroke { border-color: rgba(180,140,100,0.12) !important; }
+html.theme-night.dark .dark\:border-strokedark { border-color: rgba(180,140,100,0.12) !important; }
+
+/* Backgrounds */
+html:not(.dark) .bg-gray-2 { background: #f1f5f9 !important; }
+html.dark .bg-gray-2 { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-meta-4 { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-boxdark { background: var(--card-bg) !important; }
+html.dark .dark\:bg-boxdark-2 { background: var(--surface-bg) !important; }
+html:not(.dark) .bg-white.dark\:bg-boxdark { background: #ffffff !important; }
+html.dark .bg-white.dark\:bg-boxdark { background: var(--card-bg) !important; }
+
+html:not(.dark) .bg-gray { background: #f1f5f9 !important; }
+html.dark .bg-gray { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-meta-4 { background: var(--surface-bg) !important; }
+
+/* Gaming surfaces */
+html:not(.dark) .bg-gaming-dark { background: #f3f4f8 !important; }
+html.dark .bg-gaming-dark { background: var(--page-bg) !important; }
+html.theme-esports-gold:not(.dark) .bg-gaming-dark { background: #faf8f5 !important; }
+html.theme-night:not(.dark) .bg-gaming-dark { background: #f5f0e8 !important; }
+
+html:not(.dark) .bg-gaming-darker { background: #f8fafc !important; }
+html.dark .bg-gaming-darker { background: var(--page-bg) !important; }
+html.theme-esports-gold:not(.dark) .bg-gaming-darker { background: #ffffff !important; }
+html.theme-night:not(.dark) .bg-gaming-darker { background: #ffffff !important; }
+
+html:not(.dark) .bg-gaming-card { background: #ffffff !important; }
+html.dark .bg-gaming-card { background: var(--card-bg) !important; }
+html.theme-esports-gold:not(.dark) .bg-gaming-card { background: #ffffff !important; }
+html.theme-night:not(.dark) .bg-gaming-card { background: #ffffff !important; }
+
+html:not(.dark) .bg-gaming-surface { background: #f1f5f9 !important; }
+html.dark .bg-gaming-surface { background: var(--surface-bg) !important; }
+html.theme-esports-gold:not(.dark) .bg-gaming-surface { background: #f5f0e8 !important; }
+html.theme-night:not(.dark) .bg-gaming-surface { background: #ebe5d9 !important; }
+
+html:not(.dark) .border-gaming-border { border-color: #e2e8f0 !important; }
+html.dark .border-gaming-border { border-color: var(--card-border) !important; }
+html.theme-esports-gold:not(.dark) .border-gaming-border { border-color: rgba(212,168,67,0.2) !important; }
+html.theme-night:not(.dark) .border-gaming-border { border-color: rgba(180,140,100,0.2) !important; }
+
+/* Text */
+html:not(.dark) .text-body { color: #475569 !important; }
+html.dark .text-body { color: var(--sidebar-text) !important; }
+html.dark .dark\:text-bodydark { color: var(--sidebar-text) !important; }
+html.dark .dark\:text-white { color: var(--page-text) !important; }
+html:not(.dark) .text-black.dark\:text-white { color: #0f172a !important; }
+html.dark .text-black.dark\:text-white { color: var(--page-text) !important; }
+html:not(.dark) .text-bodydark2 { color: #64748b !important; }
+html.dark .text-bodydark2 { color: var(--sidebar-text) !important; }
+
+/* Neon accents */
+html:not(.dark) .text-neon-blue { color: #6366f1 !important; }
+html.dark .text-neon-blue { color: var(--accent-primary) !important; }
+html.theme-esports-gold:not(.dark) .text-neon-blue { color: #d4a843 !important; }
+html.theme-night:not(.dark) .text-neon-blue { color: #b8941f !important; }
+
+/* Shadows */
+html:not(.dark) .shadow-gaming { box-shadow: 0 4px 30px rgba(0,0,0,0.08) !important; }
+html.dark .shadow-gaming { box-shadow: var(--shadow-elevated) !important; }
+
+/* Hover states */
+html:not(.dark) .hover\:bg-gray-2:hover { background: #f1f5f9 !important; }
+html.dark .dark\:hover\:bg-meta-4:hover { background: var(--surface-bg) !important; }
+html:not(.dark) .hover\:text-primary:hover { color: #6366f1 !important; }
+html.dark .dark\:hover\:text-white:hover { color: var(--page-text) !important; }
+
+/* Additional legacy aliases */
+html:not(.dark) .text-primary { color: #6366f1 !important; }
+html.dark .text-primary { color: var(--accent-primary) !important; }
+html.theme-esports-gold:not(.dark) .text-primary { color: #d4a843 !important; }
+html.theme-night:not(.dark) .text-primary { color: #b8941f !important; }
+
+html:not(.dark) .bg-meta-4 { background: #f1f5f9 !important; }
+html.dark .bg-meta-4 { background: var(--surface-bg) !important; }
+
+html:not(.dark) .text-meta-1 { color: #dc3545 !important; }
+html.dark .text-meta-1 { color: #ef4444 !important; }
+
+html:not(.dark) .bg-neon-blue\/10 { background: rgba(99,102,241,0.1) !important; }
+html.dark .bg-neon-blue\/10 { background: rgba(0,212,255,0.1) !important; }
+html.theme-esports-gold:not(.dark) .bg-neon-blue\/10 { background: rgba(212,168,67,0.1) !important; }
+html.theme-night:not(.dark) .bg-neon-blue\/10 { background: rgba(180,140,100,0.1) !important; }
+
+html:not(.dark) .text-neon-blue\/10 { color: rgba(99,102,241,0.1) !important; }
+html.dark .text-neon-blue\/10 { color: rgba(0,212,255,0.1) !important; }
+
+html:not(.dark) .border-neon-blue\/30 { border-color: rgba(99,102,241,0.3) !important; }
+html.dark .border-neon-blue\/30 { border-color: rgba(0,212,255,0.3) !important; }
+
+html:not(.dark) .ring-neon-blue { --tw-ring-color: rgba(99,102,241,0.5) !important; }
+html.dark .ring-neon-blue { --tw-ring-color: rgba(0,212,255,0.5) !important; }
+
+html:not(.dark) .bg-neon-blue\/15 { background: rgba(99,102,241,0.15) !important; }
+html.dark .bg-neon-blue\/15 { background: rgba(0,212,255,0.15) !important; }
+
+html:not(.dark) .text-neon-blue\/40 { color: rgba(99,102,241,0.4) !important; }
+html.dark .text-neon-blue\/40 { color: rgba(0,212,255,0.4) !important; }
+
+html:not(.dark) .bg-neon-blue\/5 { background: rgba(99,102,241,0.05) !important; }
+html.dark .bg-neon-blue\/5 { background: rgba(0,212,255,0.05) !important; }
+
+/* ============================================================
+   LEGACY TAILADMIN CLASS ALIASES
+   ============================================================ */
+html:not(.dark) .border-stroke { border-color: #e2e8f0 !important; }
+html:not(.dark) .dark\:border-strokedark { border-color: #e2e8f0 !important; }
+html.dark .border-stroke { border-color: var(--card-border) !important; }
+html.dark .dark\:border-strokedark { border-color: var(--card-border) !important; }
+
+html:not(.dark) .bg-gray-2 { background: #f1f5f9 !important; }
+html.dark .bg-gray-2 { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-meta-4 { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-boxdark { background: var(--card-bg) !important; }
+html.dark .dark\:bg-boxdark-2 { background: var(--surface-bg) !important; }
+html:not(.dark) .bg-white.dark\:bg-boxdark { background: #ffffff !important; }
+html.dark .bg-white.dark\:bg-boxdark { background: var(--card-bg) !important; }
+
+html:not(.dark) .text-body { color: #475569 !important; }
+html.dark .text-body { color: var(--sidebar-text) !important; }
+html.dark .dark\:text-bodydark { color: var(--sidebar-text) !important; }
+html.dark .dark\:text-white { color: var(--page-text) !important; }
+html:not(.dark) .text-black.dark\:text-white { color: #0f172a !important; }
+html.dark .text-black.dark\:text-white { color: var(--page-text) !important; }
+html:not(.dark) .text-bodydark2 { color: #64748b !important; }
+html.dark .text-bodydark2 { color: var(--sidebar-text) !important; }
+
+html:not(.dark) .bg-gray { background: #f1f5f9 !important; }
+html.dark .bg-gray { background: var(--surface-bg) !important; }
+html.dark .dark\:bg-meta-4 { background: var(--surface-bg) !important; }
+
+html:not(.dark) .hover\:bg-gray-2:hover { background: #f1f5f9 !important; }
+html.dark .dark\:hover\:bg-meta-4:hover { background: var(--surface-bg) !important; }
