@@ -9,6 +9,7 @@ import { useT } from '@/lib/i18n';
 import { setToken, avatarSrc } from '@/lib/api';
 import { useAuthStore, useLangStore } from '@/store/useStore';
 import DarkModeToggle from './DarkModeToggle';
+import ThemeSwitcher from './ThemeSwitcher';
 import NotificationDropdown from './NotificationDropdown';
 import MessageDropdown from './MessageDropdown';
 import ProfileDropdown from './ProfileDropdown';
@@ -79,6 +80,7 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen }: HeaderProps
           <ul className="flex items-center gap-2 sm:gap-4">
             <li>
               <DarkModeToggle />
+              <ThemeSwitcher />
             </li>
             <li>
               <NotificationDropdown />

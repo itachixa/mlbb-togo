@@ -39,6 +39,29 @@ export const useThemeStore = create<any>((set) => ({
     }
     set({ theme });
   },
+
+  // Additive color palette: 'default' keeps the current theme untouched;
+  // 'neon' | 'gold' | 'night' re-skin the app (dark aesthetics).
+  palette:
+    typeof window !== 'undefined'
+      ? localStorage.getItem('mlbb-palette') || 'default'
+      : 'default',
+  setPalette: (palette: string) =>
+    set((state: any) => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('mlbb-palette', palette);
+        const el = document.documentElement;
+        el.classList.remove('theme-neon', 'theme-gold', 'theme-night');
+        if (palette !== 'default') {
+          el.classList.add('theme-' + palette);
+          el.classList.add('dark');
+          localStorage.setItem('mlbb-theme', 'dark');
+        }
+      }
+      return palette !== 'default' && state.theme !== 'dark'
+        ? { palette, theme: 'dark' }
+        : { palette };
+    }),
 }));
 
 export const useAppStore = create<any>((set) => ({
