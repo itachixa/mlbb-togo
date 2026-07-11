@@ -80,6 +80,8 @@ export default function AdminHeader({ sidebarOpen, setSidebarOpen }: HeaderProps
           <ul className="flex items-center gap-2 sm:gap-4">
             <li>
               <DarkModeToggle />
+            </li>
+            <li>
               <ThemeSwitcher />
             </li>
             <li>

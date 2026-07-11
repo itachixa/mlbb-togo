@@ -18,8 +18,15 @@ import { useT } from '@/lib/i18n';
 const DEFAULT_NOTIFS = { friends: true, messages: true, teams: true };
 const DEFAULT_PRIVACY = { profilePublic: true, showStats: true, showOnline: true, allowInvites: true };
 
+const PALETTES: { id: string; label: string; swatch: string }[] = [
+  { id: 'default', label: 'Défaut', swatch: '#3C50E0' },
+  { id: 'neon', label: 'Néon', swatch: '#00d4ff' },
+  { id: 'gold', label: 'Gold', swatch: '#d4a843' },
+  { id: 'night', label: 'Night', swatch: '#c4a868' },
+];
+
 export default function Settings() {
-  const { theme, toggleTheme } = useThemeStore();
+  const { theme, toggleTheme, palette, setPalette } = useThemeStore();
   const userProfile = useAuthStore((s: any) => s.userProfile);
   const setUserProfile = useAuthStore((s: any) => s.setUserProfile);
   const setUser = useAuthStore((s: any) => s.setUser);
@@ -328,6 +335,32 @@ export default function Settings() {
                   {theme === 'dark' ? <Moon size={12} className="text-primary" /> : <Sun size={12} className="text-warning" />}
                 </motion.div>
               </button>
+            </div>
+
+            <div>
+              <p className="text-sm text-body dark:text-bodydark mb-3">{t('settings.appearance.colorTheme')}</p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {PALETTES.map((p) => {
+                  const active = (palette || 'default') === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setPalette(p.id)}
+                      className={`flex items-center gap-2.5 rounded-sm border p-3 transition-colors ${
+                        active
+                          ? 'border-primary bg-primary/10'
+                          : 'border-stroke bg-gray-2 hover:border-primary/50 dark:border-strokedark dark:bg-meta-4'
+                      }`}
+                    >
+                      <span className="h-6 w-6 shrink-0 rounded-full ring-1 ring-black/10" style={{ background: p.swatch }} />
+                      <span className="text-sm font-medium text-black dark:text-white">
+                        {p.id === 'default' ? t('settings.appearance.paletteDefault') : p.label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <div>

@@ -86,6 +86,8 @@ export default function DashboardHeader({ sidebarOpen, setSidebarOpen }: HeaderP
           <ul className="flex items-center gap-2 sm:gap-4">
             <li>
               <DarkModeToggle />
+            </li>
+            <li>
               <ThemeSwitcher />
             </li>
             <li>
